@@ -1,0 +1,86 @@
+SQL> 
+SQL> REM CHAPTER 2 : NESTED BLOCKS , PLSQL DATA TYPES
+SQL> 
+SQL> 
+SQL> REM NESTED BLOCK : PLSQL BLOCK WITHIN PLSQL BLOCK
+SQL> 
+SQL> /*
+SQL> DECLARE
+SQL> ...
+SQL> ...
+SQL> ...
+SQL> BEGIN
+SQL> ...
+SQL> ...
+SQL> ...   DECLARE
+SQL>       ...
+SQL>       ...]
+SQL>       ...]
+SQL>       BEGIN
+SQL>            ...
+SQL>            ...
+SQL>            ...
+SQL>       END;
+SQL> ...
+SQL> ...
+SQL> ...
+SQL> END;
+SQL> /
+SQL> /*
+SQL> 
+SQL> STA E:\PL2-1.SQL
+SQL> */
+SQL> 
+SQL> 
+SQL> STA E:\PL2-1.SQL
+   DBMS_OUTPUT.PUT_LINE('Y = ' || Y);  -- ERROR
+                                  *
+ERROR at line 12:
+ORA-06550: line 12, column 35: 
+PLS-00201: identifier 'Y' must be declared 
+ORA-06550: line 12, column 4: 
+PL/SQL: Statement ignored 
+
+
+SQL> STA E:\PL2-1.SQL
+FROM OUTER BLOCK X = 10                                                                                                                                                                                 
+Y = 20                                                                                                                                                                                                  
+FROM INNER BLOCK X = 10                                                                                                                                                                                 
+X = 10                                                                                                                                                                                                  
+
+PL/SQL procedure successfully completed.
+
+SQL> START E:\PL2-1.SQL
+FROM OUTER BLOCK X = 10                                                                                                                                                                                 
+Y = 20                                                                                                                                                                                                  
+FROM INNER BLOCK X = 10                                                                                                                                                                                 
+X = 10                                                                                                                                                                                                  
+
+PL/SQL procedure successfully completed.
+
+SQL> @ E:\PL2-1.SQL
+FROM OUTER BLOCK X = 10                                                                                                                                                                                 
+Y = 20                                                                                                                                                                                                  
+FROM INNER BLOCK X = 10                                                                                                                                                                                 
+X = 10                                                                                                                                                                                                  
+
+PL/SQL procedure successfully completed.
+
+SQL> @ E:\PL2-1
+FROM OUTER BLOCK X = 10                                                                                                                                                                                 
+Y = 20                                                                                                                                                                                                  
+FROM INNER BLOCK X = 10                                                                                                                                                                                 
+X = 10                                                                                                                                                                                                  
+
+PL/SQL procedure successfully completed.
+
+SQL> @ E:\PL2-1
+FROM OUTER BLOCK X = 10                                                                                                                                                                                 
+Y = 20                                                                                                                                                                                                  
+FROM INNER BLOCK X = 10                                                                                                                                                                                 
+X = 10                                                                                                                                                                                                  
+Y = 20                                                                                                                                                                                                  
+
+PL/SQL procedure successfully completed.
+
+SQL> SPOOL OFF

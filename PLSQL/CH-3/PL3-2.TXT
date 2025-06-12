@@ -1,0 +1,139 @@
+SQL> 
+SQL> REM IF ... ELSIF ...  ...  ELSE ... END IF;
+SQL> 
+SQL> REM PERCENT : ...  GRADE : ?
+SQL> 
+SQL> REM 90+    A
+SQL> 
+SQL> REM 80+    B
+SQL> 
+SQL> REM 70+    C
+SQL> 
+SQL> REM 60+    D
+SQL> 
+SQL> REM 50+    E
+SQL> 
+SQL> REM OTHERWISE    F
+SQL> 
+SQL> 
+SQL> DECLARE
+  2    P NUMBER(5,2) := &PERCENT;
+  3    GRADE CHAR;
+  4  BEGIN
+  5    IF P > 90 THEN
+  6      G := 'A';
+  7    ELSIF P > 80 THEN
+  8      GRADE := 'B';
+  9    ELSIF P > 70 THEN
+ 10      GRADE := 'C';
+ 11    ELSIF P > 60 THEN
+ 12      GRADE := 'D';
+ 13    ELSIF P > 50 THEN
+ 14      GRADE := 'E';
+ 15    ELSE
+ 16      GRADE := 'F';
+ 17    END IF;
+ 18    DBMS_OUTPUT.PUT_LINE('GRADE = ' || GRADE);
+ 19  END;
+ 20  .
+SQL> 
+SQL> 
+SQL> DECLARE
+  2    P NUMBER(5,2) := &PERCENT;
+  3    GRADE CHAR;
+  4  BEGIN
+  5    IF P > 90 THEN
+  6      GRADE := 'A';
+  7    ELSIF P > 80 THEN
+  8      GRADE := 'B';
+  9    ELSIF P > 70 THEN
+ 10      GRADE := 'C';
+ 11    ELSIF P > 60 THEN
+ 12      GRADE := 'D';
+ 13    ELSIF P > 50 THEN
+ 14      GRADE := 'E';
+ 15    ELSE
+ 16      GRADE := 'F';
+ 17    END IF;
+ 18    DBMS_OUTPUT.PUT_LINE('GRADE = ' || GRADE);
+ 19  END;
+ 20  /
+Enter value for percent: 78
+old   2:   P NUMBER(5,2) := &PERCENT;
+new   2:   P NUMBER(5,2) := 78;
+
+PL/SQL procedure successfully completed.
+
+SQL> SET SERVEROUT ON FORMAT WRA
+SQL> 
+SQL> /
+Enter value for percent: 78
+old   2:   P NUMBER(5,2) := &PERCENT;
+new   2:   P NUMBER(5,2) := 78;
+GRADE = C                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+
+PL/SQL procedure successfully completed.
+
+SQL> /
+Enter value for percent: 89
+old   2:   P NUMBER(5,2) := &PERCENT;
+new   2:   P NUMBER(5,2) := 89;
+GRADE = B                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+
+PL/SQL procedure successfully completed.
+
+SQL> DECLARE
+  2    P NUMBER(5,2) := &PERCENT;
+  3    GRADE CHAR;
+  4  BEGIN
+  5    IF P > 90 THEN
+  6      GRADE := 'A';
+  7    ELSIF P > 70 THEN
+  8      GRADE := 'C';
+  9    ELSIF P > 60 THEN
+ 10      GRADE := 'D';
+ 11    ELSIF P > 80 THEN
+ 12      GRADE := 'B';
+ 13    ELSIF P > 50 THEN
+ 14      GRADE := 'E';
+ 15    ELSE
+ 16      GRADE := 'F';
+ 17    END IF;
+ 18    DBMS_OUTPUT.PUT_LINE('GRADE = ' || GRADE);
+ 19  END;
+ 20  /
+Enter value for percent: 85
+old   2:   P NUMBER(5,2) := &PERCENT;
+new   2:   P NUMBER(5,2) := 85;
+GRADE = C                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+
+PL/SQL procedure successfully completed.
+
+SQL> DECLARE
+  2    P NUMBER(5,2) := &PERCENT;
+  3    GRADE CHAR;
+  4  BEGIN
+  5    IF P BETWEEN 90.01 AND 100 THEN
+  6      GRADE := 'A';
+  7    ELSIF P BETWEEN 80.01 AND 90 THEN
+  8      GRADE := 'B';
+  9    ELSIF P BETWEEN 60.01 AND 70 THEN
+ 10      GRADE := 'D';
+ 11    ELSIF P BETWEEN 50.01 AND 60 THEN
+ 12      GRADE := 'E';
+ 13    ELSIF P BETWEEN 70.01 AND 80 THEN
+ 14      GRADE := 'C';
+ 15    ELSE
+ 16      GRADE := 'F';
+ 17    END IF;
+ 18    DBMS_OUTPUT.PUT_LINE('GRADE = ' || GRADE);
+ 19  END;
+ 20  /
+Enter value for percent: 75
+old   2:   P NUMBER(5,2) := &PERCENT;
+new   2:   P NUMBER(5,2) := 75;
+GRADE = C                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+
+PL/SQL procedure successfully completed.
+
+SQL> SPOOL OFF

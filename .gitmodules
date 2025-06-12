@@ -16,3 +16,6 @@
 [submodule "express-api"]
 	path = express-api
 	url = https://github.com/yash0patel/express-api.git
+[submodule "django"]
+	path = django
+	url = https://github.com/yash0patel/django.git

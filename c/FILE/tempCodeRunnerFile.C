@@ -1,0 +1,3 @@
+ptr = &balance;
+
+    getbalance(ptr);

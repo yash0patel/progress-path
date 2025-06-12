@@ -1,0 +1,521 @@
+SQL> 
+SQL> CL SCR
+
+SQL> SELECT * FROM EMPLOYEES;
+
+EMPLOYEE_ID FIRST_NAME LAST_NAME  EMAIL      PHONE_NUMBER         HIRE_DATE               JOB_ID         SALARY COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                                 
+----------- ---------- ---------- ---------- -------------------- ----------------------- ---------- ---------- -------------- ---------- -------------                                                 
+        100 Steven     King       SKING      515.123.4567         17-JUL-1987 12:00.00 AM AD_PRES         24000                                      90                                                 
+        101 Neena      Kochhar    NKOCHHAR   515.123.4568         21-SEP-1989 12:00.00 AM AD_VP           17000                       100            90                                                 
+        102 Lex        De Haan    LDEHAAN    515.123.4569         13-JAN-1993 12:00.00 AM AD_VP           17000                       100            90                                                 
+        103 Alexander  Hunold     AHUNOLD    590.423.4567         03-JAN-1990 12:00.00 AM IT_PROG          9000                       102            60                                                 
+        104 Bruce      Ernst      BERNST     590.423.4568         21-MAY-1991 12:00.00 AM IT_PROG          6000                       103            60                                                 
+        107 Diana      Lorentz    DLORENTZ   590.423.5567         07-FEB-1999 12:00.00 AM IT_PROG          4200                       103            60                                                 
+        124 Kevin      Mourgos    KMOURGOS   650.123.5234         16-NOV-1999 12:00.00 AM ST_MAN           5800                       100            50                                                 
+        141 Trenna     Rajs       TRAJS      650.121.8009         17-OCT-1995 12:00.00 AM ST_CLERK         3500                       124            50                                                 
+        142 Curtis     Davies     CDAVIES    650.121.2994         29-JAN-1997 12:00.00 AM ST_CLERK         3100                       124            50                                                 
+        143 Randall    Matos      RMATOS     650.121.2874         15-MAR-1998 12:00.00 AM ST_CLERK         2600                       124            50                                                 
+        144 Peter      Vargas     PVARGAS    650.121.2004         09-JUL-1998 12:00.00 AM ST_CLERK         2500                       124            50                                                 
+        149 Eleni      Zlotkey    EZLOTKEY   011.44.1344.429018   29-JAN-2000 12:00.00 AM SA_MAN          10500             .2        100            80                                                 
+        174 Ellen      Abel       EABEL      011.44.1644.429267   11-MAY-1996 12:00.00 AM SA_REP          11000             .3        149            80                                                 
+        176 Jonathon   Taylor     JTAYLOR    011.44.1644.429265   24-MAR-1998 12:00.00 AM SA_REP           8600             .3        149            80                                                 
+        178 Kimerely   Grant      KGRANT     011.44.1644.429263   24-MAY-1999 12:00.00 AM SA_REP           7000            .15        149                                                               
+        200 Jennifer   Whalen     JWHALEN    515.123.4444         17-SEP-1987 12:00.00 AM AD_ASST          4400                       101            10                                                 
+        201 Michael    Hartstein  MHARTSTE   515.123.5555         17-FEB-1996 12:00.00 AM MK_MAN          13000                       100            20                                                 
+        202 Pat        Fay        PFAY       603.123.6666         17-AUG-1997 12:00.00 AM MK_REP           6000                       201            20                                                 
+        205 Shelley    Higgins    SHIGGINS   515.123.8080         07-JUN-1994 12:00.00 AM AC_MGR          12000                       101           110                                                 
+        206 William    Gietz      WGIETZ     515.123.8181         07-JUN-1994 12:00.00 AM AC_ACCOUNT       8300                       205           110                                                 
+
+20 rows selected.
+
+SQL> REM Steven gets Rs.24000 as monthly salary.
+SQL> 
+SQL> conn SCOTT/TIGER
+Connected.
+SQL> 
+SQL> SELECT * FROM EMPLOYEES;
+
+EMPLOYEE_ID FIRST_NAME LAST_NAME  EMAIL      PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                                               
+----------- ---------- ---------- ---------- -------------------- --------- ---------- ---------- -------------- ---------- -------------                                                               
+        100 Steven     King       SKING      515.123.4567         17-JUL-87 AD_PRES         24000                                      90                                                               
+        101 Neena      Kochhar    NKOCHHAR   515.123.4568         21-SEP-89 AD_VP           17000                       100            90                                                               
+        102 Lex        De Haan    LDEHAAN    515.123.4569         13-JAN-93 AD_VP           17000                       100            90                                                               
+        103 Alexander  Hunold     AHUNOLD    590.423.4567         03-JAN-90 IT_PROG          9000                       102            60                                                               
+        104 Bruce      Ernst      BERNST     590.423.4568         21-MAY-91 IT_PROG          6000                       103            60                                                               
+        107 Diana      Lorentz    DLORENTZ   590.423.5567         07-FEB-99 IT_PROG          4200                       103            60                                                               
+        124 Kevin      Mourgos    KMOURGOS   650.123.5234         16-NOV-99 ST_MAN           5800                       100            50                                                               
+        141 Trenna     Rajs       TRAJS      650.121.8009         17-OCT-95 ST_CLERK         3500                       124            50                                                               
+        142 Curtis     Davies     CDAVIES    650.121.2994         29-JAN-97 ST_CLERK         3100                       124            50                                                               
+        143 Randall    Matos      RMATOS     650.121.2874         15-MAR-98 ST_CLERK         2600                       124            50                                                               
+        144 Peter      Vargas     PVARGAS    650.121.2004         09-JUL-98 ST_CLERK         2500                       124            50                                                               
+        149 Eleni      Zlotkey    EZLOTKEY   011.44.1344.429018   29-JAN-00 SA_MAN          10500             .2        100            80                                                               
+        174 Ellen      Abel       EABEL      011.44.1644.429267   11-MAY-96 SA_REP          11000             .3        149            80                                                               
+        176 Jonathon   Taylor     JTAYLOR    011.44.1644.429265   24-MAR-98 SA_REP           8600             .3        149            80                                                               
+        178 Kimerely   Grant      KGRANT     011.44.1644.429263   24-MAY-99 SA_REP           7000            .15        149                                                                             
+        200 Jennifer   Whalen     JWHALEN    515.123.4444         17-SEP-87 AD_ASST          4400                       101            10                                                               
+        201 Michael    Hartstein  MHARTSTE   515.123.5555         17-FEB-96 MK_MAN          13000                       100            20                                                               
+        202 Pat        Fay        PFAY       603.123.6666         17-AUG-97 MK_REP           6000                       201            20                                                               
+        205 Shelley    Higgins    SHIGGINS   515.123.8080         07-JUN-94 AC_MGR          12000                       101           110                                                               
+        206 William    Gietz      WGIETZ     515.123.8181         07-JUN-94 AC_ACCOUNT       8300                       205           110                                                               
+
+20 rows selected.
+
+SQL> REM Steven gets Rs.24000 as monthly salary.
+SQL> 
+SQL> SELECT FIRST_NAME || ' gets Rs.' ||SALARY || ' as monthly salary.' "Employee Info." FROM EMPLOYEES;
+
+Employee Info.                                                                                                                                                                                          
+------------------------------------------------------------------------------                                                                                                                          
+Steven gets Rs.24000 as monthly salary.                                                                                                                                                                 
+Neena gets Rs.17000 as monthly salary.                                                                                                                                                                  
+Lex gets Rs.17000 as monthly salary.                                                                                                                                                                    
+Alexander gets Rs.9000 as monthly salary.                                                                                                                                                               
+Bruce gets Rs.6000 as monthly salary.                                                                                                                                                                   
+Diana gets Rs.4200 as monthly salary.                                                                                                                                                                   
+Kevin gets Rs.5800 as monthly salary.                                                                                                                                                                   
+Trenna gets Rs.3500 as monthly salary.                                                                                                                                                                  
+Curtis gets Rs.3100 as monthly salary.                                                                                                                                                                  
+Randall gets Rs.2600 as monthly salary.                                                                                                                                                                 
+Peter gets Rs.2500 as monthly salary.                                                                                                                                                                   
+Eleni gets Rs.10500 as monthly salary.                                                                                                                                                                  
+Ellen gets Rs.11000 as monthly salary.                                                                                                                                                                  
+Jonathon gets Rs.8600 as monthly salary.                                                                                                                                                                
+Kimerely gets Rs.7000 as monthly salary.                                                                                                                                                                
+Jennifer gets Rs.4400 as monthly salary.                                                                                                                                                                
+Michael gets Rs.13000 as monthly salary.                                                                                                                                                                
+Pat gets Rs.6000 as monthly salary.                                                                                                                                                                     
+Shelley gets Rs.12000 as monthly salary.                                                                                                                                                                
+William gets Rs.8300 as monthly salary.                                                                                                                                                                 
+
+20 rows selected.
+
+SQL> SELECT * FROM EMPLOYEES;
+
+EMPLOYEE_ID FIRST_NAME LAST_NAME  EMAIL      PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                                               
+----------- ---------- ---------- ---------- -------------------- --------- ---------- ---------- -------------- ---------- -------------                                                               
+        100 Steven     King       SKING      515.123.4567         17-JUL-87 AD_PRES         24000                                      90                                                               
+        101 Neena      Kochhar    NKOCHHAR   515.123.4568         21-SEP-89 AD_VP           17000                       100            90                                                               
+        102 Lex        De Haan    LDEHAAN    515.123.4569         13-JAN-93 AD_VP           17000                       100            90                                                               
+        103 Alexander  Hunold     AHUNOLD    590.423.4567         03-JAN-90 IT_PROG          9000                       102            60                                                               
+        104 Bruce      Ernst      BERNST     590.423.4568         21-MAY-91 IT_PROG          6000                       103            60                                                               
+        107 Diana      Lorentz    DLORENTZ   590.423.5567         07-FEB-99 IT_PROG          4200                       103            60                                                               
+        124 Kevin      Mourgos    KMOURGOS   650.123.5234         16-NOV-99 ST_MAN           5800                       100            50                                                               
+        141 Trenna     Rajs       TRAJS      650.121.8009         17-OCT-95 ST_CLERK         3500                       124            50                                                               
+        142 Curtis     Davies     CDAVIES    650.121.2994         29-JAN-97 ST_CLERK         3100                       124            50                                                               
+        143 Randall    Matos      RMATOS     650.121.2874         15-MAR-98 ST_CLERK         2600                       124            50                                                               
+        144 Peter      Vargas     PVARGAS    650.121.2004         09-JUL-98 ST_CLERK         2500                       124            50                                                               
+        149 Eleni      Zlotkey    EZLOTKEY   011.44.1344.429018   29-JAN-00 SA_MAN          10500             .2        100            80                                                               
+        174 Ellen      Abel       EABEL      011.44.1644.429267   11-MAY-96 SA_REP          11000             .3        149            80                                                               
+        176 Jonathon   Taylor     JTAYLOR    011.44.1644.429265   24-MAR-98 SA_REP           8600             .3        149            80                                                               
+        178 Kimerely   Grant      KGRANT     011.44.1644.429263   24-MAY-99 SA_REP           7000            .15        149                                                                             
+        200 Jennifer   Whalen     JWHALEN    515.123.4444         17-SEP-87 AD_ASST          4400                       101            10                                                               
+        201 Michael    Hartstein  MHARTSTE   515.123.5555         17-FEB-96 MK_MAN          13000                       100            20                                                               
+        202 Pat        Fay        PFAY       603.123.6666         17-AUG-97 MK_REP           6000                       201            20                                                               
+        205 Shelley    Higgins    SHIGGINS   515.123.8080         07-JUN-94 AC_MGR          12000                       101           110                                                               
+        206 William    Gietz      WGIETZ     515.123.8181         07-JUN-94 AC_ACCOUNT       8300                       205           110                                                               
+
+20 rows selected.
+
+SQL> REM King has joined the company on 17-JUL-87.
+SQL> 
+SQL> SELECT LAST_NAME || ' has joined the company on ' || HIRE_DATE || '.' "Employee and Hire date" from emploees;
+SELECT LAST_NAME || ' has joined the company on ' || HIRE_DATE || '.' "Employee and Hire date" from emploees
+                                                                                                     *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+SQL> SELECT LAST_NAME || ' has joined the company on ' || HIRE_DATE || '.' "Employee and Hire date" from emploYees;
+Employee and Hire date                                                                                                                                                                                  
+--------------------------------------------------------                                                                                                                                                
+King has joined the company on 17-JUL-87.                                                                                                                                                               
+Kochhar has joined the company on 21-SEP-89.                                                                                                                                                            
+De Haan has joined the company on 13-JAN-93.                                                                                                                                                            
+Hunold has joined the company on 03-JAN-90.                                                                                                                                                             
+Ernst has joined the company on 21-MAY-91.                                                                                                                                                              
+Lorentz has joined the company on 07-FEB-99.                                                                                                                                                            
+Mourgos has joined the company on 16-NOV-99.                                                                                                                                                            
+Rajs has joined the company on 17-OCT-95.                                                                                                                                                               
+Davies has joined the company on 29-JAN-97.                                                                                                                                                             
+Matos has joined the company on 15-MAR-98.                                                                                                                                                              
+Vargas has joined the company on 09-JUL-98.                                                                                                                                                             
+Zlotkey has joined the company on 29-JAN-00.                                                                                                                                                            
+Abel has joined the company on 11-MAY-96.                                                                                                                                                               
+Taylor has joined the company on 24-MAR-98.                                                                                                                                                             
+Grant has joined the company on 24-MAY-99.                                                                                                                                                              
+Whalen has joined the company on 17-SEP-87.                                                                                                                                                             
+Hartstein has joined the company on 17-FEB-96.                                                                                                                                                          
+Fay has joined the company on 17-AUG-97.                                                                                                                                                                
+Higgins has joined the company on 07-JUN-94.                                                                                                                                                            
+Gietz has joined the company on 07-JUN-94.                                                                                                                                                              
+
+20 rows selected.
+
+SQL> SELECT '          ' || LAST_NAME || ' has joined the company on ' || HIRE_DATE || '.' "Employee and Hire date" from emploYees;
+
+Employee and Hire date                                                                                                                                                                                  
+------------------------------------------------------------------                                                                                                                                      
+          King has joined the company on 17-JUL-87.                                                                                                                                                     
+          Kochhar has joined the company on 21-SEP-89.                                                                                                                                                  
+          De Haan has joined the company on 13-JAN-93.                                                                                                                                                  
+          Hunold has joined the company on 03-JAN-90.                                                                                                                                                   
+          Ernst has joined the company on 21-MAY-91.                                                                                                                                                    
+          Lorentz has joined the company on 07-FEB-99.                                                                                                                                                  
+          Mourgos has joined the company on 16-NOV-99.                                                                                                                                                  
+          Rajs has joined the company on 17-OCT-95.                                                                                                                                                     
+          Davies has joined the company on 29-JAN-97.                                                                                                                                                   
+          Matos has joined the company on 15-MAR-98.                                                                                                                                                    
+          Vargas has joined the company on 09-JUL-98.                                                                                                                                                   
+          Zlotkey has joined the company on 29-JAN-00.                                                                                                                                                  
+          Abel has joined the company on 11-MAY-96.                                                                                                                                                     
+          Taylor has joined the company on 24-MAR-98.                                                                                                                                                   
+          Grant has joined the company on 24-MAY-99.                                                                                                                                                    
+          Whalen has joined the company on 17-SEP-87.                                                                                                                                                   
+          Hartstein has joined the company on 17-FEB-96.                                                                                                                                                
+          Fay has joined the company on 17-AUG-97.                                                                                                                                                      
+          Higgins has joined the company on 07-JUN-94.                                                                                                                                                  
+          Gietz has joined the company on 07-JUN-94.                                                                                                                                                    
+
+20 rows selected.
+
+SQL> SELECT '          ' || LAST_NAME || ' has joined the company on ' || HIRE_DATE || '.' "             Employee and Hire date" from emploYees;
+
+             Employee and Hire date                                                                                                                                                                     
+------------------------------------------------------------------                                                                                                                                      
+          King has joined the company on 17-JUL-87.                                                                                                                                                     
+          Kochhar has joined the company on 21-SEP-89.                                                                                                                                                  
+          De Haan has joined the company on 13-JAN-93.                                                                                                                                                  
+          Hunold has joined the company on 03-JAN-90.                                                                                                                                                   
+          Ernst has joined the company on 21-MAY-91.                                                                                                                                                    
+          Lorentz has joined the company on 07-FEB-99.                                                                                                                                                  
+          Mourgos has joined the company on 16-NOV-99.                                                                                                                                                  
+          Rajs has joined the company on 17-OCT-95.                                                                                                                                                     
+          Davies has joined the company on 29-JAN-97.                                                                                                                                                   
+          Matos has joined the company on 15-MAR-98.                                                                                                                                                    
+          Vargas has joined the company on 09-JUL-98.                                                                                                                                                   
+          Zlotkey has joined the company on 29-JAN-00.                                                                                                                                                  
+          Abel has joined the company on 11-MAY-96.                                                                                                                                                     
+          Taylor has joined the company on 24-MAR-98.                                                                                                                                                   
+          Grant has joined the company on 24-MAY-99.                                                                                                                                                    
+          Whalen has joined the company on 17-SEP-87.                                                                                                                                                   
+          Hartstein has joined the company on 17-FEB-96.                                                                                                                                                
+          Fay has joined the company on 17-AUG-97.                                                                                                                                                      
+          Higgins has joined the company on 07-JUN-94.                                                                                                                                                  
+          Gietz has joined the company on 07-JUN-94.                                                                                                                                                    
+
+20 rows selected.
+
+SQL> REM King's monthly salary is Rs.24000/-.
+SQL> 
+SQL> SELECT LAST_NAME || 's monthly salary is Rs.' || SALARY || '/-.' "Employee and salary" from employees;
+
+Employee and salary                                                                                                                                                                                     
+----------------------------------------------------------------------------                                                                                                                            
+Kings monthly salary is Rs.24000/-.                                                                                                                                                                     
+Kochhars monthly salary is Rs.17000/-.                                                                                                                                                                  
+De Haans monthly salary is Rs.17000/-.                                                                                                                                                                  
+Hunolds monthly salary is Rs.9000/-.                                                                                                                                                                    
+Ernsts monthly salary is Rs.6000/-.                                                                                                                                                                     
+Lorentzs monthly salary is Rs.4200/-.                                                                                                                                                                   
+Mourgoss monthly salary is Rs.5800/-.                                                                                                                                                                   
+Rajss monthly salary is Rs.3500/-.                                                                                                                                                                      
+Daviess monthly salary is Rs.3100/-.                                                                                                                                                                    
+Matoss monthly salary is Rs.2600/-.                                                                                                                                                                     
+Vargass monthly salary is Rs.2500/-.                                                                                                                                                                    
+Zlotkeys monthly salary is Rs.10500/-.                                                                                                                                                                  
+Abels monthly salary is Rs.11000/-.                                                                                                                                                                     
+Taylors monthly salary is Rs.8600/-.                                                                                                                                                                    
+Grants monthly salary is Rs.7000/-.                                                                                                                                                                     
+Whalens monthly salary is Rs.4400/-.                                                                                                                                                                    
+Hartsteins monthly salary is Rs.13000/-.                                                                                                                                                                
+Fays monthly salary is Rs.6000/-.                                                                                                                                                                       
+Higginss monthly salary is Rs.12000/-.                                                                                                                                                                  
+Gietzs monthly salary is Rs.8300/-.                                                                                                                                                                     
+
+20 rows selected.
+
+SQL> SELECT LAST_NAME || ''s monthly salary is Rs.' || SALARY || '/-.' "Employee and salary" from employees;
+ERROR:
+ORA-01756: quoted string not properly terminated 
+
+
+SQL> SELECT LAST_NAME || '''s monthly salary is Rs.' || SALARY || '/-.' "Employee and salary" from employees;
+
+Employee and salary                                                                                                                                                                                     
+-----------------------------------------------------------------------------                                                                                                                           
+King's monthly salary is Rs.24000/-.                                                                                                                                                                    
+Kochhar's monthly salary is Rs.17000/-.                                                                                                                                                                 
+De Haan's monthly salary is Rs.17000/-.                                                                                                                                                                 
+Hunold's monthly salary is Rs.9000/-.                                                                                                                                                                   
+Ernst's monthly salary is Rs.6000/-.                                                                                                                                                                    
+Lorentz's monthly salary is Rs.4200/-.                                                                                                                                                                  
+Mourgos's monthly salary is Rs.5800/-.                                                                                                                                                                  
+Rajs's monthly salary is Rs.3500/-.                                                                                                                                                                     
+Davies's monthly salary is Rs.3100/-.                                                                                                                                                                   
+Matos's monthly salary is Rs.2600/-.                                                                                                                                                                    
+Vargas's monthly salary is Rs.2500/-.                                                                                                                                                                   
+Zlotkey's monthly salary is Rs.10500/-.                                                                                                                                                                 
+Abel's monthly salary is Rs.11000/-.                                                                                                                                                                    
+Taylor's monthly salary is Rs.8600/-.                                                                                                                                                                   
+Grant's monthly salary is Rs.7000/-.                                                                                                                                                                    
+Whalen's monthly salary is Rs.4400/-.                                                                                                                                                                   
+Hartstein's monthly salary is Rs.13000/-.                                                                                                                                                               
+Fay's monthly salary is Rs.6000/-.                                                                                                                                                                      
+Higgins's monthly salary is Rs.12000/-.                                                                                                                                                                 
+Gietz's monthly salary is Rs.8300/-.                                                                                                                                                                    
+
+20 rows selected.
+
+SQL> REM Q/QUOTE OPERATOR IS USED TO CHANGE QUOTATION CHARACTER.
+SQL> 
+SQL> SELECT LAST_NAME || Q'*'s monthly salary is Rs.*' || SALARY || '/-.' "Employee and salary" from employees;
+
+Employee and salary                                                                                                                                                                                     
+-----------------------------------------------------------------------------                                                                                                                           
+King's monthly salary is Rs.24000/-.                                                                                                                                                                    
+Kochhar's monthly salary is Rs.17000/-.                                                                                                                                                                 
+De Haan's monthly salary is Rs.17000/-.                                                                                                                                                                 
+Hunold's monthly salary is Rs.9000/-.                                                                                                                                                                   
+Ernst's monthly salary is Rs.6000/-.                                                                                                                                                                    
+Lorentz's monthly salary is Rs.4200/-.                                                                                                                                                                  
+Mourgos's monthly salary is Rs.5800/-.                                                                                                                                                                  
+Rajs's monthly salary is Rs.3500/-.                                                                                                                                                                     
+Davies's monthly salary is Rs.3100/-.                                                                                                                                                                   
+Matos's monthly salary is Rs.2600/-.                                                                                                                                                                    
+Vargas's monthly salary is Rs.2500/-.                                                                                                                                                                   
+Zlotkey's monthly salary is Rs.10500/-.                                                                                                                                                                 
+Abel's monthly salary is Rs.11000/-.                                                                                                                                                                    
+Taylor's monthly salary is Rs.8600/-.                                                                                                                                                                   
+Grant's monthly salary is Rs.7000/-.                                                                                                                                                                    
+Whalen's monthly salary is Rs.4400/-.                                                                                                                                                                   
+Hartstein's monthly salary is Rs.13000/-.                                                                                                                                                               
+Fay's monthly salary is Rs.6000/-.                                                                                                                                                                      
+Higgins's monthly salary is Rs.12000/-.                                                                                                                                                                 
+Gietz's monthly salary is Rs.8300/-.                                                                                                                                                                    
+
+20 rows selected.
+
+SQL> SELECT LAST_NAME || Q'3's monthly salary is Rs.3' || SALARY || '/-.' "Employee and salary" from employees;
+
+Employee and salary                                                                                                                                                                                     
+-----------------------------------------------------------------------------                                                                                                                           
+King's monthly salary is Rs.24000/-.                                                                                                                                                                    
+Kochhar's monthly salary is Rs.17000/-.                                                                                                                                                                 
+De Haan's monthly salary is Rs.17000/-.                                                                                                                                                                 
+Hunold's monthly salary is Rs.9000/-.                                                                                                                                                                   
+Ernst's monthly salary is Rs.6000/-.                                                                                                                                                                    
+Lorentz's monthly salary is Rs.4200/-.                                                                                                                                                                  
+Mourgos's monthly salary is Rs.5800/-.                                                                                                                                                                  
+Rajs's monthly salary is Rs.3500/-.                                                                                                                                                                     
+Davies's monthly salary is Rs.3100/-.                                                                                                                                                                   
+Matos's monthly salary is Rs.2600/-.                                                                                                                                                                    
+Vargas's monthly salary is Rs.2500/-.                                                                                                                                                                   
+Zlotkey's monthly salary is Rs.10500/-.                                                                                                                                                                 
+Abel's monthly salary is Rs.11000/-.                                                                                                                                                                    
+Taylor's monthly salary is Rs.8600/-.                                                                                                                                                                   
+Grant's monthly salary is Rs.7000/-.                                                                                                                                                                    
+Whalen's monthly salary is Rs.4400/-.                                                                                                                                                                   
+Hartstein's monthly salary is Rs.13000/-.                                                                                                                                                               
+Fay's monthly salary is Rs.6000/-.                                                                                                                                                                      
+Higgins's monthly salary is Rs.12000/-.                                                                                                                                                                 
+Gietz's monthly salary is Rs.8300/-.                                                                                                                                                                    
+
+20 rows selected.
+
+SQL> SELECT LAST_NAME || Q'A's monthly salary is Rs.A' || SALARY || '/-.' "Employee and salary" from employees;
+
+Employee and salary                                                                                                                                                                                     
+-----------------------------------------------------------------------------                                                                                                                           
+King's monthly salary is Rs.24000/-.                                                                                                                                                                    
+Kochhar's monthly salary is Rs.17000/-.                                                                                                                                                                 
+De Haan's monthly salary is Rs.17000/-.                                                                                                                                                                 
+Hunold's monthly salary is Rs.9000/-.                                                                                                                                                                   
+Ernst's monthly salary is Rs.6000/-.                                                                                                                                                                    
+Lorentz's monthly salary is Rs.4200/-.                                                                                                                                                                  
+Mourgos's monthly salary is Rs.5800/-.                                                                                                                                                                  
+Rajs's monthly salary is Rs.3500/-.                                                                                                                                                                     
+Davies's monthly salary is Rs.3100/-.                                                                                                                                                                   
+Matos's monthly salary is Rs.2600/-.                                                                                                                                                                    
+Vargas's monthly salary is Rs.2500/-.                                                                                                                                                                   
+Zlotkey's monthly salary is Rs.10500/-.                                                                                                                                                                 
+Abel's monthly salary is Rs.11000/-.                                                                                                                                                                    
+Taylor's monthly salary is Rs.8600/-.                                                                                                                                                                   
+Grant's monthly salary is Rs.7000/-.                                                                                                                                                                    
+Whalen's monthly salary is Rs.4400/-.                                                                                                                                                                   
+Hartstein's monthly salary is Rs.13000/-.                                                                                                                                                               
+Fay's monthly salary is Rs.6000/-.                                                                                                                                                                      
+Higgins's monthly salary is Rs.12000/-.                                                                                                                                                                 
+Gietz's monthly salary is Rs.8300/-.                                                                                                                                                                    
+
+20 rows selected.
+
+SQL> SELECT LAST_NAME || Q'''s monthly salary is Rs.'' || SALARY || '/-.' "Employee and salary" from employees;
+
+Employee and salary                                                                                                                                                                                     
+-----------------------------------------------------------------------------                                                                                                                           
+King's monthly salary is Rs.24000/-.                                                                                                                                                                    
+Kochhar's monthly salary is Rs.17000/-.                                                                                                                                                                 
+De Haan's monthly salary is Rs.17000/-.                                                                                                                                                                 
+Hunold's monthly salary is Rs.9000/-.                                                                                                                                                                   
+Ernst's monthly salary is Rs.6000/-.                                                                                                                                                                    
+Lorentz's monthly salary is Rs.4200/-.                                                                                                                                                                  
+Mourgos's monthly salary is Rs.5800/-.                                                                                                                                                                  
+Rajs's monthly salary is Rs.3500/-.                                                                                                                                                                     
+Davies's monthly salary is Rs.3100/-.                                                                                                                                                                   
+Matos's monthly salary is Rs.2600/-.                                                                                                                                                                    
+Vargas's monthly salary is Rs.2500/-.                                                                                                                                                                   
+Zlotkey's monthly salary is Rs.10500/-.                                                                                                                                                                 
+Abel's monthly salary is Rs.11000/-.                                                                                                                                                                    
+Taylor's monthly salary is Rs.8600/-.                                                                                                                                                                   
+Grant's monthly salary is Rs.7000/-.                                                                                                                                                                    
+Whalen's monthly salary is Rs.4400/-.                                                                                                                                                                   
+Hartstein's monthly salary is Rs.13000/-.                                                                                                                                                               
+Fay's monthly salary is Rs.6000/-.                                                                                                                                                                      
+Higgins's monthly salary is Rs.12000/-.                                                                                                                                                                 
+Gietz's monthly salary is Rs.8300/-.                                                                                                                                                                    
+
+20 rows selected.
+
+SQL> SELECT LAST_NAME || Q'"'s monthly salary is Rs."' || SALARY || '/-.' "Employee and salary" from employees;
+
+Employee and salary                                                                                                                                                                                     
+-----------------------------------------------------------------------------                                                                                                                           
+King's monthly salary is Rs.24000/-.                                                                                                                                                                    
+Kochhar's monthly salary is Rs.17000/-.                                                                                                                                                                 
+De Haan's monthly salary is Rs.17000/-.                                                                                                                                                                 
+Hunold's monthly salary is Rs.9000/-.                                                                                                                                                                   
+Ernst's monthly salary is Rs.6000/-.                                                                                                                                                                    
+Lorentz's monthly salary is Rs.4200/-.                                                                                                                                                                  
+Mourgos's monthly salary is Rs.5800/-.                                                                                                                                                                  
+Rajs's monthly salary is Rs.3500/-.                                                                                                                                                                     
+Davies's monthly salary is Rs.3100/-.                                                                                                                                                                   
+Matos's monthly salary is Rs.2600/-.                                                                                                                                                                    
+Vargas's monthly salary is Rs.2500/-.                                                                                                                                                                   
+Zlotkey's monthly salary is Rs.10500/-.                                                                                                                                                                 
+Abel's monthly salary is Rs.11000/-.                                                                                                                                                                    
+Taylor's monthly salary is Rs.8600/-.                                                                                                                                                                   
+Grant's monthly salary is Rs.7000/-.                                                                                                                                                                    
+Whalen's monthly salary is Rs.4400/-.                                                                                                                                                                   
+Hartstein's monthly salary is Rs.13000/-.                                                                                                                                                               
+Fay's monthly salary is Rs.6000/-.                                                                                                                                                                      
+Higgins's monthly salary is Rs.12000/-.                                                                                                                                                                 
+Gietz's monthly salary is Rs.8300/-.                                                                                                                                                                    
+
+20 rows selected.
+
+SQL> SELECT LAST_NAME || Q' 's monthly salary is Rs. ' || SALARY || '/-.' "Employee and salary" from employees;
+SELECT LAST_NAME || Q' 's monthly salary is Rs. ' || SALARY || '/-.' "Employee and salary" from employees
+                    *
+ERROR at line 1:
+ORA-00911: invalid character 
+
+
+SQL> SELECT LAST_NAME || Q'('s monthly salary is Rs.)' || SALARY || '/-.' "Employee and salary" from employees;
+
+Employee and salary                                                                                                                                                                                     
+-----------------------------------------------------------------------------                                                                                                                           
+King's monthly salary is Rs.24000/-.                                                                                                                                                                    
+Kochhar's monthly salary is Rs.17000/-.                                                                                                                                                                 
+De Haan's monthly salary is Rs.17000/-.                                                                                                                                                                 
+Hunold's monthly salary is Rs.9000/-.                                                                                                                                                                   
+Ernst's monthly salary is Rs.6000/-.                                                                                                                                                                    
+Lorentz's monthly salary is Rs.4200/-.                                                                                                                                                                  
+Mourgos's monthly salary is Rs.5800/-.                                                                                                                                                                  
+Rajs's monthly salary is Rs.3500/-.                                                                                                                                                                     
+Davies's monthly salary is Rs.3100/-.                                                                                                                                                                   
+Matos's monthly salary is Rs.2600/-.                                                                                                                                                                    
+Vargas's monthly salary is Rs.2500/-.                                                                                                                                                                   
+Zlotkey's monthly salary is Rs.10500/-.                                                                                                                                                                 
+Abel's monthly salary is Rs.11000/-.                                                                                                                                                                    
+Taylor's monthly salary is Rs.8600/-.                                                                                                                                                                   
+Grant's monthly salary is Rs.7000/-.                                                                                                                                                                    
+Whalen's monthly salary is Rs.4400/-.                                                                                                                                                                   
+Hartstein's monthly salary is Rs.13000/-.                                                                                                                                                               
+Fay's monthly salary is Rs.6000/-.                                                                                                                                                                      
+Higgins's monthly salary is Rs.12000/-.                                                                                                                                                                 
+Gietz's monthly salary is Rs.8300/-.                                                                                                                                                                    
+
+20 rows selected.
+
+SQL> SELECT LAST_NAME || Q')'s monthly salary is Rs.)' || SALARY || '/-.' "Employee and salary" from employees;
+
+Employee and salary                                                                                                                                                                                     
+-----------------------------------------------------------------------------                                                                                                                           
+King's monthly salary is Rs.24000/-.                                                                                                                                                                    
+Kochhar's monthly salary is Rs.17000/-.                                                                                                                                                                 
+De Haan's monthly salary is Rs.17000/-.                                                                                                                                                                 
+Hunold's monthly salary is Rs.9000/-.                                                                                                                                                                   
+Ernst's monthly salary is Rs.6000/-.                                                                                                                                                                    
+Lorentz's monthly salary is Rs.4200/-.                                                                                                                                                                  
+Mourgos's monthly salary is Rs.5800/-.                                                                                                                                                                  
+Rajs's monthly salary is Rs.3500/-.                                                                                                                                                                     
+Davies's monthly salary is Rs.3100/-.                                                                                                                                                                   
+Matos's monthly salary is Rs.2600/-.                                                                                                                                                                    
+Vargas's monthly salary is Rs.2500/-.                                                                                                                                                                   
+Zlotkey's monthly salary is Rs.10500/-.                                                                                                                                                                 
+Abel's monthly salary is Rs.11000/-.                                                                                                                                                                    
+Taylor's monthly salary is Rs.8600/-.                                                                                                                                                                   
+Grant's monthly salary is Rs.7000/-.                                                                                                                                                                    
+Whalen's monthly salary is Rs.4400/-.                                                                                                                                                                   
+Hartstein's monthly salary is Rs.13000/-.                                                                                                                                                               
+Fay's monthly salary is Rs.6000/-.                                                                                                                                                                      
+Higgins's monthly salary is Rs.12000/-.                                                                                                                                                                 
+Gietz's monthly salary is Rs.8300/-.                                                                                                                                                                    
+
+20 rows selected.
+
+SQL> SELECT LAST_NAME || Q')'s monthly salary is Rs.(' || SALARY || '/-.' "Employee and salary" from employees;
+ERROR:
+ORA-01756: quoted string not properly terminated 
+
+
+SQL> SELECT LAST_NAME || Q'('s monthly salary is Rs.(' || SALARY || '/-.' "Employee and salary" from employees;
+ERROR:
+ORA-01756: quoted string not properly terminated 
+
+
+SQL> SELECT LAST_NAME || Q'('s monthly salary is Rs.}' || SALARY || '/-.' "Employee and salary" from employees;
+ERROR:
+ORA-01756: quoted string not properly terminated 
+
+
+SQL> SELECT LAST_NAME || Q'({'s monthly salary is Rs.})' || SALARY || '/-.' "Employee and salary" from employees;
+
+Employee and salary                                                                                                                                                                                     
+-------------------------------------------------------------------------------                                                                                                                         
+King{'s monthly salary is Rs.}24000/-.                                                                                                                                                                  
+Kochhar{'s monthly salary is Rs.}17000/-.                                                                                                                                                               
+De Haan{'s monthly salary is Rs.}17000/-.                                                                                                                                                               
+Hunold{'s monthly salary is Rs.}9000/-.                                                                                                                                                                 
+Ernst{'s monthly salary is Rs.}6000/-.                                                                                                                                                                  
+Lorentz{'s monthly salary is Rs.}4200/-.                                                                                                                                                                
+Mourgos{'s monthly salary is Rs.}5800/-.                                                                                                                                                                
+Rajs{'s monthly salary is Rs.}3500/-.                                                                                                                                                                   
+Davies{'s monthly salary is Rs.}3100/-.                                                                                                                                                                 
+Matos{'s monthly salary is Rs.}2600/-.                                                                                                                                                                  
+Vargas{'s monthly salary is Rs.}2500/-.                                                                                                                                                                 
+Zlotkey{'s monthly salary is Rs.}10500/-.                                                                                                                                                               
+Abel{'s monthly salary is Rs.}11000/-.                                                                                                                                                                  
+Taylor{'s monthly salary is Rs.}8600/-.                                                                                                                                                                 
+Grant{'s monthly salary is Rs.}7000/-.                                                                                                                                                                  
+Whalen{'s monthly salary is Rs.}4400/-.                                                                                                                                                                 
+Hartstein{'s monthly salary is Rs.}13000/-.                                                                                                                                                             
+Fay{'s monthly salary is Rs.}6000/-.                                                                                                                                                                    
+Higgins{'s monthly salary is Rs.}12000/-.                                                                                                                                                               
+Gietz{'s monthly salary is Rs.}8300/-.                                                                                                                                                                  
+
+20 rows selected.
+
+SQL> SELECT 5 * 9 UNIQUE FROM REGIONS;
+SELECT 5 * 9 UNIQUE FROM REGIONS
+             *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> SELECT 	unique 5 * 9 FROM REGIONS;
+
+       5*9                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+        45                                                                                                                                                                                              
+
+SQL> SPOOL OFF

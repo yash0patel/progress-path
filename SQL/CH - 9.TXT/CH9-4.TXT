@@ -1,0 +1,1062 @@
+SQL> 
+SQL> CL SR
+SP2-0158: unknown CLEAR option "SR"
+SQL> CL SCR
+
+SQL> REM ANY CHANGES DONE USING DML STATEMENTS (INSERT, UPDATE , DELETE) ARE LIMITED TO RAM/MEMORY.
+SQL> 
+SQL> REM IF WE WANT TO SAVE IT PERMANENTLY, WE NEED TO EXECUTE COMMIT STATEMENT.
+SQL> 
+SQL> REM IF WE WANT TO UNDO IT, WE NEED TO EXECUTE ROLLBACK COMMAND.
+SQL> 
+SQL> REM COMMITTED CHANGES CAN'T BE UNDONE USING ROLLBACK COMMAND, BUT IT CAN BE UNDONE USING FLASHBACK COMMAND.
+SQL> 
+SQL> REM ORACLE KEEPS OLDER VERSIONS/BEFORE COMMIT IMAGES OF THE TABLE, WHICH CAN BE USED TO UNDONE THE COMMITTED CHANGES.
+SQL> 
+SQL> REM TO SEE OLDER VERSIONS OF THE TABLE WE USE VERSIONS QUERY.
+SQL> 
+SQL> REM TYPES OF VERSIONS QUERY : 1 VERSIONS BETWEEN TIMESTAMP MINVALUE AND MAXVALUE  2 AS OF TIMESTAMP
+SQL> 
+SQL> REM VERSIONS BETWEEN TIMESTAMP MINVALUE AND MAXVALUE : IT WILL SHOW ALL AVAILABLE OLDER VERSIONS OF THE DATA OF TABLE.
+SQL> 
+SQL> REM AS OF TIMESTAMP : PROVIDES SINGLE VERSION AT SPECIFIC DATE AND TIME.
+SQL> 
+SQL> 
+SQL> CREATE TABLE T2332 AS SELECT * FROM REGIONS;
+
+Table created.
+
+SQL> SELECT * FROM T2332;
+
+ REGION_ID REGION_NAME                                                                                                                                                                                  
+---------- -------------------------                                                                                                                                                                    
+         1 Europe                                                                                                                                                                                       
+         2 Americas                                                                                                                                                                                     
+         3 Asia                                                                                                                                                                                         
+         4 Middle East and Africa                                                                                                                                                                       
+
+SQL> DELETE T2332 WHERE REGION_ID = 4;
+
+1 row deleted.
+
+SQL> SELECT * FROM T2332;
+
+ REGION_ID REGION_NAME                                                                                                                                                                                  
+---------- -------------------------                                                                                                                                                                    
+         1 Europe                                                                                                                                                                                       
+         2 Americas                                                                                                                                                                                     
+         3 Asia                                                                                                                                                                                         
+
+SQL> ROLLBACK;
+
+Rollback complete.
+
+SQL> SELECT * FROM T2332;
+
+ REGION_ID REGION_NAME                                                                                                                                                                                  
+---------- -------------------------                                                                                                                                                                    
+         1 Europe                                                                                                                                                                                       
+         2 Americas                                                                                                                                                                                     
+         3 Asia                                                                                                                                                                                         
+         4 Middle East and Africa                                                                                                                                                                       
+
+SQL> DELETE T2332 WHERE REGION_ID = 4;
+
+1 row deleted.
+
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> SELECT * FROM T2332;
+
+ REGION_ID REGION_NAME                                                                                                                                                                                  
+---------- -------------------------                                                                                                                                                                    
+         1 Europe                                                                                                                                                                                       
+         2 Americas                                                                                                                                                                                     
+         3 Asia                                                                                                                                                                                         
+
+SQL> ROLLBACK;
+
+Rollback complete.
+
+SQL> SELECT * FROM T2332;
+
+ REGION_ID REGION_NAME                                                                                                                                                                                  
+---------- -------------------------                                                                                                                                                                    
+         1 Europe                                                                                                                                                                                       
+         2 Americas                                                                                                                                                                                     
+         3 Asia                                                                                                                                                                                         
+
+SQL> SELECT * FROM T2332 VERSIONS BETWEEN TIMESTAMP MINVALUE AND MAXVALUE;
+
+ REGION_ID REGION_NAME                                                                                                                                                                                  
+---------- -------------------------                                                                                                                                                                    
+         4 Middle East and Africa                                                                                                                                                                       
+         1 Europe                                                                                                                                                                                       
+         2 Americas                                                                                                                                                                                     
+         3 Asia                                                                                                                                                                                         
+         4 Middle East and Africa                                                                                                                                                                       
+
+SQL> DELETE T2332 WHERE REGION_ID = 1;
+
+1 row deleted.
+
+SQL> SELECT * FROM T2332;
+
+ REGION_ID REGION_NAME                                                                                                                                                                                  
+---------- -------------------------                                                                                                                                                                    
+         2 Americas                                                                                                                                                                                     
+         3 Asia                                                                                                                                                                                         
+
+SQL> ROLLBACK;
+
+Rollback complete.
+
+SQL> SELECT * FROM T2332;
+
+ REGION_ID REGION_NAME                                                                                                                                                                                  
+---------- -------------------------                                                                                                                                                                    
+         1 Europe                                                                                                                                                                                       
+         2 Americas                                                                                                                                                                                     
+         3 Asia                                                                                                                                                                                         
+
+SQL> DELETE T2332 WHERE REGION_ID = 1;
+
+1 row deleted.
+
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> DELETE T2332 WHERE REGION_ID = 1;
+
+0 rows deleted.
+
+SQL> SELECT * FROM T2332;
+
+ REGION_ID REGION_NAME                                                                                                                                                                                  
+---------- -------------------------                                                                                                                                                                    
+         2 Americas                                                                                                                                                                                     
+         3 Asia                                                                                                                                                                                         
+
+SQL> ROLLBACK;
+
+Rollback complete.
+
+SQL> SELECT * FROM T2332;
+
+ REGION_ID REGION_NAME                                                                                                                                                                                  
+---------- -------------------------                                                                                                                                                                    
+         2 Americas                                                                                                                                                                                     
+         3 Asia                                                                                                                                                                                         
+
+SQL> SELECT * FROM T2332 VERSIONS BETWEEN TIMESTAMP MINVALUE AND MAXVALUE;
+
+ REGION_ID REGION_NAME                                                                                                                                                                                  
+---------- -------------------------                                                                                                                                                                    
+         1 Europe                                                                                                                                                                                       
+         4 Middle East and Africa                                                                                                                                                                       
+         1 Europe                                                                                                                                                                                       
+         2 Americas                                                                                                                                                                                     
+         3 Asia                                                                                                                                                                                         
+         4 Middle East and Africa                                                                                                                                                                       
+
+6 rows selected.
+
+SQL> SELECT * FROM T2332 AS OF TIMESTAMP SYSTIMESTAMP - INTERVAL '&MIN' MINUTE;
+Enter value for min: 1
+old   1: SELECT * FROM T2332 AS OF TIMESTAMP SYSTIMESTAMP - INTERVAL '&MIN' MINUTE
+new   1: SELECT * FROM T2332 AS OF TIMESTAMP SYSTIMESTAMP - INTERVAL '1' MINUTE
+
+ REGION_ID REGION_NAME                                                                                                                                                                                  
+---------- -------------------------                                                                                                                                                                    
+         2 Americas                                                                                                                                                                                     
+         3 Asia                                                                                                                                                                                         
+
+SQL> /
+Enter value for min: 2
+old   1: SELECT * FROM T2332 AS OF TIMESTAMP SYSTIMESTAMP - INTERVAL '&MIN' MINUTE
+new   1: SELECT * FROM T2332 AS OF TIMESTAMP SYSTIMESTAMP - INTERVAL '2' MINUTE
+
+ REGION_ID REGION_NAME                                                                                                                                                                                  
+---------- -------------------------                                                                                                                                                                    
+         1 Europe                                                                                                                                                                                       
+         2 Americas                                                                                                                                                                                     
+         3 Asia                                                                                                                                                                                         
+
+SQL> /
+Enter value for min: 3
+old   1: SELECT * FROM T2332 AS OF TIMESTAMP SYSTIMESTAMP - INTERVAL '&MIN' MINUTE
+new   1: SELECT * FROM T2332 AS OF TIMESTAMP SYSTIMESTAMP - INTERVAL '3' MINUTE
+
+ REGION_ID REGION_NAME                                                                                                                                                                                  
+---------- -------------------------                                                                                                                                                                    
+         1 Europe                                                                                                                                                                                       
+         2 Americas                                                                                                                                                                                     
+         3 Asia                                                                                                                                                                                         
+
+SQL> /
+Enter value for min: 4
+old   1: SELECT * FROM T2332 AS OF TIMESTAMP SYSTIMESTAMP - INTERVAL '&MIN' MINUTE
+new   1: SELECT * FROM T2332 AS OF TIMESTAMP SYSTIMESTAMP - INTERVAL '4' MINUTE
+
+ REGION_ID REGION_NAME                                                                                                                                                                                  
+---------- -------------------------                                                                                                                                                                    
+         1 Europe                                                                                                                                                                                       
+         2 Americas                                                                                                                                                                                     
+         3 Asia                                                                                                                                                                                         
+         4 Middle East and Africa                                                                                                                                                                       
+
+SQL> /
+Enter value for min: 5
+old   1: SELECT * FROM T2332 AS OF TIMESTAMP SYSTIMESTAMP - INTERVAL '&MIN' MINUTE
+new   1: SELECT * FROM T2332 AS OF TIMESTAMP SYSTIMESTAMP - INTERVAL '5' MINUTE
+
+ REGION_ID REGION_NAME                                                                                                                                                                                  
+---------- -------------------------                                                                                                                                                                    
+         1 Europe                                                                                                                                                                                       
+         2 Americas                                                                                                                                                                                     
+         3 Asia                                                                                                                                                                                         
+         4 Middle East and Africa                                                                                                                                                                       
+
+SQL> /
+Enter value for min: 6
+old   1: SELECT * FROM T2332 AS OF TIMESTAMP SYSTIMESTAMP - INTERVAL '&MIN' MINUTE
+new   1: SELECT * FROM T2332 AS OF TIMESTAMP SYSTIMESTAMP - INTERVAL '6' MINUTE
+SELECT * FROM T2332 AS OF TIMESTAMP SYSTIMESTAMP - INTERVAL '6' MINUTE
+              *
+ERROR at line 1:
+ORA-01466: unable to read data - table definition has changed 
+
+
+SQL> SELECT * FROM T2332;
+
+ REGION_ID REGION_NAME                                                                                                                                                                                  
+---------- -------------------------                                                                                                                                                                    
+         2 Americas                                                                                                                                                                                     
+         3 Asia                                                                                                                                                                                         
+
+SQL> FLASHBACK TABLE T2332 TO TIMESTAMP SYSTIMESTAMP - INTERVAL '3' MINUTE;
+FLASHBACK TABLE T2332 TO TIMESTAMP SYSTIMESTAMP - INTERVAL '3' MINUTE
+                *
+ERROR at line 1:
+ORA-08189: cannot flashback the table because row movement is not enabled 
+
+
+SQL> ALTER TABLE T2332 ENABLE ROW MOVEMENT;
+
+Table altered.
+
+SQL> SELECT * FROM T2332 AS OF TIMESTAMP SYSTIMESTAMP - INTERVAL '&MIN' MINUTE;
+Enter value for min: 3
+old   1: SELECT * FROM T2332 AS OF TIMESTAMP SYSTIMESTAMP - INTERVAL '&MIN' MINUTE
+new   1: SELECT * FROM T2332 AS OF TIMESTAMP SYSTIMESTAMP - INTERVAL '3' MINUTE
+
+ REGION_ID REGION_NAME                                                                                                                                                                                  
+---------- -------------------------                                                                                                                                                                    
+         2 Americas                                                                                                                                                                                     
+         3 Asia                                                                                                                                                                                         
+
+SQL> /
+Enter value for min: 4
+old   1: SELECT * FROM T2332 AS OF TIMESTAMP SYSTIMESTAMP - INTERVAL '&MIN' MINUTE
+new   1: SELECT * FROM T2332 AS OF TIMESTAMP SYSTIMESTAMP - INTERVAL '4' MINUTE
+
+ REGION_ID REGION_NAME                                                                                                                                                                                  
+---------- -------------------------                                                                                                                                                                    
+         2 Americas                                                                                                                                                                                     
+         3 Asia                                                                                                                                                                                         
+
+SQL> /
+Enter value for min: 5
+old   1: SELECT * FROM T2332 AS OF TIMESTAMP SYSTIMESTAMP - INTERVAL '&MIN' MINUTE
+new   1: SELECT * FROM T2332 AS OF TIMESTAMP SYSTIMESTAMP - INTERVAL '5' MINUTE
+
+ REGION_ID REGION_NAME                                                                                                                                                                                  
+---------- -------------------------                                                                                                                                                                    
+         2 Americas                                                                                                                                                                                     
+         3 Asia                                                                                                                                                                                         
+
+SQL> /
+Enter value for min: 6
+old   1: SELECT * FROM T2332 AS OF TIMESTAMP SYSTIMESTAMP - INTERVAL '&MIN' MINUTE
+new   1: SELECT * FROM T2332 AS OF TIMESTAMP SYSTIMESTAMP - INTERVAL '6' MINUTE
+
+ REGION_ID REGION_NAME                                                                                                                                                                                  
+---------- -------------------------                                                                                                                                                                    
+         1 Europe                                                                                                                                                                                       
+         2 Americas                                                                                                                                                                                     
+         3 Asia                                                                                                                                                                                         
+
+SQL> FLASHBACK TABLE T2332 TO TIMESTAMP SYSTIMESTAMP - INTERVAL '6' MINUTE;
+
+Flashback complete.
+
+SQL> SELECT * FROM T2332;
+
+ REGION_ID REGION_NAME                                                                                                                                                                                  
+---------- -------------------------                                                                                                                                                                    
+         1 Europe                                                                                                                                                                                       
+         2 Americas                                                                                                                                                                                     
+         3 Asia                                                                                                                                                                                         
+
+SQL> SELECT * FROM T2332 AS OF TIMESTAMP SYSTIMESTAMP - INTERVAL '&MIN' MINUTE;
+Enter value for min: 7
+old   1: SELECT * FROM T2332 AS OF TIMESTAMP SYSTIMESTAMP - INTERVAL '&MIN' MINUTE
+new   1: SELECT * FROM T2332 AS OF TIMESTAMP SYSTIMESTAMP - INTERVAL '7' MINUTE
+
+ REGION_ID REGION_NAME                                                                                                                                                                                  
+---------- -------------------------                                                                                                                                                                    
+         1 Europe                                                                                                                                                                                       
+         2 Americas                                                                                                                                                                                     
+         3 Asia                                                                                                                                                                                         
+
+SQL> /
+Enter value for min: 8
+old   1: SELECT * FROM T2332 AS OF TIMESTAMP SYSTIMESTAMP - INTERVAL '&MIN' MINUTE
+new   1: SELECT * FROM T2332 AS OF TIMESTAMP SYSTIMESTAMP - INTERVAL '8' MINUTE
+
+ REGION_ID REGION_NAME                                                                                                                                                                                  
+---------- -------------------------                                                                                                                                                                    
+         1 Europe                                                                                                                                                                                       
+         2 Americas                                                                                                                                                                                     
+         3 Asia                                                                                                                                                                                         
+
+SQL> /
+Enter value for min: 9
+old   1: SELECT * FROM T2332 AS OF TIMESTAMP SYSTIMESTAMP - INTERVAL '&MIN' MINUTE
+new   1: SELECT * FROM T2332 AS OF TIMESTAMP SYSTIMESTAMP - INTERVAL '9' MINUTE
+
+ REGION_ID REGION_NAME                                                                                                                                                                                  
+---------- -------------------------                                                                                                                                                                    
+         1 Europe                                                                                                                                                                                       
+         2 Americas                                                                                                                                                                                     
+         3 Asia                                                                                                                                                                                         
+         4 Middle East and Africa                                                                                                                                                                       
+
+SQL> FLASHBACK TABLE T2332 TO TIMESTAMP SYSTIMESTAMP - INTERVAL '9' MINUTE;
+
+Flashback complete.
+
+SQL> SELECT * FROM T2332;
+
+ REGION_ID REGION_NAME                                                                                                                                                                                  
+---------- -------------------------                                                                                                                                                                    
+         1 Europe                                                                                                                                                                                       
+         2 Americas                                                                                                                                                                                     
+         3 Asia                                                                                                                                                                                         
+         4 Middle East and Africa                                                                                                                                                                       
+
+SQL> SELECT * FROM T2332 AS OF TIMESTAMP SYSTIMESTAMP - INTERVAL '&MIN' MINUTE;
+Enter value for min: 5
+old   1: SELECT * FROM T2332 AS OF TIMESTAMP SYSTIMESTAMP - INTERVAL '&MIN' MINUTE
+new   1: SELECT * FROM T2332 AS OF TIMESTAMP SYSTIMESTAMP - INTERVAL '5' MINUTE
+
+ REGION_ID REGION_NAME                                                                                                                                                                                  
+---------- -------------------------                                                                                                                                                                    
+         2 Americas                                                                                                                                                                                     
+         3 Asia                                                                                                                                                                                         
+
+SQL> /
+Enter value for min: 6
+old   1: SELECT * FROM T2332 AS OF TIMESTAMP SYSTIMESTAMP - INTERVAL '&MIN' MINUTE
+new   1: SELECT * FROM T2332 AS OF TIMESTAMP SYSTIMESTAMP - INTERVAL '6' MINUTE
+
+ REGION_ID REGION_NAME                                                                                                                                                                                  
+---------- -------------------------                                                                                                                                                                    
+         2 Americas                                                                                                                                                                                     
+         3 Asia                                                                                                                                                                                         
+
+SQL> /
+Enter value for min: 7
+old   1: SELECT * FROM T2332 AS OF TIMESTAMP SYSTIMESTAMP - INTERVAL '&MIN' MINUTE
+new   1: SELECT * FROM T2332 AS OF TIMESTAMP SYSTIMESTAMP - INTERVAL '7' MINUTE
+
+ REGION_ID REGION_NAME                                                                                                                                                                                  
+---------- -------------------------                                                                                                                                                                    
+         2 Americas                                                                                                                                                                                     
+         3 Asia                                                                                                                                                                                         
+
+SQL> /
+Enter value for min: 8
+old   1: SELECT * FROM T2332 AS OF TIMESTAMP SYSTIMESTAMP - INTERVAL '&MIN' MINUTE
+new   1: SELECT * FROM T2332 AS OF TIMESTAMP SYSTIMESTAMP - INTERVAL '8' MINUTE
+
+ REGION_ID REGION_NAME                                                                                                                                                                                  
+---------- -------------------------                                                                                                                                                                    
+         1 Europe                                                                                                                                                                                       
+         2 Americas                                                                                                                                                                                     
+         3 Asia                                                                                                                                                                                         
+
+SQL> FLASHBACK TABLE T2332 TO TIMESTAMP SYSTIMESTAMP - INTERVAL '8' MINUTE;
+
+Flashback complete.
+
+SQL> SELECT * FROM T2332;
+
+ REGION_ID REGION_NAME                                                                                                                                                                                  
+---------- -------------------------                                                                                                                                                                    
+         1 Europe                                                                                                                                                                                       
+         2 Americas                                                                                                                                                                                     
+         3 Asia                                                                                                                                                                                         
+
+SQL> ALTER TABLE T2332 DISABLE ROW MOVEMENT;
+
+Table altered.
+
+SQL> SELECT * FROM T2332;
+
+ REGION_ID REGION_NAME                                                                                                                                                                                  
+---------- -------------------------                                                                                                                                                                    
+         1 Europe                                                                                                                                                                                       
+         2 Americas                                                                                                                                                                                     
+         3 Asia                                                                                                                                                                                         
+
+SQL> REM TRUNCATE , DROP , FLASHBACK .. TO BEFORE DROP , SHOW RECYCLEBIN , PURGE , DROP ... PURGE
+SQL> 
+SQL> SELECT * FROM T2332;
+
+ REGION_ID REGION_NAME                                                                                                                                                                                  
+---------- -------------------------                                                                                                                                                                    
+         1 Europe                                                                                                                                                                                       
+         2 Americas                                                                                                                                                                                     
+         3 Asia                                                                                                                                                                                         
+
+SQL> DELETE T2332;
+
+3 rows deleted.
+
+SQL> SELECT * FROM T2332;
+
+no rows selected
+
+SQL> ROLLBACK;
+
+Rollback complete.
+
+SQL> SELECT * FROM T2332;
+
+ REGION_ID REGION_NAME                                                                                                                                                                                  
+---------- -------------------------                                                                                                                                                                    
+         1 Europe                                                                                                                                                                                       
+         2 Americas                                                                                                                                                                                     
+         3 Asia                                                                                                                                                                                         
+
+SQL> DELETE T2332;
+
+3 rows deleted.
+
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> SELECT * FROM T2332;
+
+no rows selected
+
+SQL> ALTER TABLE T2332 ENABLE ROW MOVEMENT;
+
+Table altered.
+
+SQL> FLASHBACK TABLE T2332 TO TIMESTAMP SYSTIMESTAMP - INTERVAL '2' MINUTE;
+
+Flashback complete.
+
+SQL> SELECT * FROM T2332;
+
+ REGION_ID REGION_NAME                                                                                                                                                                                  
+---------- -------------------------                                                                                                                                                                    
+         1 Europe                                                                                                                                                                                       
+         2 Americas                                                                                                                                                                                     
+         3 Asia                                                                                                                                                                                         
+
+SQL> DESC T2332
+ Name                                                                                                              Null?    Type
+ ----------------------------------------------------------------------------------------------------------------- -------- ----------------------------------------------------------------------------
+ REGION_ID                                                                                                         NOT NULL NUMBER
+ REGION_NAME                                                                                                                VARCHAR2(25)
+
+SQL> TRUNCATE TABLE T2332;
+
+Table truncated.
+
+SQL> REM IT WILL REMOVE ALL ROWS PERMANENTLY, WE CAN'T GET THOSE BACK ANY WAY.
+SQL> 
+SQL> REM TABLE DEFINITION WILL BE KEPT INTACT.
+SQL> 
+SQL> DESC T2332
+ Name                                                                                                              Null?    Type
+ ----------------------------------------------------------------------------------------------------------------- -------- ----------------------------------------------------------------------------
+ REGION_ID                                                                                                         NOT NULL NUMBER
+ REGION_NAME                                                                                                                VARCHAR2(25)
+
+SQL> SELECT * FROM T2332;
+
+no rows selected
+
+SQL> ROLLBACK;
+
+Rollback complete.
+
+SQL> SELECT * FROM T2332;
+
+no rows selected
+
+SQL> FLASHBACK TABLE T2332 TO TIMESTAMP SYSTIMESTAMP - INTERVAL '3' MINUTE;
+FLASHBACK TABLE T2332 TO TIMESTAMP SYSTIMESTAMP - INTERVAL '3' MINUTE
+                *
+ERROR at line 1:
+ORA-01466: unable to read data - table definition has changed 
+
+
+SQL> INSERT INTO R1 SELECT * FROM REGIONS;
+
+4 rows created.
+
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> INSERT INTO T2332 SELECT * FROM REGIONS;
+
+4 rows created.
+
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> SELECT * FROM T2332;
+
+ REGION_ID REGION_NAME                                                                                                                                                                                  
+---------- -------------------------                                                                                                                                                                    
+         1 Europe                                                                                                                                                                                       
+         2 Americas                                                                                                                                                                                     
+         3 Asia                                                                                                                                                                                         
+         4 Middle East and Africa                                                                                                                                                                       
+
+SQL> DROP TABLE T2332;
+
+Table dropped.
+
+SQL> REM DROP WILL ACTUALLY RENAME THE TABLE AND WILL KEEP IT INSIDE ORACLE'S RECYCLEBIN.
+SQL> 
+SQL> DESC T2332
+ERROR:
+ORA-04043: object T2332 does not exist 
+
+
+SQL> SELECT * FROM T2332;
+SELECT * FROM T2332
+              *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> SHOW RECYCLEBIN
+ORIGINAL NAME    RECYCLEBIN NAME                OBJECT TYPE  DROP TIME                                                                                                                                  
+---------------- ------------------------------ ------------ -------------------                                                                                                                        
+ATM              BIN$MePUyrqSQYCAbKrT3z0IZw==$0 TABLE        2023-11-22:16:35:42                                                                                                                        
+C1               BIN$fehVR9pFRyaCF/DUeKY2PQ==$0 TABLE        2023-11-25:11:17:09                                                                                                                        
+C1               BIN$nRLnSlAOTP2cUuRDW4Nq6A==$0 TABLE        2023-11-18:11:34:02                                                                                                                        
+C2               BIN$JgiMf6LYTFGQyiOmbBI3hw==$0 TABLE        2023-11-25:11:17:10                                                                                                                        
+C3               BIN$20qH/8rqTU+NMNPSXWmasw==$0 TABLE        2023-11-25:11:17:11                                                                                                                        
+COUNTRY          BIN$f+AMTYyXT2mDKhT9nyFk4g==$0 TABLE        2023-11-18:12:40:44                                                                                                                        
+D1               BIN$6SwyF/X8TBu5dVLgSFr2HQ==$0 TABLE        2023-11-22:16:49:40                                                                                                                        
+D1               BIN$9457tZeJRjWpaSuYhs0h6A==$0 TABLE        2023-11-21:18:22:37                                                                                                                        
+E1               BIN$AkosRkxLRi6UJXztGy4ZMA==$0 TABLE        2023-11-22:16:49:44                                                                                                                        
+E1               BIN$enPpgSo3T0CYJye5dx92MQ==$0 TABLE        2023-11-21:19:03:47                                                                                                                        
+EMP              BIN$GaEb340QRHmKVX3c7RP8hA==$0 TABLE        2023-10-28:12:43:33                                                                                                                        
+EMP              BIN$dGXe5BlMSHeL8aaws2kz5A==$0 TABLE        2023-10-28:12:43:25                                                                                                                        
+EMP              BIN$uYgIu/tdT2iNWtGW1q6sdQ==$0 TABLE        2023-10-28:12:29:54                                                                                                                        
+FEES             BIN$gIHHJqRyQGiYsES8nlgyYg==$0 TABLE        2023-11-05:12:32:54                                                                                                                        
+FEES             BIN$O7jhxi/hSlq0LZ3SUyRoww==$0 TABLE        2023-11-05:12:32:17                                                                                                                        
+FEES             BIN$c8AuV5eATvuI2drsrtnpfQ==$0 TABLE        2023-11-05:12:31:12                                                                                                                        
+FEES             BIN$lhB/r1aDQdaPB90xfWSRGw==$0 TABLE        2023-11-05:11:18:40                                                                                                                        
+FEES             BIN$L6EWeMJ3TcOhLKc09d2j9A==$0 TABLE        2023-10-26:16:36:43                                                                                                                        
+FEES             BIN$53baU+7sT9O+6k1oUtjY6w==$0 TABLE        2023-10-26:16:35:23                                                                                                                        
+FEES             BIN$igg5UPDXRQ2Tq2MDUvkChw==$0 TABLE        2023-10-26:16:32:05                                                                                                                        
+FEES             BIN$dKyaKLbsQWe+U8SrFT+TcQ==$0 TABLE        2023-10-26:16:31:51                                                                                                                        
+L1               BIN$EOgmw97uT8WlxPaC4U9vBg==$0 TABLE        2023-11-22:16:50:27                                                                                                                        
+LOCATION         BIN$PO184jwjSYGRWUiod3Y96w==$0 TABLE        2023-11-18:12:42:17                                                                                                                        
+NEWEMP           BIN$NI6swIDhTGO3YOAH7H375A==$0 TABLE        2023-11-18:10:09:55                                                                                                                        
+P1               BIN$7zDEzLw+TSqYwHE2H9cAuQ==$0 TABLE        2023-11-25:11:17:13                                                                                                                        
+P1               BIN$zEkNLmmcQb2nxFh/N5wg4A==$0 TABLE        2023-11-18:11:34:04                                                                                                                        
+P1               BIN$5baq45XnQp2rnjCyxn0tQA==$0 TABLE        2023-10-15:11:25:55                                                                                                                        
+P2               BIN$5PG5/Lw8Tem+FU52muPOVQ==$0 TABLE        2023-11-25:11:17:15                                                                                                                        
+P3               BIN$6NtMT/4QSB2Cl6NBnpYQ+Q==$0 TABLE        2023-11-25:11:17:17                                                                                                                        
+REW              BIN$Dn2K/cnlS8G6TrqPZen1dA==$0 TABLE        2023-11-18:11:26:55                                                                                                                        
+RITU1            BIN$ETd7Ypr3TcaUJ2wP562IBQ==$0 TABLE        2023-11-25:14:32:51                                                                                                                        
+SCHOOL           BIN$qyrqwT1cQbuU+nHyBIMaQw==$0 TABLE        2023-11-05:12:25:24                                                                                                                        
+SCHOOL           BIN$+YkaVRetT5qTWSYDK0/GyQ==$0 TABLE        2023-11-05:11:48:49                                                                                                                        
+SCHOOL           BIN$IldrmA22Sy62pIeUgPIUKQ==$0 TABLE        2023-10-26:16:16:20                                                                                                                        
+T1               BIN$ZtXHT3QNSxeYTdgmkejgQg==$0 TABLE        2023-11-25:11:52:21                                                                                                                        
+T10              BIN$vS6QeJT2Qj2FXoIb6RMmDg==$0 TABLE        2023-11-25:11:52:32                                                                                                                        
+T11              BIN$ppAnVt/xTmK22LRQZGPWCg==$0 TABLE        2023-11-25:11:52:33                                                                                                                        
+T12              BIN$wQWtZAqNSsicU906HOpoLw==$0 TABLE        2023-11-25:11:52:34                                                                                                                        
+T13              BIN$mzL3K+BqSo6/wFtiNfT9aw==$0 TABLE        2023-11-25:11:52:35                                                                                                                        
+T14              BIN$/gLuNtzQSaq8ngXlAyMO2A==$0 TABLE        2023-11-25:11:52:36                                                                                                                        
+T15              BIN$y3J4kY67S6WjDAvDx9qYJw==$0 TABLE        2023-11-25:11:52:39                                                                                                                        
+T16              BIN$S7xWj4psRwG9hN6Hvwmv/w==$0 TABLE        2023-11-25:11:52:40                                                                                                                        
+T17              BIN$jnxMiYudRV+gVR4khXwtYw==$0 TABLE        2023-11-25:11:52:41                                                                                                                        
+T2               BIN$enPW/btBRXWeeTU6psvhLA==$0 TABLE        2023-11-25:11:52:22                                                                                                                        
+T2332            BIN$HsFXMHg+QDSqxL+AnSX1Eg==$0 TABLE        2023-11-28:18:46:20                                                                                                                        
+T3               BIN$5K13/VdhRByWn1ijKbaijA==$0 TABLE        2023-11-25:11:52:23                                                                                                                        
+T4               BIN$OG9ZbeJHQESZXUCpXaunHA==$0 TABLE        2023-11-25:11:52:24                                                                                                                        
+T5               BIN$nlWPG8jaQkCJqqru454Cww==$0 TABLE        2023-11-25:11:52:25                                                                                                                        
+T6               BIN$hOk5jGpdQC+Li+mGupusOA==$0 TABLE        2023-11-25:11:52:27                                                                                                                        
+T7               BIN$Egzh/MgMRKmSycovVbe3rg==$0 TABLE        2023-11-25:11:52:27                                                                                                                        
+T8               BIN$jiDaVIGsRX6vf/bavADNjA==$0 TABLE        2023-11-25:11:52:28                                                                                                                        
+T9               BIN$b6ywJhCYQpW4JqgA4mfXxw==$0 TABLE        2023-11-25:11:52:29                                                                                                                        
+TB3              BIN$59KhzBCiRzefx80BjUHGmA==$0 TABLE        2023-11-22:14:40:03                                                                                                                        
+SQL> 
+SQL> 
+SQL> 
+SQL> DESC BIN$HsFXMHg+QDSqxL+AnSX1Eg==$0
+SP2-0565: Illegal identifier.
+SQL> 
+SQL> 
+SQL> SELECT * FROM BIN$HsFXMHg+QDSqxL+AnSX1Eg==$0;
+SELECT * FROM BIN$HsFXMHg+QDSqxL+AnSX1Eg==$0
+                         *
+ERROR at line 1:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> 
+SQL> 
+SQL> DESC "BIN$HsFXMHg+QDSqxL+AnSX1Eg==$0"
+ Name                                                                                                              Null?    Type
+ ----------------------------------------------------------------------------------------------------------------- -------- ----------------------------------------------------------------------------
+ REGION_ID                                                                                                         NOT NULL NUMBER
+ REGION_NAME                                                                                                                VARCHAR2(25)
+
+SQL> SELECT * FROM "BIN$HsFXMHg+QDSqxL+AnSX1Eg==$0";
+
+ REGION_ID REGION_NAME                                                                                                                                                                                  
+---------- -------------------------                                                                                                                                                                    
+         1 Europe                                                                                                                                                                                       
+         2 Americas                                                                                                                                                                                     
+         3 Asia                                                                                                                                                                                         
+         4 Middle East and Africa                                                                                                                                                                       
+
+SQL> FLASHBACK TABLE T2332 TO BEFORE DROP;
+
+Flashback complete.
+
+SQL> DESC T2332
+ Name                                                                                                              Null?    Type
+ ----------------------------------------------------------------------------------------------------------------- -------- ----------------------------------------------------------------------------
+ REGION_ID                                                                                                         NOT NULL NUMBER
+ REGION_NAME                                                                                                                VARCHAR2(25)
+
+SQL> SELECT * FROM T2332;
+
+ REGION_ID REGION_NAME                                                                                                                                                                                  
+---------- -------------------------                                                                                                                                                                    
+         1 Europe                                                                                                                                                                                       
+         2 Americas                                                                                                                                                                                     
+         3 Asia                                                                                                                                                                                         
+         4 Middle East and Africa                                                                                                                                                                       
+
+SQL> SHOW RECYCLEBIN
+ORIGINAL NAME    RECYCLEBIN NAME                OBJECT TYPE  DROP TIME                                                                                                                                  
+---------------- ------------------------------ ------------ -------------------                                                                                                                        
+ATM              BIN$MePUyrqSQYCAbKrT3z0IZw==$0 TABLE        2023-11-22:16:35:42                                                                                                                        
+C1               BIN$fehVR9pFRyaCF/DUeKY2PQ==$0 TABLE        2023-11-25:11:17:09                                                                                                                        
+C1               BIN$nRLnSlAOTP2cUuRDW4Nq6A==$0 TABLE        2023-11-18:11:34:02                                                                                                                        
+C2               BIN$JgiMf6LYTFGQyiOmbBI3hw==$0 TABLE        2023-11-25:11:17:10                                                                                                                        
+C3               BIN$20qH/8rqTU+NMNPSXWmasw==$0 TABLE        2023-11-25:11:17:11                                                                                                                        
+COUNTRY          BIN$f+AMTYyXT2mDKhT9nyFk4g==$0 TABLE        2023-11-18:12:40:44                                                                                                                        
+D1               BIN$6SwyF/X8TBu5dVLgSFr2HQ==$0 TABLE        2023-11-22:16:49:40                                                                                                                        
+D1               BIN$9457tZeJRjWpaSuYhs0h6A==$0 TABLE        2023-11-21:18:22:37                                                                                                                        
+E1               BIN$AkosRkxLRi6UJXztGy4ZMA==$0 TABLE        2023-11-22:16:49:44                                                                                                                        
+E1               BIN$enPpgSo3T0CYJye5dx92MQ==$0 TABLE        2023-11-21:19:03:47                                                                                                                        
+EMP              BIN$GaEb340QRHmKVX3c7RP8hA==$0 TABLE        2023-10-28:12:43:33                                                                                                                        
+EMP              BIN$dGXe5BlMSHeL8aaws2kz5A==$0 TABLE        2023-10-28:12:43:25                                                                                                                        
+EMP              BIN$uYgIu/tdT2iNWtGW1q6sdQ==$0 TABLE        2023-10-28:12:29:54                                                                                                                        
+FEES             BIN$gIHHJqRyQGiYsES8nlgyYg==$0 TABLE        2023-11-05:12:32:54                                                                                                                        
+FEES             BIN$O7jhxi/hSlq0LZ3SUyRoww==$0 TABLE        2023-11-05:12:32:17                                                                                                                        
+FEES             BIN$c8AuV5eATvuI2drsrtnpfQ==$0 TABLE        2023-11-05:12:31:12                                                                                                                        
+FEES             BIN$lhB/r1aDQdaPB90xfWSRGw==$0 TABLE        2023-11-05:11:18:40                                                                                                                        
+FEES             BIN$L6EWeMJ3TcOhLKc09d2j9A==$0 TABLE        2023-10-26:16:36:43                                                                                                                        
+FEES             BIN$53baU+7sT9O+6k1oUtjY6w==$0 TABLE        2023-10-26:16:35:23                                                                                                                        
+FEES             BIN$igg5UPDXRQ2Tq2MDUvkChw==$0 TABLE        2023-10-26:16:32:05                                                                                                                        
+FEES             BIN$dKyaKLbsQWe+U8SrFT+TcQ==$0 TABLE        2023-10-26:16:31:51                                                                                                                        
+L1               BIN$EOgmw97uT8WlxPaC4U9vBg==$0 TABLE        2023-11-22:16:50:27                                                                                                                        
+LOCATION         BIN$PO184jwjSYGRWUiod3Y96w==$0 TABLE        2023-11-18:12:42:17                                                                                                                        
+NEWEMP           BIN$NI6swIDhTGO3YOAH7H375A==$0 TABLE        2023-11-18:10:09:55                                                                                                                        
+P1               BIN$7zDEzLw+TSqYwHE2H9cAuQ==$0 TABLE        2023-11-25:11:17:13                                                                                                                        
+P1               BIN$zEkNLmmcQb2nxFh/N5wg4A==$0 TABLE        2023-11-18:11:34:04                                                                                                                        
+P1               BIN$5baq45XnQp2rnjCyxn0tQA==$0 TABLE        2023-10-15:11:25:55                                                                                                                        
+P2               BIN$5PG5/Lw8Tem+FU52muPOVQ==$0 TABLE        2023-11-25:11:17:15                                                                                                                        
+P3               BIN$6NtMT/4QSB2Cl6NBnpYQ+Q==$0 TABLE        2023-11-25:11:17:17                                                                                                                        
+REW              BIN$Dn2K/cnlS8G6TrqPZen1dA==$0 TABLE        2023-11-18:11:26:55                                                                                                                        
+RITU1            BIN$ETd7Ypr3TcaUJ2wP562IBQ==$0 TABLE        2023-11-25:14:32:51                                                                                                                        
+SCHOOL           BIN$qyrqwT1cQbuU+nHyBIMaQw==$0 TABLE        2023-11-05:12:25:24                                                                                                                        
+SCHOOL           BIN$+YkaVRetT5qTWSYDK0/GyQ==$0 TABLE        2023-11-05:11:48:49                                                                                                                        
+SCHOOL           BIN$IldrmA22Sy62pIeUgPIUKQ==$0 TABLE        2023-10-26:16:16:20                                                                                                                        
+T1               BIN$ZtXHT3QNSxeYTdgmkejgQg==$0 TABLE        2023-11-25:11:52:21                                                                                                                        
+T10              BIN$vS6QeJT2Qj2FXoIb6RMmDg==$0 TABLE        2023-11-25:11:52:32                                                                                                                        
+T11              BIN$ppAnVt/xTmK22LRQZGPWCg==$0 TABLE        2023-11-25:11:52:33                                                                                                                        
+T12              BIN$wQWtZAqNSsicU906HOpoLw==$0 TABLE        2023-11-25:11:52:34                                                                                                                        
+T13              BIN$mzL3K+BqSo6/wFtiNfT9aw==$0 TABLE        2023-11-25:11:52:35                                                                                                                        
+T14              BIN$/gLuNtzQSaq8ngXlAyMO2A==$0 TABLE        2023-11-25:11:52:36                                                                                                                        
+T15              BIN$y3J4kY67S6WjDAvDx9qYJw==$0 TABLE        2023-11-25:11:52:39                                                                                                                        
+T16              BIN$S7xWj4psRwG9hN6Hvwmv/w==$0 TABLE        2023-11-25:11:52:40                                                                                                                        
+T17              BIN$jnxMiYudRV+gVR4khXwtYw==$0 TABLE        2023-11-25:11:52:41                                                                                                                        
+T2               BIN$enPW/btBRXWeeTU6psvhLA==$0 TABLE        2023-11-25:11:52:22                                                                                                                        
+T3               BIN$5K13/VdhRByWn1ijKbaijA==$0 TABLE        2023-11-25:11:52:23                                                                                                                        
+T4               BIN$OG9ZbeJHQESZXUCpXaunHA==$0 TABLE        2023-11-25:11:52:24                                                                                                                        
+T5               BIN$nlWPG8jaQkCJqqru454Cww==$0 TABLE        2023-11-25:11:52:25                                                                                                                        
+T6               BIN$hOk5jGpdQC+Li+mGupusOA==$0 TABLE        2023-11-25:11:52:27                                                                                                                        
+T7               BIN$Egzh/MgMRKmSycovVbe3rg==$0 TABLE        2023-11-25:11:52:27                                                                                                                        
+T8               BIN$jiDaVIGsRX6vf/bavADNjA==$0 TABLE        2023-11-25:11:52:28                                                                                                                        
+T9               BIN$b6ywJhCYQpW4JqgA4mfXxw==$0 TABLE        2023-11-25:11:52:29                                                                                                                        
+TB3              BIN$59KhzBCiRzefx80BjUHGmA==$0 TABLE        2023-11-22:14:40:03                                                                                                                        
+SQL> 
+SQL> 
+SQL> DROP TABLE T2332;
+
+Table dropped.
+
+SQL> DESC 2332
+ERROR:
+ORA-00931: missing identifier 
+
+
+SQL> SELECT * FROM T2332;
+SELECT * FROM T2332
+              *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> SHOW RECYCLEBIN
+ORIGINAL NAME    RECYCLEBIN NAME                OBJECT TYPE  DROP TIME                                                                                                                                  
+---------------- ------------------------------ ------------ -------------------                                                                                                                        
+ATM              BIN$MePUyrqSQYCAbKrT3z0IZw==$0 TABLE        2023-11-22:16:35:42                                                                                                                        
+C1               BIN$fehVR9pFRyaCF/DUeKY2PQ==$0 TABLE        2023-11-25:11:17:09                                                                                                                        
+C1               BIN$nRLnSlAOTP2cUuRDW4Nq6A==$0 TABLE        2023-11-18:11:34:02                                                                                                                        
+C2               BIN$JgiMf6LYTFGQyiOmbBI3hw==$0 TABLE        2023-11-25:11:17:10                                                                                                                        
+C3               BIN$20qH/8rqTU+NMNPSXWmasw==$0 TABLE        2023-11-25:11:17:11                                                                                                                        
+COUNTRY          BIN$f+AMTYyXT2mDKhT9nyFk4g==$0 TABLE        2023-11-18:12:40:44                                                                                                                        
+D1               BIN$6SwyF/X8TBu5dVLgSFr2HQ==$0 TABLE        2023-11-22:16:49:40                                                                                                                        
+D1               BIN$9457tZeJRjWpaSuYhs0h6A==$0 TABLE        2023-11-21:18:22:37                                                                                                                        
+E1               BIN$AkosRkxLRi6UJXztGy4ZMA==$0 TABLE        2023-11-22:16:49:44                                                                                                                        
+E1               BIN$enPpgSo3T0CYJye5dx92MQ==$0 TABLE        2023-11-21:19:03:47                                                                                                                        
+EMP              BIN$GaEb340QRHmKVX3c7RP8hA==$0 TABLE        2023-10-28:12:43:33                                                                                                                        
+EMP              BIN$dGXe5BlMSHeL8aaws2kz5A==$0 TABLE        2023-10-28:12:43:25                                                                                                                        
+EMP              BIN$uYgIu/tdT2iNWtGW1q6sdQ==$0 TABLE        2023-10-28:12:29:54                                                                                                                        
+FEES             BIN$gIHHJqRyQGiYsES8nlgyYg==$0 TABLE        2023-11-05:12:32:54                                                                                                                        
+FEES             BIN$O7jhxi/hSlq0LZ3SUyRoww==$0 TABLE        2023-11-05:12:32:17                                                                                                                        
+FEES             BIN$c8AuV5eATvuI2drsrtnpfQ==$0 TABLE        2023-11-05:12:31:12                                                                                                                        
+FEES             BIN$lhB/r1aDQdaPB90xfWSRGw==$0 TABLE        2023-11-05:11:18:40                                                                                                                        
+FEES             BIN$L6EWeMJ3TcOhLKc09d2j9A==$0 TABLE        2023-10-26:16:36:43                                                                                                                        
+FEES             BIN$53baU+7sT9O+6k1oUtjY6w==$0 TABLE        2023-10-26:16:35:23                                                                                                                        
+FEES             BIN$igg5UPDXRQ2Tq2MDUvkChw==$0 TABLE        2023-10-26:16:32:05                                                                                                                        
+FEES             BIN$dKyaKLbsQWe+U8SrFT+TcQ==$0 TABLE        2023-10-26:16:31:51                                                                                                                        
+L1               BIN$EOgmw97uT8WlxPaC4U9vBg==$0 TABLE        2023-11-22:16:50:27                                                                                                                        
+LOCATION         BIN$PO184jwjSYGRWUiod3Y96w==$0 TABLE        2023-11-18:12:42:17                                                                                                                        
+NEWEMP           BIN$NI6swIDhTGO3YOAH7H375A==$0 TABLE        2023-11-18:10:09:55                                                                                                                        
+P1               BIN$7zDEzLw+TSqYwHE2H9cAuQ==$0 TABLE        2023-11-25:11:17:13                                                                                                                        
+P1               BIN$zEkNLmmcQb2nxFh/N5wg4A==$0 TABLE        2023-11-18:11:34:04                                                                                                                        
+P1               BIN$5baq45XnQp2rnjCyxn0tQA==$0 TABLE        2023-10-15:11:25:55                                                                                                                        
+P2               BIN$5PG5/Lw8Tem+FU52muPOVQ==$0 TABLE        2023-11-25:11:17:15                                                                                                                        
+P3               BIN$6NtMT/4QSB2Cl6NBnpYQ+Q==$0 TABLE        2023-11-25:11:17:17                                                                                                                        
+REW              BIN$Dn2K/cnlS8G6TrqPZen1dA==$0 TABLE        2023-11-18:11:26:55                                                                                                                        
+RITU1            BIN$ETd7Ypr3TcaUJ2wP562IBQ==$0 TABLE        2023-11-25:14:32:51                                                                                                                        
+SCHOOL           BIN$qyrqwT1cQbuU+nHyBIMaQw==$0 TABLE        2023-11-05:12:25:24                                                                                                                        
+SCHOOL           BIN$+YkaVRetT5qTWSYDK0/GyQ==$0 TABLE        2023-11-05:11:48:49                                                                                                                        
+SCHOOL           BIN$IldrmA22Sy62pIeUgPIUKQ==$0 TABLE        2023-10-26:16:16:20                                                                                                                        
+T1               BIN$ZtXHT3QNSxeYTdgmkejgQg==$0 TABLE        2023-11-25:11:52:21                                                                                                                        
+T10              BIN$vS6QeJT2Qj2FXoIb6RMmDg==$0 TABLE        2023-11-25:11:52:32                                                                                                                        
+T11              BIN$ppAnVt/xTmK22LRQZGPWCg==$0 TABLE        2023-11-25:11:52:33                                                                                                                        
+T12              BIN$wQWtZAqNSsicU906HOpoLw==$0 TABLE        2023-11-25:11:52:34                                                                                                                        
+T13              BIN$mzL3K+BqSo6/wFtiNfT9aw==$0 TABLE        2023-11-25:11:52:35                                                                                                                        
+T14              BIN$/gLuNtzQSaq8ngXlAyMO2A==$0 TABLE        2023-11-25:11:52:36                                                                                                                        
+T15              BIN$y3J4kY67S6WjDAvDx9qYJw==$0 TABLE        2023-11-25:11:52:39                                                                                                                        
+T16              BIN$S7xWj4psRwG9hN6Hvwmv/w==$0 TABLE        2023-11-25:11:52:40                                                                                                                        
+T17              BIN$jnxMiYudRV+gVR4khXwtYw==$0 TABLE        2023-11-25:11:52:41                                                                                                                        
+T2               BIN$enPW/btBRXWeeTU6psvhLA==$0 TABLE        2023-11-25:11:52:22                                                                                                                        
+T2332            BIN$Emb9/kBjS9WGA6yIY3MtpA==$0 TABLE        2023-11-28:18:58:13                                                                                                                        
+T3               BIN$5K13/VdhRByWn1ijKbaijA==$0 TABLE        2023-11-25:11:52:23                                                                                                                        
+T4               BIN$OG9ZbeJHQESZXUCpXaunHA==$0 TABLE        2023-11-25:11:52:24                                                                                                                        
+T5               BIN$nlWPG8jaQkCJqqru454Cww==$0 TABLE        2023-11-25:11:52:25                                                                                                                        
+T6               BIN$hOk5jGpdQC+Li+mGupusOA==$0 TABLE        2023-11-25:11:52:27                                                                                                                        
+T7               BIN$Egzh/MgMRKmSycovVbe3rg==$0 TABLE        2023-11-25:11:52:27                                                                                                                        
+T8               BIN$jiDaVIGsRX6vf/bavADNjA==$0 TABLE        2023-11-25:11:52:28                                                                                                                        
+T9               BIN$b6ywJhCYQpW4JqgA4mfXxw==$0 TABLE        2023-11-25:11:52:29                                                                                                                        
+TB3              BIN$59KhzBCiRzefx80BjUHGmA==$0 TABLE        2023-11-22:14:40:03                                                                                                                        
+SQL> 
+SQL> PURGE TABLE T2332;
+
+Table purged.
+
+SQL> SHOW RECYCLEBIN
+ORIGINAL NAME    RECYCLEBIN NAME                OBJECT TYPE  DROP TIME                                                                                                                                  
+---------------- ------------------------------ ------------ -------------------                                                                                                                        
+ATM              BIN$MePUyrqSQYCAbKrT3z0IZw==$0 TABLE        2023-11-22:16:35:42                                                                                                                        
+C1               BIN$fehVR9pFRyaCF/DUeKY2PQ==$0 TABLE        2023-11-25:11:17:09                                                                                                                        
+C1               BIN$nRLnSlAOTP2cUuRDW4Nq6A==$0 TABLE        2023-11-18:11:34:02                                                                                                                        
+C2               BIN$JgiMf6LYTFGQyiOmbBI3hw==$0 TABLE        2023-11-25:11:17:10                                                                                                                        
+C3               BIN$20qH/8rqTU+NMNPSXWmasw==$0 TABLE        2023-11-25:11:17:11                                                                                                                        
+COUNTRY          BIN$f+AMTYyXT2mDKhT9nyFk4g==$0 TABLE        2023-11-18:12:40:44                                                                                                                        
+D1               BIN$6SwyF/X8TBu5dVLgSFr2HQ==$0 TABLE        2023-11-22:16:49:40                                                                                                                        
+D1               BIN$9457tZeJRjWpaSuYhs0h6A==$0 TABLE        2023-11-21:18:22:37                                                                                                                        
+E1               BIN$AkosRkxLRi6UJXztGy4ZMA==$0 TABLE        2023-11-22:16:49:44                                                                                                                        
+E1               BIN$enPpgSo3T0CYJye5dx92MQ==$0 TABLE        2023-11-21:19:03:47                                                                                                                        
+EMP              BIN$GaEb340QRHmKVX3c7RP8hA==$0 TABLE        2023-10-28:12:43:33                                                                                                                        
+EMP              BIN$dGXe5BlMSHeL8aaws2kz5A==$0 TABLE        2023-10-28:12:43:25                                                                                                                        
+EMP              BIN$uYgIu/tdT2iNWtGW1q6sdQ==$0 TABLE        2023-10-28:12:29:54                                                                                                                        
+FEES             BIN$gIHHJqRyQGiYsES8nlgyYg==$0 TABLE        2023-11-05:12:32:54                                                                                                                        
+FEES             BIN$O7jhxi/hSlq0LZ3SUyRoww==$0 TABLE        2023-11-05:12:32:17                                                                                                                        
+FEES             BIN$c8AuV5eATvuI2drsrtnpfQ==$0 TABLE        2023-11-05:12:31:12                                                                                                                        
+FEES             BIN$lhB/r1aDQdaPB90xfWSRGw==$0 TABLE        2023-11-05:11:18:40                                                                                                                        
+FEES             BIN$L6EWeMJ3TcOhLKc09d2j9A==$0 TABLE        2023-10-26:16:36:43                                                                                                                        
+FEES             BIN$53baU+7sT9O+6k1oUtjY6w==$0 TABLE        2023-10-26:16:35:23                                                                                                                        
+FEES             BIN$igg5UPDXRQ2Tq2MDUvkChw==$0 TABLE        2023-10-26:16:32:05                                                                                                                        
+FEES             BIN$dKyaKLbsQWe+U8SrFT+TcQ==$0 TABLE        2023-10-26:16:31:51                                                                                                                        
+L1               BIN$EOgmw97uT8WlxPaC4U9vBg==$0 TABLE        2023-11-22:16:50:27                                                                                                                        
+LOCATION         BIN$PO184jwjSYGRWUiod3Y96w==$0 TABLE        2023-11-18:12:42:17                                                                                                                        
+NEWEMP           BIN$NI6swIDhTGO3YOAH7H375A==$0 TABLE        2023-11-18:10:09:55                                                                                                                        
+P1               BIN$7zDEzLw+TSqYwHE2H9cAuQ==$0 TABLE        2023-11-25:11:17:13                                                                                                                        
+P1               BIN$zEkNLmmcQb2nxFh/N5wg4A==$0 TABLE        2023-11-18:11:34:04                                                                                                                        
+P1               BIN$5baq45XnQp2rnjCyxn0tQA==$0 TABLE        2023-10-15:11:25:55                                                                                                                        
+P2               BIN$5PG5/Lw8Tem+FU52muPOVQ==$0 TABLE        2023-11-25:11:17:15                                                                                                                        
+P3               BIN$6NtMT/4QSB2Cl6NBnpYQ+Q==$0 TABLE        2023-11-25:11:17:17                                                                                                                        
+REW              BIN$Dn2K/cnlS8G6TrqPZen1dA==$0 TABLE        2023-11-18:11:26:55                                                                                                                        
+RITU1            BIN$ETd7Ypr3TcaUJ2wP562IBQ==$0 TABLE        2023-11-25:14:32:51                                                                                                                        
+SCHOOL           BIN$qyrqwT1cQbuU+nHyBIMaQw==$0 TABLE        2023-11-05:12:25:24                                                                                                                        
+SCHOOL           BIN$+YkaVRetT5qTWSYDK0/GyQ==$0 TABLE        2023-11-05:11:48:49                                                                                                                        
+SCHOOL           BIN$IldrmA22Sy62pIeUgPIUKQ==$0 TABLE        2023-10-26:16:16:20                                                                                                                        
+T1               BIN$ZtXHT3QNSxeYTdgmkejgQg==$0 TABLE        2023-11-25:11:52:21                                                                                                                        
+T10              BIN$vS6QeJT2Qj2FXoIb6RMmDg==$0 TABLE        2023-11-25:11:52:32                                                                                                                        
+T11              BIN$ppAnVt/xTmK22LRQZGPWCg==$0 TABLE        2023-11-25:11:52:33                                                                                                                        
+T12              BIN$wQWtZAqNSsicU906HOpoLw==$0 TABLE        2023-11-25:11:52:34                                                                                                                        
+T13              BIN$mzL3K+BqSo6/wFtiNfT9aw==$0 TABLE        2023-11-25:11:52:35                                                                                                                        
+T14              BIN$/gLuNtzQSaq8ngXlAyMO2A==$0 TABLE        2023-11-25:11:52:36                                                                                                                        
+T15              BIN$y3J4kY67S6WjDAvDx9qYJw==$0 TABLE        2023-11-25:11:52:39                                                                                                                        
+T16              BIN$S7xWj4psRwG9hN6Hvwmv/w==$0 TABLE        2023-11-25:11:52:40                                                                                                                        
+T17              BIN$jnxMiYudRV+gVR4khXwtYw==$0 TABLE        2023-11-25:11:52:41                                                                                                                        
+T2               BIN$enPW/btBRXWeeTU6psvhLA==$0 TABLE        2023-11-25:11:52:22                                                                                                                        
+T3               BIN$5K13/VdhRByWn1ijKbaijA==$0 TABLE        2023-11-25:11:52:23                                                                                                                        
+T4               BIN$OG9ZbeJHQESZXUCpXaunHA==$0 TABLE        2023-11-25:11:52:24                                                                                                                        
+T5               BIN$nlWPG8jaQkCJqqru454Cww==$0 TABLE        2023-11-25:11:52:25                                                                                                                        
+T6               BIN$hOk5jGpdQC+Li+mGupusOA==$0 TABLE        2023-11-25:11:52:27                                                                                                                        
+T7               BIN$Egzh/MgMRKmSycovVbe3rg==$0 TABLE        2023-11-25:11:52:27                                                                                                                        
+T8               BIN$jiDaVIGsRX6vf/bavADNjA==$0 TABLE        2023-11-25:11:52:28                                                                                                                        
+T9               BIN$b6ywJhCYQpW4JqgA4mfXxw==$0 TABLE        2023-11-25:11:52:29                                                                                                                        
+TB3              BIN$59KhzBCiRzefx80BjUHGmA==$0 TABLE        2023-11-22:14:40:03                                                                                                                        
+SQL> 
+SQL> 
+SQL> DESC T2332
+ERROR:
+ORA-04043: object T2332 does not exist 
+
+
+SQL> SELECT * FROM T2332;
+SELECT * FROM T2332
+              *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> SELECT * FROM R1;
+
+ REGION_ID REGION_NAME                                                                                                                                                                                  
+---------- -------------------------                                                                                                                                                                    
+         1 Europe                                                                                                                                                                                       
+         2 Americas                                                                                                                                                                                     
+         3 Asia                                                                                                                                                                                         
+         4 Middle East and Africa                                                                                                                                                                       
+         1 ASIA                                                                                                                                                                                         
+         2 AMERICA                                                                                                                                                                                      
+         3 AFRICA                                                                                                                                                                                       
+
+7 rows selected.
+
+SQL> PURGE TABLE R1;
+PURGE TABLE R1
+*
+ERROR at line 1:
+ORA-38307: object not in RECYCLE BIN 
+
+
+SQL> REM DROP + PURGE
+SQL> 
+SQL> REM DROP ... PURGE
+SQL> 
+SQL> DROP TABLE R1 PURGE;
+
+Table dropped.
+
+SQL> DESC R1
+ERROR:
+ORA-04043: object R1 does not exist 
+
+
+SQL> SELECT * FROM R1;
+SELECT * FROM R1
+              *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> SHOW RECYCLEBIN
+ORIGINAL NAME    RECYCLEBIN NAME                OBJECT TYPE  DROP TIME                                                                                                                                  
+---------------- ------------------------------ ------------ -------------------                                                                                                                        
+ATM              BIN$MePUyrqSQYCAbKrT3z0IZw==$0 TABLE        2023-11-22:16:35:42                                                                                                                        
+C1               BIN$fehVR9pFRyaCF/DUeKY2PQ==$0 TABLE        2023-11-25:11:17:09                                                                                                                        
+C1               BIN$nRLnSlAOTP2cUuRDW4Nq6A==$0 TABLE        2023-11-18:11:34:02                                                                                                                        
+C2               BIN$JgiMf6LYTFGQyiOmbBI3hw==$0 TABLE        2023-11-25:11:17:10                                                                                                                        
+C3               BIN$20qH/8rqTU+NMNPSXWmasw==$0 TABLE        2023-11-25:11:17:11                                                                                                                        
+COUNTRY          BIN$f+AMTYyXT2mDKhT9nyFk4g==$0 TABLE        2023-11-18:12:40:44                                                                                                                        
+D1               BIN$6SwyF/X8TBu5dVLgSFr2HQ==$0 TABLE        2023-11-22:16:49:40                                                                                                                        
+D1               BIN$9457tZeJRjWpaSuYhs0h6A==$0 TABLE        2023-11-21:18:22:37                                                                                                                        
+E1               BIN$AkosRkxLRi6UJXztGy4ZMA==$0 TABLE        2023-11-22:16:49:44                                                                                                                        
+E1               BIN$enPpgSo3T0CYJye5dx92MQ==$0 TABLE        2023-11-21:19:03:47                                                                                                                        
+EMP              BIN$GaEb340QRHmKVX3c7RP8hA==$0 TABLE        2023-10-28:12:43:33                                                                                                                        
+EMP              BIN$dGXe5BlMSHeL8aaws2kz5A==$0 TABLE        2023-10-28:12:43:25                                                                                                                        
+EMP              BIN$uYgIu/tdT2iNWtGW1q6sdQ==$0 TABLE        2023-10-28:12:29:54                                                                                                                        
+FEES             BIN$gIHHJqRyQGiYsES8nlgyYg==$0 TABLE        2023-11-05:12:32:54                                                                                                                        
+FEES             BIN$O7jhxi/hSlq0LZ3SUyRoww==$0 TABLE        2023-11-05:12:32:17                                                                                                                        
+FEES             BIN$c8AuV5eATvuI2drsrtnpfQ==$0 TABLE        2023-11-05:12:31:12                                                                                                                        
+FEES             BIN$lhB/r1aDQdaPB90xfWSRGw==$0 TABLE        2023-11-05:11:18:40                                                                                                                        
+FEES             BIN$L6EWeMJ3TcOhLKc09d2j9A==$0 TABLE        2023-10-26:16:36:43                                                                                                                        
+FEES             BIN$53baU+7sT9O+6k1oUtjY6w==$0 TABLE        2023-10-26:16:35:23                                                                                                                        
+FEES             BIN$igg5UPDXRQ2Tq2MDUvkChw==$0 TABLE        2023-10-26:16:32:05                                                                                                                        
+FEES             BIN$dKyaKLbsQWe+U8SrFT+TcQ==$0 TABLE        2023-10-26:16:31:51                                                                                                                        
+L1               BIN$EOgmw97uT8WlxPaC4U9vBg==$0 TABLE        2023-11-22:16:50:27                                                                                                                        
+LOCATION         BIN$PO184jwjSYGRWUiod3Y96w==$0 TABLE        2023-11-18:12:42:17                                                                                                                        
+NEWEMP           BIN$NI6swIDhTGO3YOAH7H375A==$0 TABLE        2023-11-18:10:09:55                                                                                                                        
+P1               BIN$7zDEzLw+TSqYwHE2H9cAuQ==$0 TABLE        2023-11-25:11:17:13                                                                                                                        
+P1               BIN$zEkNLmmcQb2nxFh/N5wg4A==$0 TABLE        2023-11-18:11:34:04                                                                                                                        
+P1               BIN$5baq45XnQp2rnjCyxn0tQA==$0 TABLE        2023-10-15:11:25:55                                                                                                                        
+P2               BIN$5PG5/Lw8Tem+FU52muPOVQ==$0 TABLE        2023-11-25:11:17:15                                                                                                                        
+P3               BIN$6NtMT/4QSB2Cl6NBnpYQ+Q==$0 TABLE        2023-11-25:11:17:17                                                                                                                        
+REW              BIN$Dn2K/cnlS8G6TrqPZen1dA==$0 TABLE        2023-11-18:11:26:55                                                                                                                        
+RITU1            BIN$ETd7Ypr3TcaUJ2wP562IBQ==$0 TABLE        2023-11-25:14:32:51                                                                                                                        
+SCHOOL           BIN$qyrqwT1cQbuU+nHyBIMaQw==$0 TABLE        2023-11-05:12:25:24                                                                                                                        
+SCHOOL           BIN$+YkaVRetT5qTWSYDK0/GyQ==$0 TABLE        2023-11-05:11:48:49                                                                                                                        
+SCHOOL           BIN$IldrmA22Sy62pIeUgPIUKQ==$0 TABLE        2023-10-26:16:16:20                                                                                                                        
+T1               BIN$ZtXHT3QNSxeYTdgmkejgQg==$0 TABLE        2023-11-25:11:52:21                                                                                                                        
+T10              BIN$vS6QeJT2Qj2FXoIb6RMmDg==$0 TABLE        2023-11-25:11:52:32                                                                                                                        
+T11              BIN$ppAnVt/xTmK22LRQZGPWCg==$0 TABLE        2023-11-25:11:52:33                                                                                                                        
+T12              BIN$wQWtZAqNSsicU906HOpoLw==$0 TABLE        2023-11-25:11:52:34                                                                                                                        
+T13              BIN$mzL3K+BqSo6/wFtiNfT9aw==$0 TABLE        2023-11-25:11:52:35                                                                                                                        
+T14              BIN$/gLuNtzQSaq8ngXlAyMO2A==$0 TABLE        2023-11-25:11:52:36                                                                                                                        
+T15              BIN$y3J4kY67S6WjDAvDx9qYJw==$0 TABLE        2023-11-25:11:52:39                                                                                                                        
+T16              BIN$S7xWj4psRwG9hN6Hvwmv/w==$0 TABLE        2023-11-25:11:52:40                                                                                                                        
+T17              BIN$jnxMiYudRV+gVR4khXwtYw==$0 TABLE        2023-11-25:11:52:41                                                                                                                        
+T2               BIN$enPW/btBRXWeeTU6psvhLA==$0 TABLE        2023-11-25:11:52:22                                                                                                                        
+T3               BIN$5K13/VdhRByWn1ijKbaijA==$0 TABLE        2023-11-25:11:52:23                                                                                                                        
+T4               BIN$OG9ZbeJHQESZXUCpXaunHA==$0 TABLE        2023-11-25:11:52:24                                                                                                                        
+T5               BIN$nlWPG8jaQkCJqqru454Cww==$0 TABLE        2023-11-25:11:52:25                                                                                                                        
+T6               BIN$hOk5jGpdQC+Li+mGupusOA==$0 TABLE        2023-11-25:11:52:27                                                                                                                        
+T7               BIN$Egzh/MgMRKmSycovVbe3rg==$0 TABLE        2023-11-25:11:52:27                                                                                                                        
+T8               BIN$jiDaVIGsRX6vf/bavADNjA==$0 TABLE        2023-11-25:11:52:28                                                                                                                        
+T9               BIN$b6ywJhCYQpW4JqgA4mfXxw==$0 TABLE        2023-11-25:11:52:29                                                                                                                        
+TB3              BIN$59KhzBCiRzefx80BjUHGmA==$0 TABLE        2023-11-22:14:40:03                                                                                                                        
+SQL> 
+SQL> 
+SQL> 
+SQL> REM CONCEPTS : 1 READ CONSISTANCY   2 CONCURRENCY    3 LOCKING   4 DEAD LOCK SITUATION
+SQL> 
+SQL> REM READ CONSISTANCY : ANY DML CHANGES DONE IN ONE SESSION IS NOT VISIABLE/ACCESSIBLE TO ANOTHER SESSION BEFORE COMMIT.
+SQL> 
+SQL> REM CONCURRENCY : MULTIPLE SESSIONS CAN PERFORM DML OPERATIONS ON SAME TABLE AT THE SAME TIME BUT ON DIFFERENT SET OF ROWS.
+SQL> 
+SQL> REM LOCKING : WHEN WE PERFORM DML OPERATION, ORACLE LOCKS THE ROW. WHEN WE COMPLETE THE TRANSACTION, ORACLE RELEASES THE LOCKS.
+SQL> 
+SQL> REM DEAD LOCK SITUATION : WHEN TWO SESSIONS WAITS FOR EACH OTHER, IT IS CALLED SITUATION.
+SQL> 
+SQL> CREATE TABLE R1 AS SELECT * FROM REGIONS;
+
+Table created.
+
+SQL> SELECT * FROM R1;
+
+ REGION_ID REGION_NAME                                                                                                                                                                                  
+---------- -------------------------                                                                                                                                                                    
+         1 Europe                                                                                                                                                                                       
+         2 Americas                                                                                                                                                                                     
+         3 Asia                                                                                                                                                                                         
+         4 Middle East and Africa                                                                                                                                                                       
+
+SQL> UPDATE R1 SET REGION_NAME = UPPER(REGION_NAME) WHERE REGION_ID = 1;
+
+1 row updated.
+
+SQL> SELECT * FROM R1;
+
+ REGION_ID REGION_NAME                                                                                                                                                                                  
+---------- -------------------------                                                                                                                                                                    
+         1 EUROPE                                                                                                                                                                                       
+         2 Americas                                                                                                                                                                                     
+         3 Asia                                                                                                                                                                                         
+         4 Middle East and Africa                                                                                                                                                                       
+
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> UPDATE R1 SET REGION_NAME = UPPER(REGION_NAME) WHERE REGION_ID = 2;
+
+1 row updated.
+
+SQL> ROLLBACK;
+
+Rollback complete.
+
+SQL> SELECT * FROM R1;
+
+ REGION_ID REGION_NAME                                                                                                                                                                                  
+---------- -------------------------                                                                                                                                                                    
+         1 EUROPE                                                                                                                                                                                       
+         2 Americas                                                                                                                                                                                     
+         3 Asia                                                                                                                                                                                         
+         4 Middle East and Africa                                                                                                                                                                       
+
+SQL> UPDATE R1 SET REGION_NAME = UPPER(REGION_NAME) WHERE REGION_ID = 2;
+
+1 row updated.
+
+SQL> SELECT * FROM R1;
+
+ REGION_ID REGION_NAME                                                                                                                                                                                  
+---------- -------------------------                                                                                                                                                                    
+         1 EUROPE                                                                                                                                                                                       
+         2 AMERICAS                                                                                                                                                                                     
+         3 Asia                                                                                                                                                                                         
+         4 Middle East and Africa                                                                                                                                                                       
+
+SQL> SELECT * FROM R1;
+
+ REGION_ID REGION_NAME                                                                                                                                                                                  
+---------- -------------------------                                                                                                                                                                    
+         1 EUROPE                                                                                                                                                                                       
+         2 AMERICAS                                                                                                                                                                                     
+         3 Asia                                                                                                                                                                                         
+         4 Middle East and Africa                                                                                                                                                                       
+
+SQL> UPDATE R1 SET REGION_NAME = UPPER(REGION_NAME) WHERE REGION_ID = 3;
+UPDATE R1 SET REGION_NAME = UPPER(REGION_NAME) WHERE REGION_ID = 3
+                                  *
+ERROR at line 1:
+ORA-00060: deadlock detected while waiting for resource 
+
+
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> UPDATE R1 SET REGION_NAME = UPPER(REGION_NAME) WHERE REGION_ID = 3;
+
+1 row updated.
+
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> SPOOL OFF

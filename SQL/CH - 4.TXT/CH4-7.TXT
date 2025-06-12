@@ -1,0 +1,367 @@
+SQL> 
+SQL> CL SCR
+
+SQL> REM TO_CHAR : FOR DISPLAYING DATE VALUES IN USER DEFINED/NON-DEFAULT FORMATS
+SQL> 
+SQL> REM LIST OF VALID DATE FORMAT CHARACTERS : D DD DDD DY DAY dy day Dy Day
+SQL> 
+SQL> REM LIST OF VALID DATE FORMAT CHARACTERS : MM RM rm Rm MON MONTH mon month Mon Month
+SQL> 
+SQL> REM LIST OF VALID DATE FORMAT CHARACTERS : Y YY YYY YYYY RR RRRR YEAR
+SQL> 
+SQL> REM LIST OF VALID DATE FORMAT CHARACTERS : SP TH FX FM
+SQL> 
+SQL> REM LIST OF VALID DATE FORMAT CHARACTERS : W WW Q J
+SQL> 
+SQL> REM LIST OF VALID DATE FORMAT CHARACTERS : HH HH12 H24 MI SS SSSSS
+SQL> 
+SQL> REM LIST OF VALID DATE FORMAT CHARACTERS : AM am Am A.M. a.m. PM pm Pm P.M. p.m.
+SQL> 
+SQL> 
+SQL> ALTER SESSION SET NLS_DATE_FORMAT = 'DD-MON-RR HH:MI.SS AM DAY';
+
+Session altered.
+
+SQL> SELECT SYSDATE FROM DUAL;
+
+SYSDATE                                                                         
+-------------------------------                                                 
+23-NOV-22 04:19.03 PM WEDNESDAY                                                 
+
+SQL> SELECT FIRST_NAME , HIRE_DATE FROM EMPLOYEES;
+
+FIRST_NAME HIRE_DATE                                                            
+---------- -------------------------------                                      
+Steven     17-JUL-87 12:00.00 AM FRIDAY                                         
+Neena      21-SEP-89 12:00.00 AM THURSDAY                                       
+Lex        13-JAN-93 12:00.00 AM WEDNESDAY                                      
+Alexander  03-JAN-90 12:00.00 AM WEDNESDAY                                      
+Bruce      21-MAY-91 12:00.00 AM TUESDAY                                        
+Diana      07-FEB-99 12:00.00 AM SUNDAY                                         
+Kevin      16-NOV-99 12:00.00 AM TUESDAY                                        
+Trenna     17-OCT-95 12:00.00 AM TUESDAY                                        
+Curtis     29-JAN-97 12:00.00 AM WEDNESDAY                                      
+Randall    15-MAR-98 12:00.00 AM SUNDAY                                         
+Peter      09-JUL-98 12:00.00 AM THURSDAY                                       
+
+FIRST_NAME HIRE_DATE                                                            
+---------- -------------------------------                                      
+Eleni      29-JAN-00 12:00.00 AM SATURDAY                                       
+Ellen      11-MAY-96 12:00.00 AM SATURDAY                                       
+Jonathon   24-MAR-98 12:00.00 AM TUESDAY                                        
+Kimerely   24-MAY-99 12:00.00 AM MONDAY                                         
+Jennifer   17-SEP-87 12:00.00 AM THURSDAY                                       
+Michael    17-FEB-96 12:00.00 AM SATURDAY                                       
+Pat        17-AUG-97 12:00.00 AM SUNDAY                                         
+Shelley    07-JUN-94 12:00.00 AM TUESDAY                                        
+William    07-JUN-94 12:00.00 AM TUESDAY                                        
+
+20 rows selected.
+
+SQL> SET LINES 200 PAGES 24
+SQL> 
+SQL> R
+  1* SELECT FIRST_NAME , HIRE_DATE FROM EMPLOYEES
+
+FIRST_NAME HIRE_DATE                                                                                                                                                                                    
+---------- -------------------------------                                                                                                                                                              
+Steven     17-JUL-87 12:00.00 AM FRIDAY                                                                                                                                                                 
+Neena      21-SEP-89 12:00.00 AM THURSDAY                                                                                                                                                               
+Lex        13-JAN-93 12:00.00 AM WEDNESDAY                                                                                                                                                              
+Alexander  03-JAN-90 12:00.00 AM WEDNESDAY                                                                                                                                                              
+Bruce      21-MAY-91 12:00.00 AM TUESDAY                                                                                                                                                                
+Diana      07-FEB-99 12:00.00 AM SUNDAY                                                                                                                                                                 
+Kevin      16-NOV-99 12:00.00 AM TUESDAY                                                                                                                                                                
+Trenna     17-OCT-95 12:00.00 AM TUESDAY                                                                                                                                                                
+Curtis     29-JAN-97 12:00.00 AM WEDNESDAY                                                                                                                                                              
+Randall    15-MAR-98 12:00.00 AM SUNDAY                                                                                                                                                                 
+Peter      09-JUL-98 12:00.00 AM THURSDAY                                                                                                                                                               
+Eleni      29-JAN-00 12:00.00 AM SATURDAY                                                                                                                                                               
+Ellen      11-MAY-96 12:00.00 AM SATURDAY                                                                                                                                                               
+Jonathon   24-MAR-98 12:00.00 AM TUESDAY                                                                                                                                                                
+Kimerely   24-MAY-99 12:00.00 AM MONDAY                                                                                                                                                                 
+Jennifer   17-SEP-87 12:00.00 AM THURSDAY                                                                                                                                                               
+Michael    17-FEB-96 12:00.00 AM SATURDAY                                                                                                                                                               
+Pat        17-AUG-97 12:00.00 AM SUNDAY                                                                                                                                                                 
+Shelley    07-JUN-94 12:00.00 AM TUESDAY                                                                                                                                                                
+William    07-JUN-94 12:00.00 AM TUESDAY                                                                                                                                                                
+
+20 rows selected.
+
+SQL> SELECT SYSDATE , TO_CHAR(SYSDATE,'D DD DDD DY DAY dy day Dy Day') FROM DUAL;
+
+SYSDATE                         TO_CHAR(SYSDATE,'DDDDDDDYDAYDYDAYDYDAY')                                                                                                                                
+------------------------------- --------------------------------------------------------------------------------------------------------------------------------------------------------------          
+23-NOV-22 04:19.35 PM WEDNESDAY 4 23 327 WED WEDNESDAY wed wednesday Wed Wednesday                                                                                                                      
+
+SQL> SELECT SYSDATE+2 , TO_CHAR(SYSDATE+2,'D DD DDD DY DAY dy day Dy Day') FROM DUAL;
+
+SYSDATE+2                       TO_CHAR(SYSDATE+2,'DDDDDDDYDAYDYDAYDYDAY')                                                                                                                              
+------------------------------- --------------------------------------------------------------------------------------------------------------------------------------------------------------          
+25-NOV-22 04:21.24 PM FRIDAY    6 25 329 FRI FRIDAY    fri friday    Fri Friday                                                                                                                         
+
+SQL> REM WEDNESDAY : 9 CHARACTER : RPAD
+SQL> 
+SQL> SELECT SYSDATE , TO_CHAR(SYSDATE,'MM RM rm Rm MON MONTH mon month Mon Month') FROM DUAL;
+
+SYSDATE                         TO_CHAR(SYSDATE,'MMRMRMRMMONMONTHMONMONTHMONMONTH')                                                                                                                     
+------------------------------- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+23-NOV-22 04:22.08 PM WEDNESDAY 11 XI   xi   Xi   NOV NOVEMBER  nov november  Nov November                                                                                                              
+
+SQL> SELECT ADD_MONTHS(SYSDATE,-3) , TO_CHAR(ADD_MONTHS(SYSDATE,-3),'MM RM rm Rm MON MONTH mon month Mon Month') FROM DUAL;
+
+ADD_MONTHS(SYSDATE,-3)          TO_CHAR(ADD_MONTHS(SYSDATE,-3),'MMRMRMRMMONMONTHMONMONTHMONMONTH')                                                                                                      
+------------------------------- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+23-AUG-22 04:22.42 PM TUESDAY   08 VIII viii Viii AUG AUGUST    aug august    Aug August                                                                                                                
+
+SQL> REM VIII FOR AUGUST
+SQL> 
+SQL> REM SEPTEMBER : 9 CHARACTERS : RPAD
+SQL> 
+SQL> SELECT SYSDATE , TO_CHAR(SYSDATE,'MONTH month Month mOnTh MOnth mONTH') FROM DUAL;
+
+SYSDATE                                                                                                                                                                                                 
+-------------------------------                                                                                                                                                                         
+TO_CHAR(SYSDATE,'MONTHMONTHMONTHMONTHMONTHMONTH')                                                                                                                                                       
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+23-NOV-22 04:24.05 PM WEDNESDAY                                                                                                                                                                         
+NOVEMBER  november  November  november  NOVEMBER  november                                                                                                                                              
+                                                                                                                                                                                                        
+
+SQL> SELECT SYSDATE , TO_CHAR(SYSDATE,'DAY day Day dAy dAY DaY') FROM DUAL;
+
+SYSDATE                                                                                                                                                                                                 
+-------------------------------                                                                                                                                                                         
+TO_CHAR(SYSDATE,'DAYDAYDAYDAYDAYDAY')                                                                                                                                                                   
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+23-NOV-22 04:25.22 PM WEDNESDAY                                                                                                                                                                         
+WEDNESDAY wednesday Wednesday wednesday wednesday Wednesday                                                                                                                                             
+                                                                                                                                                                                                        
+
+SQL> SELECT SYSDATE , TO_CHAR(SYSDATE,'DAY day Day dAy dAY DaY DAy') FROM DUAL;
+
+SYSDATE                                                                                                                                                                                                 
+-------------------------------                                                                                                                                                                         
+TO_CHAR(SYSDATE,'DAYDAYDAYDAYDAYDAYDAY')                                                                                                                                                                
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+23-NOV-22 04:26.27 PM WEDNESDAY                                                                                                                                                                         
+WEDNESDAY wednesday Wednesday wednesday wednesday Wednesday WEDNESDAY                                                                                                                                   
+                                                                                                                                                                                                        
+
+SQL> SELECT SYSDATE , TO_CHAR(SYSDATE,'Y YY YYY YYYY RR RRRR YEAR') FROM DUAL;
+
+SYSDATE                         TO_CHAR(SYSDATE,'YYYYYYYYYYRRRRRRYEAR')                                                                                                                                 
+------------------------------- ----------------------------------------------------------------                                                                                                        
+23-NOV-22 04:33.30 PM WEDNESDAY 2 22 022 2022 22 2022 TWENTY TWENTY-TWO                                                                                                                                 
+
+SQL> ALTER SESSION SET NLS_DATE_FORMAT = 'DD-MONTH-RRRR HH24:MI.SS DAY';
+
+Session altered.
+
+SQL> SELECT SYSDATE , TO_CHAR(SYSDATE,'Y YY YYY YYYY RR RRRR YEAR') FROM DUAL;
+
+SYSDATE                              TO_CHAR(SYSDATE,'YYYYYYYYYYRRRRRRYEAR')                                                                                                                            
+------------------------------------ ----------------------------------------------------------------                                                                                                   
+23-NOVEMBER -2022 16:33.59 WEDNESDAY 2 22 022 2022 22 2022 TWENTY TWENTY-TWO                                                                                                                            
+
+SQL> SELECT ADD_MONTHS(SYSDATE,-16*12) , TO_CHAR(ADD_MONTHS(SYSDATE,-16*12),'Y YY YYY YYYY RR RRRR YEAR') FROM DUAL;
+
+ADD_MONTHS(SYSDATE,-16*12)           TO_CHAR(ADD_MONTHS(SYSDATE,-16*12),'YYYYYYYYYYRRRRRRYEAR')                                                                                                         
+------------------------------------ ----------------------------------------------------------------                                                                                                   
+23-NOVEMBER -2006 16:37.08 THURSDAY  6 06 006 2006 06 2006 TWO THOUSAND SIX                                                                                                                             
+
+SQL> SELECT ADD_MONTHS(SYSDATE,-12*12) , TO_CHAR(ADD_MONTHS(SYSDATE,-12*12),'Y YY YYY YYYY RR RRRR YEAR') FROM DUAL;
+
+ADD_MONTHS(SYSDATE,-12*12)           TO_CHAR(ADD_MONTHS(SYSDATE,-12*12),'YYYYYYYYYYRRRRRRYEAR')                                                                                                         
+------------------------------------ ----------------------------------------------------------------                                                                                                   
+23-NOVEMBER -2010 16:37.24 TUESDAY   0 10 010 2010 10 2010 TWENTY TEN                                                                                                                                   
+
+SQL> SELECT SYSDATE , TO_CHAR(SYSDATE,'DD DDTH DDSP DDSPTH DDTHSP DdSPTH ddTHSP') FROM DUAL;
+
+SYSDATE                              TO_CHAR(SYSDATE,'DDDDTHDDSPDDSPTHDDTHSPDDSPTHDDTHSP')                                                                                                              
+------------------------------------ --------------------------------------------------------------------------------                                                                                   
+23-NOVEMBER -2022 16:38.08 WEDNESDAY 23 23RD TWENTY-THREE TWENTY-THIRD TWENTY-THIRD Twenty-Third twenty-third                                                                                           
+
+SQL> SELECT SYSDATE , TO_CHAR(SYSDATE,'MM MMTH MMSP MMSPTH MMTHSP MMSPTH MMTHSP') FROM DUAL;
+
+SYSDATE                              TO_CHAR(SYSDATE,'MMMMTHMMSPMMSPTHMMTHSPMMSPTHMMTHS                                                                                                                 
+------------------------------------ --------------------------------------------------                                                                                                                 
+23-NOVEMBER -2022 16:39.45 WEDNESDAY 11 11TH ELEVEN ELEVENTH ELEVENTH ELEVENTH ELEVENTH                                                                                                                 
+
+SQL> SELECT SYSDATE , TO_CHAR(SYSDATE,'RRRR RRRRTH RRRRSP RRRRSPTH RRRRTHSP rrrrSPTH RrrrTHSP') FROM DUAL;
+
+SYSDATE                                                                                                                                                                                                 
+------------------------------------                                                                                                                                                                    
+TO_CHAR(SYSDATE,'RRRRRRRRTHRRRRSPRRRRSPTHRRRRTHSPRRRRSPTHRRRRTHSP')                                                                                                                                     
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+23-NOVEMBER -2022 16:40.20 WEDNESDAY                                                                                                                                                                    
+2022 2022ND TWO THOUSAND TWENTY-TWO TWO THOUSAND TWENTY-SECOND TWO THOUSAND TWENTY-SECOND two thousand twenty-second Two Thousand Twenty-Second                                                         
+                                                                                                                                                                                                        
+
+SQL> SELECT SYSDATE , TO_CHAR(SYSDATE,'RR RRTH RRSP RRSPTH RRTHSP rrSPTH RrTHSP') FROM DUAL;
+
+SYSDATE                              TO_CHAR(SYSDATE,'RRRRTHRRSPRRSPTHRRTHSPRRSPTHRRTHSP')                                                                                                              
+------------------------------------ -------------------------------------------------------------------------------------                                                                              
+23-NOVEMBER -2022 16:41.26 WEDNESDAY 22 22ND TWENTY-TWO TWENTY-SECOND TWENTY-SECOND twenty-second Twenty-Second                                                                                         
+
+SQL> SELECT SYSDATE , TO_CHAR(SYSDATE,'YY YYTH YYSP YYSPTH YYTHSP yySPTH YyTHSP') FROM DUAL;
+
+SYSDATE                              TO_CHAR(SYSDATE,'YYYYTHYYSPYYSPTHYYTHSPYYSPTHYYTHSP')                                                                                                              
+------------------------------------ -------------------------------------------------------------------------------------                                                                              
+23-NOVEMBER -2022 16:41.50 WEDNESDAY 22 22ND TWENTY-TWO TWENTY-SECOND TWENTY-SECOND twenty-second Twenty-Second                                                                                         
+
+SQL> SELECT SYSDATE , TO_CHAR(SYSDATE,'DAY DD-MONTH-RRRR') FROM DUAL;
+
+SYSDATE                              TO_CHAR(SYSDATE,'DAYDD-MONTH-RRRR')                                                                                                                                
+------------------------------------ ---------------------------------------------------------------------------------                                                                                  
+23-NOVEMBER -2022 16:42.20 WEDNESDAY WEDNESDAY 23-NOVEMBER -2022                                                                                                                                        
+
+SQL> SELECT SYSDATE-1 , TO_CHAR(SYSDATE-1,'DAY DD-MONTH-RRRR') FROM DUAL;
+
+SYSDATE-1                            TO_CHAR(SYSDATE-1,'DAYDD-MONTH-RRRR')                                                                                                                              
+------------------------------------ ---------------------------------------------------------------------------------                                                                                  
+22-NOVEMBER -2022 16:42.28 TUESDAY   TUESDAY   22-NOVEMBER -2022                                                                                                                                        
+
+SQL> SELECT SYSDATE-1 , TO_CHAR(SYSDATE-1,'FMDAY DD-MONTH-RRRR') FROM DUAL;
+
+SYSDATE-1                            TO_CHAR(SYSDATE-1,'FMDAYDD-MONTH-RRRR')                                                                                                                            
+------------------------------------ ---------------------------------------------------------------------------------                                                                                  
+22-NOVEMBER -2022 16:42.47 TUESDAY   TUESDAY 22-NOVEMBER-2022                                                                                                                                           
+
+SQL> SELECT SYSDATE-15 , TO_CHAR(SYSDATE-15,'FMDAY DD-MONTH-RRRR') FROM DUAL;
+
+SYSDATE-15                           TO_CHAR(SYSDATE-15,'FMDAYDD-MONTH-RRRR')                                                                                                                           
+------------------------------------ ---------------------------------------------------------------------------------                                                                                  
+08-NOVEMBER -2022 16:43.06 TUESDAY   TUESDAY 8-NOVEMBER-2022                                                                                                                                            
+
+SQL> SELECT SYSDATE-15 , TO_CHAR(SYSDATE-15,'DAY DD-MONTH-RRRR') FROM DUAL;
+
+SYSDATE-15                           TO_CHAR(SYSDATE-15,'DAYDD-MONTH-RRRR')                                                                                                                             
+------------------------------------ ---------------------------------------------------------------------------------                                                                                  
+08-NOVEMBER -2022 16:43.13 TUESDAY   TUESDAY   08-NOVEMBER -2022                                                                                                                                        
+
+SQL> SELECT SYSDATE-15 , TO_CHAR(SYSDATE-15,'FMDAY DD-MONTH-RRRR') FROM DUAL;
+
+SYSDATE-15                           TO_CHAR(SYSDATE-15,'FMDAYDD-MONTH-RRRR')                                                                                                                           
+------------------------------------ ---------------------------------------------------------------------------------                                                                                  
+08-NOVEMBER -2022 16:43.28 TUESDAY   TUESDAY 8-NOVEMBER-2022                                                                                                                                            
+
+SQL> SELECT SYSDATE-15 , TO_CHAR(SYSDATE-15,'FMDAY FMDD-MONTH-RRRR') FROM DUAL;
+
+SYSDATE-15                           TO_CHAR(SYSDATE-15,'FMDAYFMDD-MONTH-RRRR')                                                                                                                         
+------------------------------------ ---------------------------------------------------------------------------------                                                                                  
+08-NOVEMBER -2022 16:44.04 TUESDAY   TUESDAY 08-NOVEMBER -2022                                                                                                                                          
+
+SQL> REM FM : TOGGLE ON/OFF
+SQL> 
+SQL> SELECT SYSDATE-15 , TO_CHAR(SYSDATE-15,'DAY FMDD-MONTH-RRRR') FROM DUAL;
+
+SYSDATE-15                           TO_CHAR(SYSDATE-15,'DAYFMDD-MONTH-RRRR')                                                                                                                           
+------------------------------------ ---------------------------------------------------------------------------------                                                                                  
+08-NOVEMBER -2022 16:44.39 TUESDAY   TUESDAY   8-NOVEMBER-2022                                                                                                                                          
+
+SQL> SELECT SYSDATE , TO_CHAR(SYSDATE,'W WW Q J') FROM DUAL;
+
+SYSDATE                              TO_CHAR(SYSDAT                                                                                                                                                     
+------------------------------------ --------------                                                                                                                                                     
+23-NOVEMBER -2022 16:47.13 WEDNESDAY 4 47 4 2459907                                                                                                                                                     
+
+SQL> REM JULIAN DATE : 01-JAN-4712BC
+SQL> 
+SQL> REM BC : BEFORE CHRIST
+SQL> 
+SQL> REM AD : ANNOE DOMINI : AFTER DEATH OF CHRIST
+SQL> 
+SQL> SELECT TRUNC(2459907/365.25) FROM DUAL;
+
+TRUNC(2459907/365.25)                                                                                                                                                                                   
+---------------------                                                                                                                                                                                   
+                 6734                                                                                                                                                                                   
+
+SQL> SELECT 4712 + 2022 FROM DUAL;
+
+ 4712+2022                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+      6734                                                                                                                                                                                              
+
+SQL> SELECT SYSDATE , TO_CHAR(SYSDATE,'HH HH12 H24 MI SS SSSSS') FROM DUAL;
+SELECT SYSDATE , TO_CHAR(SYSDATE,'HH HH12 H24 MI SS SSSSS') FROM DUAL
+                                 *
+ERROR at line 1:
+ORA-01821: date format not recognized 
+
+
+SQL> SELECT SYSDATE , TO_CHAR(SYSDATE,'HH HH12 HH24 MI SS SSSSS') FROM DUAL;
+
+SYSDATE                              TO_CHAR(SYSDATE,'HHH                                                                                                                                               
+------------------------------------ --------------------                                                                                                                                               
+23-NOVEMBER -2022 16:57.56 WEDNESDAY 04 04 16 57 56 61076                                                                                                                                               
+
+SQL> REM 1 DAY = 86400 SECONDS : RANGE : 0 - 86399
+SQL> 
+SQL> SELECT SYSDATE , TO_CHAR(SYSDATE,'HH HH12 HH24 MI SS SSSSS') FROM DUAL;
+
+SYSDATE                              TO_CHAR(SYSDATE,'HHH                                                                                                                                               
+------------------------------------ --------------------                                                                                                                                               
+23-NOVEMBER -2022 16:58.36 WEDNESDAY 04 04 16 58 36 61116                                                                                                                                               
+
+SQL> SELECT SYSDATE , TO_CHAR(SYSDATE,'AM am Am A.M. a.m. PM pm Pm P.M. p.m.') FROM DUAL;
+
+SYSDATE                              TO_CHAR(SYSDATE,'AMAMAMA.M.A.M.PMPMPM                                                                                                                              
+------------------------------------ -------------------------------------                                                                                                                              
+23-NOVEMBER -2022 16:59.03 WEDNESDAY PM pm Pm P.M. p.m. PM pm Pm P.M. p.m.                                                                                                                              
+
+SQL> SELECT TO_CHAR(TO_DATE('1','J'),'JSP') FROM DUAL;
+
+TO_                                                                                                                                                                                                     
+---                                                                                                                                                                                                     
+ONE                                                                                                                                                                                                     
+
+SQL> SELECT TO_CHAR(TO_DATE('12','J'),'JSP') FROM DUAL;
+
+TO_CHA                                                                                                                                                                                                  
+------                                                                                                                                                                                                  
+TWELVE                                                                                                                                                                                                  
+
+SQL> SELECT TO_CHAR(TO_DATE('123','J'),'JSP') FROM DUAL;
+
+TO_CHAR(TO_DATE('123','J                                                                                                                                                                                
+------------------------                                                                                                                                                                                
+ONE HUNDRED TWENTY-THREE                                                                                                                                                                                
+
+SQL> SELECT TO_CHAR(TO_DATE('1234','J'),'JSP') FROM DUAL;
+
+TO_CHAR(TO_DATE('1234','J'),'JSP')                                                                                                                                                                      
+------------------------------------                                                                                                                                                                    
+ONE THOUSAND TWO HUNDRED THIRTY-FOUR                                                                                                                                                                    
+
+SQL> SELECT TO_CHAR(TO_DATE('12345','J'),'JSP') FROM DUAL;
+
+TO_CHAR(TO_DATE('12345','J'),'JSP')                                                                                                                                                                     
+----------------------------------------                                                                                                                                                                
+TWELVE THOUSAND THREE HUNDRED FORTY-FIVE                                                                                                                                                                
+
+SQL> SELECT TO_CHAR(TO_DATE('123456','J'),'JSP') FROM DUAL;
+
+TO_CHAR(TO_DATE('123456','J'),'JSP')                                                                                                                                                                    
+--------------------------------------------------------                                                                                                                                                
+ONE HUNDRED TWENTY-THREE THOUSAND FOUR HUNDRED FIFTY-SIX                                                                                                                                                
+
+SQL> SELECT TO_CHAR(TO_DATE('1234567','J'),'JSP') FROM DUAL;
+
+TO_CHAR(TO_DATE('1234567','J'),'JSP')                                                                                                                                                                   
+---------------------------------------------------------------------                                                                                                                                   
+ONE MILLION TWO HUNDRED THIRTY-FOUR THOUSAND FIVE HUNDRED SIXTY-SEVEN                                                                                                                                   
+
+SQL> SELECT TO_CHAR(TO_DATE('12345678','J'),'JSP') FROM DUAL;
+SELECT TO_CHAR(TO_DATE('12345678','J'),'JSP') FROM DUAL
+                       *
+ERROR at line 1:
+ORA-01830: date format picture ends before converting entire input string 
+
+
+SQL> REM DATE RANGE : 01-JAN-4712BC TO 31-DEC-9999AD
+SQL> 
+SQL> CONN SCOTT/TIGER
+Connected.
+SQL> SPOOL OFF

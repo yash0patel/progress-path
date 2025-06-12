@@ -1,0 +1,819 @@
+SQL> 
+SQL> REM CONSTRAINTS :
+SQL> 
+SQL> REM CONSTRAINTS : DATA VALIDATION RULES
+SQL> 
+SQL> DROP TABLE STD5A;
+
+Table dropped.
+
+SQL> CREATE TABLE STD5A(RNO NUMBER(2),NM VARCHAR(10));
+
+Table created.
+
+SQL> REM NUMBER(2) : RANGE : -99 TO +99
+SQL> 
+SQL> REM RNO : 1 TO 30
+SQL> 
+SQL> REM DUPLICATION WILL BE ALLOWED
+SQL> 
+SQL> REM NULL WILL BE ALLOWED
+SQL> 
+SQL> INSERT INTO STD5A VALUES(1,'GANEH');
+
+1 row created.
+
+SQL> INSERT INTO STD5A VALUES(2,'RIDDHI');
+
+1 row created.
+
+SQL> INSERT INTO STD5A VALUES(2,'SIDDHI');
+
+1 row created.
+
+SQL> INSERT INTO STD5A VALUES(NULL,'SHUBH');
+
+1 row created.
+
+SQL> INSERT INTO STD5A VALUES(0,'LABH');
+
+1 row created.
+
+SQL> INSERT INTO STD5A VALUES(-99,'LABH');
+
+1 row created.
+
+SQL> INSERT INTO STD5A VALUES(31,'LABH');
+
+1 row created.
+
+SQL> SELECT * FROM STD5A;
+
+       RNO NM                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+---------- ----------                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+         1 GANEH                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+         2 RIDDHI                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+         2 SIDDHI                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+           SHUBH                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+         0 LABH                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+       -99 LABH                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+        31 LABH                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+
+7 rows selected.
+
+SQL> REM LEVELS OF CONSTRAINTS : 1 COLUMN  2 TABLE
+SQL> 
+SQL> REM COLUMN LEVEL CONSTRAINT CAN REFER THE COLUMN ITSELF/SINGLE COLUMN
+SQL> 
+SQL> REM TABLE LEVEL CONSTRAINT : CAN REFER SINGLE OR MULTIPLE COLUMNS
+SQL> 
+SQL> 
+SQL> 
+SQL> REM COLUMN LEVEL CONSTRAINTS EXAMPLES
+SQL> 
+SQL> 
+SQL> REM CONSTRAINT TYPES : 1 CHECK 2 NOT NULL 3 UNIQUE 4 PRIMARY KEY 5 REFERENCES
+SQL> 
+SQL> REM CHECK : IT WILL CHECK VALUE AT THE TIME OF INSERTION OR UPDATION WITH THE CONDITION ATTACHED. IF CONDITION MATCHES/SATISFIES, WILL ALLOW THE OPERATION ELSE WILL RAISE ERROR.
+SQL> 
+SQL> REM NOT NULL : IT WILL NOT ALLO NULL IN COLUMN. VALUE ENTRY IS MANDATORY.
+SQL> 
+SQL> REM UNIQUE : IT WILL ALLOW ONLY UNIQUE (NON-DUPLICATE) VALUES TO THE COLUMN.
+SQL> 
+SQL> REM PRIMARY KEY : COMBINATION OF NOT NULL + UNIQUE. WE CAN USE PRIMARY KEY CONSTRAINT SINGLE TIME PER TABLE.
+SQL> 
+SQL> REM REFERENCES : IT WILL ALLOW ONLY THOSE VALUES IN COLUMN WHICH ARE ALREADY STORED IN REFERRED PRIMARY KEY OR UNIQUE COLUMN.
+SQL> 
+SQL> 
+SQL> 
+SQL> SELECT EMPLOYEE_ID , FIRST_NAME , MANAGER_ID FROM EMPLOYEES;
+
+EMPLOYEE_ID FIRST_NAME      MANAGER_ID                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+----------- --------------- ----------                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+        100 Steven                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+        101 Neena                  100                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+        102 Lex                    100                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+        103 Alexander              102                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+        104 Bruce                  103                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+        107 Diana                  103                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+        124 Kevin                  100                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+        141 Trenna                 124                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+        142 Curtis                 124                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+        143 Randall                124                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+        144 Peter                  124                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+        149 Eleni                  100                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+        174 Ellen                  149                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+        176 Jonathon               149                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+        178 Kimerely               149                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+        200 Jennifer               101                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+        201 Michael                100                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+        202 Pat                    201                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+        205 Shelley                101                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+        206 William                205                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+
+20 rows selected.
+
+SQL> DROP TABLE STD5A;
+
+Table dropped.
+
+SQL> REM CHECK : IT WILL CHECK VALUE AT THE TIME OF INSERTION OR UPDATION WITH THE CONDITION ATTACHED. IF CONDITION MATCHES/SATISFIES, WILL ALLOW THE OPERATION ELSE WILL RAISE ERROR.
+SQL> 
+SQL> CREATE TABLE STD5A(RNO NUMBER(2) CHECK(RNO BETWEEN 1 AND 30),NM VARCHAR(10));
+
+Table created.
+
+SQL> INSERT INTO STD5A VALUES(1,'GANESH');
+
+1 row created.
+
+SQL> INSERT INTO STD5A VALUES(2,'RIDDHI');
+
+1 row created.
+
+SQL> INSERT INTO STD5A VALUES(2,'SIDDHI');
+
+1 row created.
+
+SQL> INSERT INTO STD5A VALUES(NULL,'SHUBH');
+
+1 row created.
+
+SQL> INSERT INTO STD5A VALUES(0,'LABH');
+INSERT INTO STD5A VALUES(0,'LABH')
+*
+ERROR at line 1:
+ORA-02290: check constraint (SCOTT.SYS_C0033750) violated 
+
+
+SQL> INSERT INTO STD5A VALUES(-99,'LABH');
+INSERT INTO STD5A VALUES(-99,'LABH')
+*
+ERROR at line 1:
+ORA-02290: check constraint (SCOTT.SYS_C0033750) violated 
+
+
+SQL> INSERT INTO STD5A VALUES(31,'LABH');
+INSERT INTO STD5A VALUES(31,'LABH')
+*
+ERROR at line 1:
+ORA-02290: check constraint (SCOTT.SYS_C0033750) violated 
+
+
+SQL> SELECT * FROM STD5A;
+
+       RNO NM                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+---------- ----------                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+         1 GANESH                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+         2 RIDDHI                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+         2 SIDDHI                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+           SHUBH                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+
+SQL> DROP TABLE STD5A;
+
+Table dropped.
+
+SQL> REM NOT NULL : IT WILL NOT ALLO NULL IN COLUMN. VALUE ENTRY IS MANDATORY.
+SQL> 
+SQL> CREATE TABLE STD5A(RNO NUMBER(2) CHECK(RNO BETWEEN 1 AND 30) NOT NULL,NM VARCHAR(10));
+
+Table created.
+
+SQL> INSERT INTO STD5A VALUES(1,'GANESH');
+
+1 row created.
+
+SQL> INSERT INTO STD5A VALUES(2,'RIDDHI');
+
+1 row created.
+
+SQL> INSERT INTO STD5A VALUES(2,'SIDDHI');
+
+1 row created.
+
+SQL> INSERT INTO STD5A VALUES(NULL,'SHUBH');
+INSERT INTO STD5A VALUES(NULL,'SHUBH')
+                         *
+ERROR at line 1:
+ORA-01400: cannot insert NULL into ("SCOTT"."STD5A"."RNO") 
+
+
+SQL> INSERT INTO STD5A VALUES(0,'LABH');
+INSERT INTO STD5A VALUES(0,'LABH')
+*
+ERROR at line 1:
+ORA-02290: check constraint (SCOTT.SYS_C0033752) violated 
+
+
+SQL> INSERT INTO STD5A VALUES(-99,'LABH');
+INSERT INTO STD5A VALUES(-99,'LABH')
+*
+ERROR at line 1:
+ORA-02290: check constraint (SCOTT.SYS_C0033752) violated 
+
+
+SQL> INSERT INTO STD5A VALUES(31,'LABH');
+INSERT INTO STD5A VALUES(31,'LABH')
+*
+ERROR at line 1:
+ORA-02290: check constraint (SCOTT.SYS_C0033752) violated 
+
+
+SQL> SELECT * FROM STD5A;
+
+       RNO NM                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+---------- ----------                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+         1 GANESH                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+         2 RIDDHI                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+         2 SIDDHI                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+
+SQL> DROP TABLE STD5A;
+
+Table dropped.
+
+SQL> REM CHECK : IT WILL CHECK VALUE AT THE TIME OF INSERTION OR UPDATION WITH THE CONDITION ATTACHED. IF CONDITION MATCHES/SATISFIES, WILL ALLOW THE OPERATION ELSE WILL RAISE ERROR.
+SQL> 
+SQL> REM NOT NULL : IT WILL NOT ALLO NULL IN COLUMN. VALUE ENTRY IS MANDATORY.
+SQL> 
+SQL> REM UNIQUE : IT WILL ALLOW ONLY UNIQUE (NON-DUPLICATE) VALUES TO THE COLUMN.
+SQL> 
+SQL> CREATE TABLE STD5A(RNO NUMBER(2) CHECK(RNO BETWEEN 1 AND 30) NOT NULL UNIQUE,NM VARCHAR(10));
+
+Table created.
+
+SQL> INSERT INTO STD5A VALUES(1,'GANESH');
+
+1 row created.
+
+SQL> INSERT INTO STD5A VALUES(2,'RIDDHI');
+
+1 row created.
+
+SQL> INSERT INTO STD5A VALUES(2,'SIDDHI');
+INSERT INTO STD5A VALUES(2,'SIDDHI')
+*
+ERROR at line 1:
+ORA-00001: unique constraint (SCOTT.SYS_C0033755) violated 
+
+
+SQL> INSERT INTO STD5A VALUES(NULL,'SHUBH');
+INSERT INTO STD5A VALUES(NULL,'SHUBH')
+                         *
+ERROR at line 1:
+ORA-01400: cannot insert NULL into ("SCOTT"."STD5A"."RNO") 
+
+
+SQL> INSERT INTO STD5A VALUES(0,'LABH');
+INSERT INTO STD5A VALUES(0,'LABH')
+*
+ERROR at line 1:
+ORA-02290: check constraint (SCOTT.SYS_C0033754) violated 
+
+
+SQL> INSERT INTO STD5A VALUES(-99,'LABH');
+INSERT INTO STD5A VALUES(-99,'LABH')
+*
+ERROR at line 1:
+ORA-02290: check constraint (SCOTT.SYS_C0033754) violated 
+
+
+SQL> INSERT INTO STD5A VALUES(31,'LABH');
+INSERT INTO STD5A VALUES(31,'LABH')
+*
+ERROR at line 1:
+ORA-02290: check constraint (SCOTT.SYS_C0033754) violated 
+
+
+SQL> SELECT * FROM STD5A;
+
+       RNO NM                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+---------- ----------                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+         1 GANESH                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+         2 RIDDHI                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+
+SQL> DROP TABLE STD5A;
+
+Table dropped.
+
+SQL> REM CHECK : IT WILL CHECK VALUE AT THE TIME OF INSERTION OR UPDATION WITH THE CONDITION ATTACHED. IF CONDITION MATCHES/SATISFIES, WILL ALLOW THE OPERATION ELSE WILL RAISE ERROR.
+SQL> 
+SQL> REM PRIMARY KEY : COMBINATION OF NOT NULL + UNIQUE. WE CAN USE PRIMARY KEY CONSTRAINT SINGLE TIME PER TABLE.
+SQL> 
+SQL> CREATE TABLE STD5A(RNO NUMBER(2) CHECK(RNO BETWEEN 1 AND 30) PRIMARY KEY,NM VARCHAR(10));
+
+Table created.
+
+SQL> INSERT INTO STD5A VALUES(1,'GANESH');
+
+1 row created.
+
+SQL> INSERT INTO STD5A VALUES(2,'RIDDHI');
+
+1 row created.
+
+SQL> INSERT INTO STD5A VALUES(2,'SIDDHI');
+INSERT INTO STD5A VALUES(2,'SIDDHI')
+*
+ERROR at line 1:
+ORA-00001: unique constraint (SCOTT.SYS_C0033757) violated 
+
+
+SQL> INSERT INTO STD5A VALUES(NULL,'SHUBH');
+INSERT INTO STD5A VALUES(NULL,'SHUBH')
+                         *
+ERROR at line 1:
+ORA-01400: cannot insert NULL into ("SCOTT"."STD5A"."RNO") 
+
+
+SQL> INSERT INTO STD5A VALUES(0,'LABH');
+INSERT INTO STD5A VALUES(0,'LABH')
+*
+ERROR at line 1:
+ORA-02290: check constraint (SCOTT.SYS_C0033756) violated 
+
+
+SQL> INSERT INTO STD5A VALUES(-99,'LABH');
+INSERT INTO STD5A VALUES(-99,'LABH')
+*
+ERROR at line 1:
+ORA-02290: check constraint (SCOTT.SYS_C0033756) violated 
+
+
+SQL> INSERT INTO STD5A VALUES(31,'LABH');
+INSERT INTO STD5A VALUES(31,'LABH')
+*
+ERROR at line 1:
+ORA-02290: check constraint (SCOTT.SYS_C0033756) violated 
+
+
+SQL> SELECT * FROM STD5A;
+
+       RNO NM                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+---------- ----------                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+         1 GANESH                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+         2 RIDDHI                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+
+SQL> DROP TABLE EMP;
+
+Table dropped.
+
+SQL> REM PRIMARY KEY : COMBINATION OF NOT NULL + UNIQUE. WE CAN USE PRIMARY KEY CONSTRAINT SINGLE TIME PER TABLE.
+SQL> 
+SQL> REM REFERENCES : IT WILL ALLOW ONLY THOSE VALUES IN COLUMN WHICH ARE ALREADY STORED IN REFERRED PRIMARY KEY OR UNIQUE COLUMN.
+SQL> 
+SQL> 
+SQL> CREATE TABLE EMP(EID NUMBER(4) , ENM VARCHAR(10) , MID NUMBER(4) REFERENCES EMP(EID));
+CREATE TABLE EMP(EID NUMBER(4) , ENM VARCHAR(10) , MID NUMBER(4) REFERENCES EMP(EID))
+                                                                            *
+ERROR at line 1:
+ORA-02270: no matching unique or primary key for this column-list 
+
+
+SQL> CREATE TABLE EMP(EID NUMBER(4) PRIMARY KEY, ENM VARCHAR(10) , MID NUMBER(4) REFERENCES EMP(EID));
+
+Table created.
+
+SQL> DROP TABLE EMP;
+
+Table dropped.
+
+SQL> CREATE TABLE EMP(EID NUMBER(4) PRIMARY KEY, ENM VARCHAR(10) , MID NUMBER(4) REFERENCES EMP);
+
+Table created.
+
+SQL> DROP TABLE EMP;
+
+Table dropped.
+
+SQL> CREATE TABLE EMP(EID NUMBER(4) UNIQUE NOT NULL, ENM VARCHAR(10) , MID NUMBER(4) REFERENCES EMP);
+CREATE TABLE EMP(EID NUMBER(4) UNIQUE NOT NULL, ENM VARCHAR(10) , MID NUMBER(4) REFERENCES EMP)
+                                                                                           *
+ERROR at line 1:
+ORA-02268: referenced table does not have a primary key 
+
+
+SQL> CREATE TABLE EMP(EID NUMBER(4) UNIQUE NOT NULL, ENM VARCHAR(10) , MID NUMBER(4) REFERENCES EMP(EID));
+
+Table created.
+
+SQL> INSERT INTO EMP VALUES (1,'GANESH',NULL);
+
+1 row created.
+
+SQL> INSERT INTO EMP VALUES (2,'RIDDHI',1);
+
+1 row created.
+
+SQL> INSERT INTO EMP VALUES (3,'SIDDHI',2);
+
+1 row created.
+
+SQL> INSERT INTO EMP VALUES (4,'SHUBH',2);
+
+1 row created.
+
+SQL> INSERT INTO EMP VALUES (5,'LABH',6);
+INSERT INTO EMP VALUES (5,'LABH',6)
+*
+ERROR at line 1:
+ORA-02291: integrity constraint (SCOTT.SYS_C0033764) violated - parent key not found 
+
+
+SQL> SELECT * FROM EMP;
+
+       EID ENM               MID                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+---------- ---------- ----------                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+         1 GANESH                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+         2 RIDDHI              1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+         3 SIDDHI              2                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+         4 SHUBH               2                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+
+SQL> DROP TABLE EMP;
+
+Table dropped.
+
+SQL> REM EMP : EID , ENM , MID
+SQL> 
+SQL> REM 1 NUMBER(4) CHECK , PRIMARY KEY
+SQL> 
+SQL> REM 2 ENM : CHECK (TO ALLOW ONLY CAPITAL VALUES)
+SQL> 
+SQL> REM 3 MID : REFERENCES
+SQL> 
+SQL> CREATE TABLE EMP(EID NUMBER(4) PRIMARY KEY CHECK(EID BETWEEN 1001 AND 9999),ENM VARCHAR(10) CHECK(ENM = UPPER(ENM)) , MID NUMBER(4) REFERENCES EMP);
+
+Table created.
+
+SQL> INSERT INTO EMP VALUES (1,'GANESH',NULL);
+INSERT INTO EMP VALUES (1,'GANESH',NULL)
+*
+ERROR at line 1:
+ORA-02290: check constraint (SCOTT.SYS_C0033765) violated 
+
+
+SQL> INSERT INTO EMP VALUES (1001,'GANESH',NULL);
+
+1 row created.
+
+SQL> INSERT INTO EMP VALUES (1001,'RIDDHI',NULL);
+INSERT INTO EMP VALUES (1001,'RIDDHI',NULL)
+*
+ERROR at line 1:
+ORA-00001: unique constraint (SCOTT.SYS_C0033767) violated 
+
+
+SQL> INSERT INTO EMP VALUES (NULL,'RIDDHI',NULL);
+INSERT INTO EMP VALUES (NULL,'RIDDHI',NULL)
+                        *
+ERROR at line 1:
+ORA-01400: cannot insert NULL into ("SCOTT"."EMP"."EID") 
+
+
+SQL> INSERT INTO EMP VALUES (0,'RIDDHI',NULL);
+INSERT INTO EMP VALUES (0,'RIDDHI',NULL)
+*
+ERROR at line 1:
+ORA-02290: check constraint (SCOTT.SYS_C0033765) violated 
+
+
+SQL> INSERT INTO EMP VALUES (1002,'Riddhi',NULL);
+INSERT INTO EMP VALUES (1002,'Riddhi',NULL)
+*
+ERROR at line 1:
+ORA-02290: check constraint (SCOTT.SYS_C0033766) violated 
+
+
+SQL> CREATE TABLE EMP1(EID NUM(4) PRIMARY KEY CHECK(EID BETWEEN 0 AND 9999), ENM VARCHAR(20), MID INT(4) REFERENCES EMP1(EID));
+CREATE TABLE EMP1(EID NUM(4) PRIMARY KEY CHECK(EID BETWEEN 0 AND 9999), ENM VARCHAR(20), MID INT(4) REFERENCES EMP1(EID))
+                         *
+ERROR at line 1:
+ORA-00907: missing right parenthesis 
+
+
+SQL> CREATE TABLE EMP1(EID NUMBER(4) PRIMARY KEY CHECK(EID BETWEEN 0 AND 9999), ENM VARCHAR(20), MID INT(4) REFERENCES EMP1(EID));
+CREATE TABLE EMP1(EID NUMBER(4) PRIMARY KEY CHECK(EID BETWEEN 0 AND 9999), ENM VARCHAR(20), MID INT(4) REFERENCES EMP1(EID))
+                                                                                                   *
+ERROR at line 1:
+ORA-00907: missing right parenthesis 
+
+
+SQL> CREATE TABLE EMP1(EID NUMBER(4) PRIMARY KEY CHECK(EID BETWEEN 0 AND 9999), ENM VARCHAR(20), MID NUMBER(4) REFERENCES EMP1(EID));
+CREATE TABLE EMP1(EID NUMBER(4) PRIMARY KEY CHECK(EID BETWEEN 0 AND 9999), ENM VARCHAR(20), MID NUMBER(4) REFERENCES EMP1(EID))
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object 
+
+
+SQL> DROP TABLE EMP1;
+
+Table dropped.
+
+SQL> CREATE TABLE EMP1(EID NUMBER(4) PRIMARY KEY CHECK(EID BETWEEN 0 AND 9999), ENM VARCHAR(20), MID NUMBER(4) REFERENCES EMP1(EID));
+
+Table created.
+
+SQL> CREATE TABLE EMP1 (EID NUMBER(4) CHECK(EID BETWEEN 1 AND 30) PRIMARY KEY,ENM VARCHAR(8) CHECK(ENM=UPPER(ENM)),MID NUMBER(4) REFERENCES(EMP1));
+CREATE TABLE EMP1 (EID NUMBER(4) CHECK(EID BETWEEN 1 AND 30) PRIMARY KEY,ENM VARCHAR(8) CHECK(ENM=UPPER(ENM)),MID NUMBER(4) REFERENCES(EMP1))
+                                                                                                                                      *
+ERROR at line 1:
+ORA-00903: invalid table name 
+
+
+SQL> DROP TABLE EMP1;
+
+Table dropped.
+
+SQL> CREATE TABLE EMP1 (EID NUMBER(4) CHECK(EID BETWEEN 1 AND 30) PRIMARY KEY,ENM VARCHAR(8) CHECK(ENM=UPPER(ENM)),MID NUMBER(4) REFERENCES(EMP1));
+CREATE TABLE EMP1 (EID NUMBER(4) CHECK(EID BETWEEN 1 AND 30) PRIMARY KEY,ENM VARCHAR(8) CHECK(ENM=UPPER(ENM)),MID NUMBER(4) REFERENCES(EMP1))
+                                                                                                                                      *
+ERROR at line 1:
+ORA-00903: invalid table name 
+
+
+SQL> CREATE TABLE EMP1 (EID NUMBER(4) CHECK(EID BETWEEN 1 AND 30) PRIMARY KEY,ENM VARCHAR(8) CHECK(ENM=UPPER(ENM)),MID NUMBER(4) REFERENCES EMP1);
+
+Table created.
+
+SQL> DROP TABLE EMP1;
+
+Table dropped.
+
+SQL> CREATE TABLE EMP1 (EID NUMBER(4) CHECK(EID BETWEEN 1 AND 30) PRIMARY KEY,ENM VARCHAR(8) CHECK(ENM=UPPER(ENM)),MID NUMBER(4) REFERENCES EMP1(EID));
+
+Table created.
+
+SQL> CREATE TABLE EMP1(EMPID NUMBER(2) CHECK(EMPID BETWEEN 1 AND 30) PRIMARY KEY,EMP_NAME VARCHAR(10) CHECK(EMP_NAME LIKE UPPER(EMP_NAME)),MID NUMBER(2) REFERENCES EMP)
+  2  
+SQL> DROP TABLE EMP1;
+
+Table dropped.
+
+SQL> CREATE TABLE EMP1(EMPID NUMBER(2) CHECK(EMPID BETWEEN 1 AND 30) PRIMARY KEY,EMP_NAME VARCHAR(10) CHECK(EMP_NAME LIKE UPPER(EMP_NAME)),MID NUMBER(2) REFERENCES EMP1);
+
+Table created.
+
+SQL> DROP TABLE DEPT;
+
+Table dropped.
+
+SQL> DROP TABLE EMP;
+
+Table dropped.
+
+SQL> 
+SQL> CREATE TABLE DEPT(DID NUMBER(2) PRIMARY KEY,DNM VARCHAR(10));
+
+Table created.
+
+SQL> DROP TABLE DEPT;
+
+Table dropped.
+
+SQL> CREATE TABLE DEPT(DID NUMBER(2) CHECK (DID BETWEEN 1 AND 99) PRIMARY KEY,DNM VARCHAR(10));
+
+Table created.
+
+SQL> 
+SQL> CREATE TABLE EMP (EID NUMBER(4) CHECK(EID BETWEEN 1 AND 9999) PRIMARY KEY,ENM VARCHAR(10) CHECK(ENM=UPPER(ENM)),
+  2  MID NUMBER(4) REFERENCES EMP , DID NUMBER(2) REFERENCES DEPT);
+
+Table created.
+
+SQL> INESRT INTO DEPT VALUES (10,'ACC');
+SP2-0734: unknown command beginning "INESRT INT..." - rest of line ignored.
+SQL> 
+SQL> 
+SQL> INSERT INTO DEPT VALUES (10,'ACC');
+
+1 row created.
+
+SQL> INSERT INTO DEPT VALUES (20,'RES');
+
+1 row created.
+
+SQL> INSERT INTO DEPT VALUES (30,'SAL');
+
+1 row created.
+
+SQL> INSERT INTO DEPT VALUES (30,'HR');
+INSERT INTO DEPT VALUES (30,'HR')
+*
+ERROR at line 1:
+ORA-00001: unique constraint (SCOTT.SYS_C0033786) violated 
+
+
+SQL> INSERT INTO DEPT VALUES (NULL,'HR');
+INSERT INTO DEPT VALUES (NULL,'HR')
+                         *
+ERROR at line 1:
+ORA-01400: cannot insert NULL into ("SCOTT"."DEPT"."DID") 
+
+
+SQL> INSERT INTO DEPT VALUES (-4,'HR');
+INSERT INTO DEPT VALUES (-4,'HR')
+*
+ERROR at line 1:
+ORA-02290: check constraint (SCOTT.SYS_C0033785) violated 
+
+
+SQL> SELECT * FROM DEPT;
+
+       DID DNM                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+---------- ----------                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+        10 ACC                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+        20 RES                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+        30 SAL                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+
+SQL> INSERT INTO EMP VALUES (1001,'GANESH',NULL,10);
+
+1 row created.
+
+SQL> INSERT INTO EMP VALUES (1002,'RIDDHI',1001,20);
+
+1 row created.
+
+SQL> INSERT INTO EMP VALUES (1003,'SIDDHI',1003,20);
+
+1 row created.
+
+SQL> INSERT INTO EMP VALUES (1003,'SHUBH',1003,20);
+INSERT INTO EMP VALUES (1003,'SHUBH',1003,20)
+*
+ERROR at line 1:
+ORA-00001: unique constraint (SCOTT.SYS_C0033789) violated 
+
+
+SQL> INSERT INTO EMP VALUES (1004,'SHUBH',1005,20);
+INSERT INTO EMP VALUES (1004,'SHUBH',1005,20)
+*
+ERROR at line 1:
+ORA-02291: integrity constraint (SCOTT.SYS_C0033790) violated - parent key not found 
+
+
+SQL> INSERT INTO EMP VALUES (1004,'SHUBH',1003,40);
+INSERT INTO EMP VALUES (1004,'SHUBH',1003,40)
+*
+ERROR at line 1:
+ORA-02291: integrity constraint (SCOTT.SYS_C0033791) violated - parent key not found 
+
+
+SQL> REM DEPT : DID DNM
+SQL> 
+SQL> REM EMP : EID DNM MID DID
+SQL> 
+SQL> REM EMP : EID ENM MID DID
+SQL> 
+SQL> DROP TABLE EMP;
+
+Table dropped.
+
+SQL> DROP TABLE DEPT;;
+DROP TABLE DEPT;
+               *
+ERROR at line 1:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> DROP TABLE DEPT;
+
+Table dropped.
+
+SQL> 
+SQL> CREATE TABLE DEPT(DID NUMBER(3) PRIMARY KEY, DNM VARCHAR(10));
+
+Table created.
+
+SQL> 
+SQL> CREATE TABLE EMP(EID NUMBER(3) PRIMARY KEY, DNM VARCHAR(10), MID NUMBER(3) REFERENCES EMP, DID NUMBER(3) REFERENCES DEPT);
+
+Table created.
+
+SQL> DROP TABLE EMP;
+
+Table dropped.
+
+SQL> DROP TABLE DEPT;
+
+Table dropped.
+
+SQL> CREATE TABLE DEPT(DID NUMBER(4) PRIMARY KEY CHECK(DID BETWEEN 1001 AND 9999), DNM VARCHAR(20) UNIQUE NOT NULL);
+
+Table created.
+
+SQL> 
+SQL> CREATE TABLE EMP (EID NUMBER(4) PRIMARY KEY CHECK(EID BETWEEN 1001 AND 9999), ENM VARCHAR(20), MID NUMBER(4) CHECK(MID BETWEEN 1001 AND 9999) REFERENCES EMP, DID NUMBER(4) REFERENCES DEPT);
+
+Table created.
+
+SQL> DROP TABLE EMP;
+
+Table dropped.
+
+SQL> DROP TABLE DEPT;
+
+Table dropped.
+
+SQL> CREATE TABLE DEPT(DID NUMBER(3) CHECK(DID BETWEEN 100 AND 999) PRIMARY KEY,DNM VARCHAR(10) CHECK(DNM = UPPER(DNM)));
+
+Table created.
+
+SQL> CREATE TABLE EMP(EID NUMBER(4) CHECK(EID BETWEEN 1001 AND 9999) PRIMARY KEY,ENM VARCHAR(20),MID NUMBER(4) REFERENCES EMP(EID),DID NUMBER(3) REFERENCES
+  2  DEPT(DID));
+
+Table created.
+
+SQL> DROP TABLE EMP;
+
+Table dropped.
+
+SQL> DROP TABLE DEPT;
+
+Table dropped.
+
+SQL> CREATE TABLE DEPT(DID NUMBER(2) PRIMARY KEY,DNM VARCHAR(10));
+
+Table created.
+
+SQL> DEPT(DID NUMBER(2) PRIMARY KEY,DNM VARCHAR(10));
+SP2-0734: unknown command beginning "DEPT(DID N..." - rest of line ignored.
+SQL> 
+SQL> CREATE TABLE EMP1(EID NUMBER(4) CHECK(EID BETWEEN 1 AND 30) PRIMARY KEY,ENM VARCHAR(10) CHECK(ENM=UPPER(ENM)),MID NUMBER(4) REFERENCES EMP1,DID NUMBER(2) REFERENCES DEPT(DID));
+CREATE TABLE EMP1(EID NUMBER(4) CHECK(EID BETWEEN 1 AND 30) PRIMARY KEY,ENM VARCHAR(10) CHECK(ENM=UPPER(ENM)),MID NUMBER(4) REFERENCES EMP1,DID NUMBER(2) REFERENCES DEPT(DID))
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object 
+
+
+SQL> CREATE TABLE EMP(EID NUMBER(4) CHECK(EID BETWEEN 1 AND 30) PRIMARY KEY,ENM VARCHAR(10) CHECK(ENM=UPPER(ENM)),MID NUMBER(4) REFERENCES EMP1,DID NUMBER(2) REFERENCES DEPT(DID));
+
+Table created.
+
+SQL> DROP TABLE EMP;
+
+Table dropped.
+
+SQL> DROP TABLE DEPT;
+
+Table dropped.
+
+SQL> CREATE TABLE DEPT(DID NUMBER(4) CHECK(DID BETWEEN 100 AND 9999) PRIMARY KEY,DNM VARCHAR(20) NOT NULL);
+
+Table created.
+
+SQL> 
+SQL> CREATE TABLE EMP(EID NUMBER(4) CHECK(EID BETWEEN 100 AND 9999) PRIMARY KEY,DNM VARCHAR(20) NOT NULL,MID NUMBER(4) REFERENCES EMP(EID),DID NUMBER(4) CHECK(DID BETWEEN 100 AND 9999) REFERENCES DEPT(DID));
+
+Table created.
+
+SQL> 
+SQL> CREATE TABLE EMP(EID NUMBER(4) CHECK(EID BETWEEN 100 AND 9999) PRIMARY KEY,ENM VARCHAR(10) CHECK(ENM = UPPER(ENM)),MID NUMBER(4) REFERENCES EMP(EID),DID NUMBER(4) CHECK(DID BETWEEN 100 AND 9999) REFERENCES DEPT(DID));CREATE TABLE DEPT(DID NUMBER(4) CHECK(DID BETWEEN 100 AND 9999) PRIMARY KEY,DNM VARCHAR(20) NOT NULL);
+CREATE TABLE EMP(EID NUMBER(4) CHECK(EID BETWEEN 100 AND 9999) PRIMARY KEY,ENM VARCHAR(10) CHECK(ENM = UPPER(ENM)),MID NUMBER(4) REFERENCES EMP(EID),DID NUMBER(4) CHECK(DID BETWEEN 100 AND 9999) REFERENCES DEPT(DID));CREATE TABLE DEPT(DID NUMBER(4) CHECK(DID BETWEEN 100 AND 9999) PRIMARY KEY,DNM VARCHAR(20) NOT NULL)
+                                                                                                                                                                                                                        *
+ERROR at line 1:
+ORA-00922: missing or invalid option 
+
+
+SQL> 
+SQL> CREATE TABLE EMP(EID NUMBER(4) CHECK(EID BETWEEN 100 AND 9999) PRIMARY KEY,DNM VARCHAR(20) NOT NULL,MID NUMBER(4) REFERENCES EMP(EID),DID NUMBER(4) CHECK(DID BETWEEN 100 AND 9999) REFERENCES DEPT(DID));
+CREATE TABLE EMP(EID NUMBER(4) CHECK(EID BETWEEN 100 AND 9999) PRIMARY KEY,DNM VARCHAR(20) NOT NULL,MID NUMBER(4) REFERENCES EMP(EID),DID NUMBER(4) CHECK(DID BETWEEN 100 AND 9999) REFERENCES DEPT(DID))
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object 
+
+
+SQL> 
+SQL> 
+SQL> 
+SQL> DROP TABLE EMP;
+
+Table dropped.
+
+SQL> DROP TABLE DEPT;
+
+Table dropped.
+
+SQL> CREATE TABLE DEPT(DID NUMBER(4) CHECK(DID BETWEEN 100 AND 9999) PRIMARY KEY,DNM VARCHAR(20) NOT NULL);
+
+Table created.
+
+SQL> CREATE TABLE EMP(EID NUMBER(4) CHECK(EID BETWEEN 100 AND 9999) PRIMARY KEY,ENM VARCHAR(10) CHECK(ENM = UPPER(ENM)),MID NUMBER(4) REFERENCES EMP(EID),DID NUMBER(4) CHECK(DID BETWEEN 100 AND 9999) REFERENCES DEPT(DID));
+
+Table created.
+
+SQL> DROP TABLE EMP;
+
+Table dropped.
+
+SQL> DROP TABLE DEPT;
+
+Table dropped.
+
+SQL> CREATE TABLE DEPT(DID NUMBER(2) PRIMARY KEY,DNM VARCHAR(10));
+
+Table created.
+
+SQL> CREATE TABLE EMP(EID NUMBER(2) PRIMARY KEY,ENM VARCHAR(10),MID NUMBER(2) REFERENCES EMP,DID NUMBER(2) REFERENCES DEPT);
+
+Table created.
+
+SQL> SPOOL OFF

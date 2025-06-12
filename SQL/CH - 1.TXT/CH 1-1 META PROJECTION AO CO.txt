@@ -1,0 +1,63 @@
+1 DISPLAY ALL DATA OF EMPLOYEES TABLE
+ans = select * from employees;
+
+2 DISPLAY ALL DATA OF DEPARTMENTS TABLE
+ans = select * from departments;
+
+3 DISPLAY FIRST_NAME OF EMPLOYEES TABLE
+ans = select first_name from employees;
+
+4 DISPLAY LAST_NAME AND HIRE_DATE OF EMPLOYEES TABLE
+ans = select last_name , hire_date from employees;
+
+5 DISPLAY ALL DATA OF REGIONS TABLE WITHOUT USING * (META CHARACTER)
+ans = select region_id, region_name from regions;
+
+6 DISPLAY FIRST_NAME , SALARY AND NEW SALARY (NEW SALARY = SALARY + 1500)
+ans = select first_name , salary ,salary+1500 new_salary from employees;
+
+7 DISPLAY LAST_NAME , SALARY AND ANNUAL SALARY (ANNUAL SALARY = SALARY * 12)
+ans = select last_name , salary , salary*12 annual_salary from employees;
+
+8 DISPLAY FIRST_NAME , SALARY AND DAILY SALARY (DAILY SALARY = SALARY / 30)
+ans = select first_name , salary , salary/30 daily_salary from employees;
+
+9 DISPLAY FIRST_NAME AND LAST_NAME IN SINGLE COLUMN WITH PROPER COLUMN ALIAS/HEADING.
+ans = select first_name || ' ' || last_name "name" from employees;
+
+10 DISPLAY RESULT OF 456 * 67 (SINGLE TIME, USING DU.. TABLE)
+ans = select 456*67 from dual;
+
+11 DISPLAY RESULT OF 456 / 92 (SINGLE TIME, WITHOUT USING DU.. TABLE)
+ans = select unique 456/92 from employees;
+
+12 DISPLAY GIVEN RESULT FOR EACH EMPLOYEE : Steven works as AD_PRES.
+ans = select first_name || ' works as ' || job_id from employees;
+
+13 DISPLAY GIVEN RESULT FOR EACH EMPLOYEE : King's monthly salary is Rs.24000 (TWO STYLES : USING Q OPERATOR AND WITOUT USING Q OPERATOR)
+ans = select last_name || q'a's monthly salary is Rs.a' || salary from employees;
+
+14 DISPLAY ALL INFO. OF EMPLOYEES TABLE WITH ANNUAL SALARY (ANNUAL SALARY = SALARY * 12)
+ans = select e.*, salary*12 anual_salary from employees e;
+
+15 DISPLAY FIRST_NAME , NEW_ANNUAL_SALARY (NEW_ANNUAL_SALARY = SALARY + 1000 * 12)
+ans = select first_name,(salary+1000)*12 new_anual_salary from employees;
+
+16 DISPLAY ALL INFO. OF DEPARTMENTS TABLE WITH ROWID.
+ans = select rowid,e.* from departments e;
+
+17 DISPLAY ALL INFO. OF COUNTRIES TABLE WITH ROWNUM AND ROWID. (WITHOUT USING TABLE ALIAS)
+ans =  select rownum,rowid,country_id,country_name,region_id from COUNTRIES ;
+                                         or
+ans = select rownum,rowid,countries.* from countries;					
+
+18 DISPLAY ALL INFO. OF EMPLOYEES TABLE WITH YEARLY SALARY. (USING TABLE ALIAS)
+ans = select e.*,salary*12 yearly_salary from employees e;
+
+19 DISPLAY ALL INFO. OF EMPLOYEES TABLE WITH ROWID AND YEARLY SALARY. (WITHOUT USING TABLE ALIAS)
+ans = select rownum,rowid,employee_id,FIRST_NAME,LAST_NAME,EMAIL,PHONE_NUMBER,HIRE_DATE,JOB_ID,SALARY*12 yearly_salary,COMMISSION_PCT,MANAGER_ID,DEPARTMENT_ID from employees ;
+                                            OR
+ans = SELECT ROWNUM,rowid,employees.* from employees;
+
+20 DISPALY ALL INFO. OF EMPLOYEES TABLE WITH ROWNUM , ROWID AND YEARLY SALARY. (USE TABLE ALIAS)
+ans = select rownum,rowid ,e.*,salary*12 yearly_salary from employees e;

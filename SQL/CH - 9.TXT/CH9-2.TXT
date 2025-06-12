@@ -1,0 +1,612 @@
+SQL> 
+SQL> CL SCR
+
+SQL> REM DML STATEMENTS :
+SQL> 
+SQL> REM DML STATEMENTS : INSERT UPDATE DELETE
+SQL> 
+SQL> REM INSERT : TO ADD NEW ROWS TO THE TABLE
+SQL> 
+SQL> REM UPDATE : TO EDIT/CHANGE/MODIFY/UPDATE EXISTING ROWS OF THE TABLE
+SQL> 
+SQL> REM DELETE : TO REMOVE EXISTING ROWS OF THE TABLE
+SQL> 
+SQL> 
+SQL> REM ANY CHANGES DONE USING ANY DML STATEMENTS ARE ONLY DONE TO RAM/MEMORY ONLY.
+SQL> 
+SQL> REM IF WE WANT WE CAN SAVE THOSE CHANGES PERMANENTLY IN TO TABLE/DATABASE BY EXECUTING COMMIT COMMAND.
+SQL> 
+SQL> REM IF WE WANT TO UNDO THE CHANGES FROM MEMORY WE CAN EXECUTE ROLLBACK COMMAND.
+SQL> 
+SQL> 
+SQL> 
+SQL> REM INSERT HAS TWO SYNTAXES : 1 INSERT ... VALUES ... 2 INSERT ... SUB QUERY ...
+SQL> 
+SQL> 
+SQL> REM INSERT ... VALUES ... : IT CAN INSERT SINGLE ROW PER SINGLE STATEMENT EXECUTION.
+SQL> 
+SQL> REM INSERT ... SUB QUERY ... : IT CAN INSERT SINGLE , MULTIPLE OR ALL ROWS AS RETURNED BY SUB QUERY.
+SQL> 
+SQL> 
+SQL> 
+SQL> REM INSERT INTO table_name (column list) VALUES (value list);
+SQL> 
+SQL> DROP TABLE EMP;
+
+Table dropped.
+
+SQL> CREATE TABLE EMP AS SELECT EMPLOYEE_ID EID , FIRST_NAME FNM , HIRE_DATE HD FROM EMPLOYEES WHERE 1 = 2
+  2  
+SQL> CREATE TABLE EMP AS SELECT EMPLOYEE_ID EID , FIRST_NAME FNM , HIRE_DATE HD FROM EMPLOYEES WHERE 1 = 2;
+
+Table created.
+
+SQL> DESC EMP
+ Name                                                                                                              Null?    Type
+ ----------------------------------------------------------------------------------------------------------------- -------- ----------------------------------------------------------------------------
+ EID                                                                                                               NOT NULL NUMBER(6)
+ FNM                                                                                                                        VARCHAR2(15)
+ HD                                                                                                                NOT NULL DATE
+
+SQL> INSERT INTO EMP VALUES (1,'GANESH',SYSDATE);
+
+1 row created.
+
+SQL> SELECT * FROM EMP;
+
+       EID FNM             HD                                                                                                                                                                           
+---------- --------------- ---------                                                                                                                                                                    
+         1 GANESH          07-NOV-23                                                                                                                                                                    
+
+SQL> REM NUMBERICAL VALUES DON'T REQUIRE ANY QUATION CHARACTERS.
+SQL> 
+SQL> REM CHARACTER VALUES MUST BE PUT WITHIN SINGLE QUOTES.
+SQL> 
+SQL> REM DATE VALUES MUST BE USED WITHIN SINGLE QUOTES IN 1 DEFAULT 2 COMPATIBLE 3 INCOMPATIBLE FORMATS USING TO_DATE FUNCTION
+SQL> 
+SQL> 
+SQL> INSERT INTO EMP VALUES (2,RIDDHI,SYSDATE);
+INSERT INTO EMP VALUES (2,RIDDHI,SYSDATE)
+                          *
+ERROR at line 1:
+ORA-00984: column not allowed here 
+
+
+SQL> INSERT INTO EMP VALUES (2,"RIDDHI",SYSDATE);
+INSERT INTO EMP VALUES (2,"RIDDHI",SYSDATE)
+                          *
+ERROR at line 1:
+ORA-00984: column not allowed here 
+
+
+SQL> INSERT INTO EMP VALUES (2,'RIDDHI','15-JAN-71');
+
+1 row created.
+
+SQL> INSERT INTO EMP VALUES (2,'RIDDHI','15-JANUARY-71');
+
+1 row created.
+
+SQL> INSERT INTO EMP VALUES (2,'RIDDHI','15-JANUARY-1971');
+
+1 row created.
+
+SQL> INSERT INTO EMP VALUES (2,'RIDDHI','15/JANUARY/1971');
+
+1 row created.
+
+SQL> INSERT INTO EMP VALUES (2,'RIDDHI','15/JANUARY\1971');
+
+1 row created.
+
+SQL> INSERT INTO EMP VALUES (2,'RIDDHI','15/JANUARY1971');
+
+1 row created.
+
+SQL> INSERT INTO EMP VALUES (2,'RIDDHI','15JANUARY1971');
+
+1 row created.
+
+SQL> INSERT INTO EMP VALUES (2,'RIDDHI','15-01-71');
+INSERT INTO EMP VALUES (2,'RIDDHI','15-01-71')
+                                   *
+ERROR at line 1:
+ORA-01843: not a valid month 
+
+
+SQL> INSERT INTO EMP VALUES (2,'RIDDHI',TO_DATE('15-01-71','DD-MM-RR'));
+
+1 row created.
+
+SQL> INSERT INTO EMP VALUES (2,'RIDDHI',TO_DATE('JAN-71-15','MON-RR-DD'));
+
+1 row created.
+
+SQL> REM AS VALUE WE CAN WRITE : LITERAL , EXPRESSION/FORMULA , FUNCTION , SCALAR SUB QUERY , SUBSTITUTION VARIABLE , PSEDOCOLUMNS
+SQL> 
+SQL> INSERT INTO EMP VALUES (2,'RIDDHI','15JANUARY1971'+4);
+INSERT INTO EMP VALUES (2,'RIDDHI','15JANUARY1971'+4)
+                                                  *
+ERROR at line 1:
+ORA-00932: inconsistent datatypes: expected DATE got NUMBER 
+
+
+SQL> INSERT INTO EMP VALUES (2,'RIDDHI',('15JANUARY1971'+4));
+INSERT INTO EMP VALUES (2,'RIDDHI',('15JANUARY1971'+4))
+                                                   *
+ERROR at line 1:
+ORA-00932: inconsistent datatypes: expected DATE got NUMBER 
+
+
+SQL> INSERT INTO EMP VALUES (2,'RIDDHI',TO_DATE('15-JAN-71')+4);
+
+1 row created.
+
+SQL> INSERT INTO EMP VALUES (2,'RIDDHI',SYSDATE - 5);
+
+1 row created.
+
+SQL> INSERT INTO EMP VALUES (2,'RIDDHI', ADD_MONTHS(SYSDATE ,- 2));
+
+1 row created.
+
+SQL> SELECT * FROM EMP;
+
+       EID FNM             HD                                                                                                                                                                           
+---------- --------------- ---------                                                                                                                                                                    
+         1 GANESH          07-NOV-23                                                                                                                                                                    
+         2 RIDDHI          15-JAN-71                                                                                                                                                                    
+         2 RIDDHI          15-JAN-71                                                                                                                                                                    
+         2 RIDDHI          15-JAN-71                                                                                                                                                                    
+         2 RIDDHI          15-JAN-71                                                                                                                                                                    
+         2 RIDDHI          15-JAN-71                                                                                                                                                                    
+         2 RIDDHI          15-JAN-71                                                                                                                                                                    
+         2 RIDDHI          15-JAN-71                                                                                                                                                                    
+         2 RIDDHI          15-JAN-71                                                                                                                                                                    
+         2 RIDDHI          15-JAN-71                                                                                                                                                                    
+         2 RIDDHI          19-JAN-71                                                                                                                                                                    
+         2 RIDDHI          02-NOV-23                                                                                                                                                                    
+         2 RIDDHI          07-SEP-23                                                                                                                                                                    
+
+13 rows selected.
+
+SQL> REM AS VALUE WE CAN WRITE : LITERAL , EXPRESSION/FORMULA , FUNCTION , SCALAR SUB QUERY , SUBSTITUTION VARIABLE , PSEDOCOLUMNS
+SQL> 
+SQL> REM SCALAR SUB QUERY : IT MUST RETURN SINGLE ROW , SINGLE COLUMN I.E. SINGLE VALUE ONLY
+SQL> 
+SQL> INSERT INTO EMP VALUES (2,'RIDDHI', (SELECT HIRE_DATE FROM EMPLOYEES WHERE EMPLOYEE_ID = 102));
+
+1 row created.
+
+SQL> SELECT HIRE_DATE FROM EMPLOYEES WHERE EMPLOYEE_ID = 102;
+
+HIRE_DATE                                                                                                                                                                                               
+---------                                                                                                                                                                                               
+13-JAN-93                                                                                                                                                                                               
+
+SQL> INSERT INTO EMP VALUES (2,'&FNM', (SELECT HIRE_DATE FROM EMPLOYEES WHERE EMPLOYEE_ID = 102));
+Enter value for fnm: SIDDHI
+old   1: INSERT INTO EMP VALUES (2,'&FNM', (SELECT HIRE_DATE FROM EMPLOYEES WHERE EMPLOYEE_ID = 102))
+new   1: INSERT INTO EMP VALUES (2,'SIDDHI', (SELECT HIRE_DATE FROM EMPLOYEES WHERE EMPLOYEE_ID = 102))
+
+1 row created.
+
+SQL> /
+Enter value for fnm: SHUBH
+old   1: INSERT INTO EMP VALUES (2,'&FNM', (SELECT HIRE_DATE FROM EMPLOYEES WHERE EMPLOYEE_ID = 102))
+new   1: INSERT INTO EMP VALUES (2,'SHUBH', (SELECT HIRE_DATE FROM EMPLOYEES WHERE EMPLOYEE_ID = 102))
+
+1 row created.
+
+SQL> /
+Enter value for fnm: LABH
+old   1: INSERT INTO EMP VALUES (2,'&FNM', (SELECT HIRE_DATE FROM EMPLOYEES WHERE EMPLOYEE_ID = 102))
+new   1: INSERT INTO EMP VALUES (2,'LABH', (SELECT HIRE_DATE FROM EMPLOYEES WHERE EMPLOYEE_ID = 102))
+
+1 row created.
+
+SQL> SELECT * FROM EMP;
+
+       EID FNM             HD                                                                                                                                                                           
+---------- --------------- ---------                                                                                                                                                                    
+         1 GANESH          07-NOV-23                                                                                                                                                                    
+         2 RIDDHI          15-JAN-71                                                                                                                                                                    
+         2 RIDDHI          15-JAN-71                                                                                                                                                                    
+         2 RIDDHI          15-JAN-71                                                                                                                                                                    
+         2 RIDDHI          15-JAN-71                                                                                                                                                                    
+         2 RIDDHI          15-JAN-71                                                                                                                                                                    
+         2 RIDDHI          15-JAN-71                                                                                                                                                                    
+         2 RIDDHI          15-JAN-71                                                                                                                                                                    
+         2 RIDDHI          15-JAN-71                                                                                                                                                                    
+         2 RIDDHI          15-JAN-71                                                                                                                                                                    
+         2 RIDDHI          19-JAN-71                                                                                                                                                                    
+         2 RIDDHI          02-NOV-23                                                                                                                                                                    
+         2 RIDDHI          07-SEP-23                                                                                                                                                                    
+         2 RIDDHI          13-JAN-93                                                                                                                                                                    
+         2 SIDDHI          13-JAN-93                                                                                                                                                                    
+         2 SHUBH           13-JAN-93                                                                                                                                                                    
+         2 LABH            13-JAN-93                                                                                                                                                                    
+
+17 rows selected.
+
+SQL> REM ANY NAME PREFIXED WITH & CAN BE USED AS SUBSTITUTION VARIABLE
+SQL> 
+SQL> REM SUBSTUTION VARIABLE WILL ASK VALUE EACH TIME WE EXECUTE THE COMMAND AND WILL BE USED AND DISCARDED AUTOMATICALLY.
+SQL> 
+SQL> INSERT INTO EMP VALUES (&EID,'&FNM', (SELECT HIRE_DATE FROM EMPLOYEES WHERE EMPLOYEE_ID = 102));
+Enter value for eid: 88
+Enter value for fnm: DEVANSHI
+old   1: INSERT INTO EMP VALUES (&EID,'&FNM', (SELECT HIRE_DATE FROM EMPLOYEES WHERE EMPLOYEE_ID = 102))
+new   1: INSERT INTO EMP VALUES (88,'DEVANSHI', (SELECT HIRE_DATE FROM EMPLOYEES WHERE EMPLOYEE_ID = 102))
+
+1 row created.
+
+SQL> SELECT * FROM EMP;
+
+       EID FNM             HD                                                                                                                                                                           
+---------- --------------- ---------                                                                                                                                                                    
+         1 GANESH          07-NOV-23                                                                                                                                                                    
+         2 RIDDHI          15-JAN-71                                                                                                                                                                    
+         2 RIDDHI          15-JAN-71                                                                                                                                                                    
+         2 RIDDHI          15-JAN-71                                                                                                                                                                    
+         2 RIDDHI          15-JAN-71                                                                                                                                                                    
+         2 RIDDHI          15-JAN-71                                                                                                                                                                    
+         2 RIDDHI          15-JAN-71                                                                                                                                                                    
+         2 RIDDHI          15-JAN-71                                                                                                                                                                    
+         2 RIDDHI          15-JAN-71                                                                                                                                                                    
+         2 RIDDHI          15-JAN-71                                                                                                                                                                    
+         2 RIDDHI          19-JAN-71                                                                                                                                                                    
+         2 RIDDHI          02-NOV-23                                                                                                                                                                    
+         2 RIDDHI          07-SEP-23                                                                                                                                                                    
+         2 RIDDHI          13-JAN-93                                                                                                                                                                    
+         2 SIDDHI          13-JAN-93                                                                                                                                                                    
+         2 SHUBH           13-JAN-93                                                                                                                                                                    
+         2 LABH            13-JAN-93                                                                                                                                                                    
+        88 DEVANSHI        13-JAN-93                                                                                                                                                                    
+
+18 rows selected.
+
+SQL> REM AS VALUE WE CAN WRITE : LITERAL , EXPRESSION/FORMULA , FUNCTION , SCALAR SUB QUERY , SUBSTITUTION VARIABLE , PSEDOCOLUMNS
+SQL> 
+SQL> DROP TABLE EMP;
+
+Table dropped.
+
+SQL> CREATE TABLE EMP AS SELECT EMPLOYEE_ID EID , FIRST_NAME FNM , HIRE_DATE JOINDATE FROM EMPLOYEES WHERE 1 = 2;
+
+Table created.
+
+SQL> REM 1 INSERT A ROW USING LITERAL VALUES
+SQL> 
+SQL> REM 2 INSERT A ROW USING FORMULA
+SQL> 
+SQL> REM 3 INSERT A ROW USING FUNCTION
+SQL> 
+SQL> REM 4 INSERT A ROW USING COMPATIBLE FORMAT FOR DATE
+SQL> 
+SQL> REM 5 INSERT A ROW USING INCOMPATIBLE FORMAT FOR DATE
+SQL> 
+SQL> REM 6 INSERT A ROW USING SCALAR SUB QUERY
+SQL> 
+SQL> REM 7 INSERT 3 ROWS USING SUBSTITUTION VARIABLE
+SQL> 
+SQL> 
+SQL> 
+SQL> REM 1 INSERT A ROW USING LITERAL VALUES
+SQL> 
+SQL> INSERT INTO EMP VALUES (1,'GANESH','13-MAR-73');
+
+1 row created.
+
+SQL> REM 2 INSERT A ROW USING FORMULA
+SQL> 
+SQL> INSERT INTO EMP VALUES (2,'RIDDHI',TO_DATE('13-MAR-73')-5);
+
+1 row created.
+
+SQL> REM 3 INSERT A ROW USING FUNCTION
+SQL> 
+SQL> INSERT INTO EMP VALUES (3,'SIDDHI',ADD_MONTHS(SYSDATE,-2));
+
+1 row created.
+
+SQL> REM 4 INSERT A ROW USING COMPATIBLE FORMAT FOR DATE
+SQL> 
+SQL> INSERT INTO EMP VALUES (3,'SIDDHI','20-JANUARY-02');
+
+1 row created.
+
+SQL> REM 5 INSERT A ROW USING INCOMPATIBLE FORMAT FOR DATE
+SQL> 
+SQL> INSERT INTO EMP VALUES (3,'SIDDHI',TO_DATE('20-01-02','DD-MM-RR'));
+
+1 row created.
+
+SQL> REM 6 INSERT A ROW USING SCALAR SUB QUERY
+SQL> 
+SQL> INSERT INTO EMP VALUES (3,'SIDDHI',(SELECT HIRE_DATE FROM EMPLOYEES WHERE EMPLOYEE_ID=105));
+INSERT INTO EMP VALUES (3,'SIDDHI',(SELECT HIRE_DATE FROM EMPLOYEES WHERE EMPLOYEE_ID=105))
+                                           *
+ERROR at line 1:
+ORA-01400: cannot insert NULL into ("SCOTT"."EMP"."JOINDATE") 
+
+
+SQL> INSERT INTO EMP VALUES (3,'SIDDHI',(SELECT HIRE_DATE FROM EMPLOYEES WHERE EMPLOYEE_ID=124));
+
+1 row created.
+
+SQL> REM 7 INSERT 3 ROWS USING SUBSTITUTION VARIABLE
+SQL> 
+SQL> INSERT INTO EMP VALUES (3,'SIDDHI',',TO_DATE('&JD','DD-MON-RR'));
+Enter value for jd: 31-JUN-90
+old   1: INSERT INTO EMP VALUES (3,'SIDDHI',',TO_DATE('&JD','DD-MON-RR'))
+new   1: INSERT INTO EMP VALUES (3,'SIDDHI',',TO_DATE('31-JUN-90','DD-MON-RR'))
+ERROR:
+ORA-01756: quoted string not properly terminated 
+
+
+SQL> INSERT INTO EMP VALUES (3,'SIDDHI',TO_DATE('&JD','DD-MON-RR'));
+Enter value for jd: 31-JUN-90
+old   1: INSERT INTO EMP VALUES (3,'SIDDHI',TO_DATE('&JD','DD-MON-RR'))
+new   1: INSERT INTO EMP VALUES (3,'SIDDHI',TO_DATE('31-JUN-90','DD-MON-RR'))
+INSERT INTO EMP VALUES (3,'SIDDHI',TO_DATE('31-JUN-90','DD-MON-RR'))
+                                           *
+ERROR at line 1:
+ORA-01839: date not valid for month specified 
+
+
+SQL> /
+Enter value for jd: 30-JUN-90
+old   1: INSERT INTO EMP VALUES (3,'SIDDHI',TO_DATE('&JD','DD-MON-RR'))
+new   1: INSERT INTO EMP VALUES (3,'SIDDHI',TO_DATE('30-JUN-90','DD-MON-RR'))
+
+1 row created.
+
+SQL> CL SCR
+
+SQL> REM INSERT ... SUB QUERY
+SQL> 
+SQL> DROP TABLE D1;
+
+Table dropped.
+
+SQL> CREATE TABLE D1 AS SELECT * FROM DEPARTMENTS WHERE 1 = 2;
+
+Table created.
+
+SQL> SELECT * FROM DEPARTMENTS;
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                                     
+------------- ------------------------------ ---------- -----------                                                                                                                                     
+           10 Administration                        200        1700                                                                                                                                     
+           20 Marketing                             201        1800                                                                                                                                     
+           50 Shiping                               124        1500                                                                                                                                     
+           60 IT                                    103        1400                                                                                                                                     
+           80 Sales                                 149        2500                                                                                                                                     
+           90 Executive                             100        1700                                                                                                                                     
+          110 Accounting                            205        1700                                                                                                                                     
+          190 Contracting                                      1700                                                                                                                                     
+
+8 rows selected.
+
+SQL> SELECT * FROM DEPARTMENTS WHERE 1 = 2;
+
+no rows selected
+
+SQL> DESC DEPARTMENTS
+ Name                                                                                                              Null?    Type
+ ----------------------------------------------------------------------------------------------------------------- -------- ----------------------------------------------------------------------------
+ DEPARTMENT_ID                                                                                                     NOT NULL NUMBER(4)
+ DEPARTMENT_NAME                                                                                                   NOT NULL VARCHAR2(30)
+ MANAGER_ID                                                                                                                 NUMBER(6)
+ LOCATION_ID                                                                                                                NUMBER(4)
+
+SQL> DESC D1
+ Name                                                                                                              Null?    Type
+ ----------------------------------------------------------------------------------------------------------------- -------- ----------------------------------------------------------------------------
+ DEPARTMENT_ID                                                                                                              NUMBER(4)
+ DEPARTMENT_NAME                                                                                                   NOT NULL VARCHAR2(30)
+ MANAGER_ID                                                                                                                 NUMBER(6)
+ LOCATION_ID                                                                                                                NUMBER(4)
+
+SQL> SELECT * FROM DEPARTMENS;
+SELECT * FROM DEPARTMENS
+              *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> SELECT * FROM DEPARTMENTS;
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                                     
+------------- ------------------------------ ---------- -----------                                                                                                                                     
+           10 Administration                        200        1700                                                                                                                                     
+           20 Marketing                             201        1800                                                                                                                                     
+           50 Shiping                               124        1500                                                                                                                                     
+           60 IT                                    103        1400                                                                                                                                     
+           80 Sales                                 149        2500                                                                                                                                     
+           90 Executive                             100        1700                                                                                                                                     
+          110 Accounting                            205        1700                                                                                                                                     
+          190 Contracting                                      1700                                                                                                                                     
+
+8 rows selected.
+
+SQL> SELECT * FROM D1;
+
+no rows selected
+
+SQL> INSERT INTO D1 SELECT * FROM DEPARTMENTS WHERE DEPARTMENT_ID = 20;
+
+1 row created.
+
+SQL> INSERT INTO D1 SELECT * FROM DEPARTMENTS WHERE DEPARTMENT_ID IN (10 , 110);
+
+2 rows created.
+
+SQL> INSERT INTO D1 SELECT * FROM DEPARTMENTS;
+
+8 rows created.
+
+SQL> SELECT * FROM D1;
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                                     
+------------- ------------------------------ ---------- -----------                                                                                                                                     
+           20 Marketing                             201        1800                                                                                                                                     
+           10 Administration                        200        1700                                                                                                                                     
+          110 Accounting                            205        1700                                                                                                                                     
+           10 Administration                        200        1700                                                                                                                                     
+           20 Marketing                             201        1800                                                                                                                                     
+           50 Shiping                               124        1500                                                                                                                                     
+           60 IT                                    103        1400                                                                                                                                     
+           80 Sales                                 149        2500                                                                                                                                     
+           90 Executive                             100        1700                                                                                                                                     
+          110 Accounting                            205        1700                                                                                                                                     
+          190 Contracting                                      1700                                                                                                                                     
+
+11 rows selected.
+
+SQL> DESC D1
+ Name                                                                                                              Null?    Type
+ ----------------------------------------------------------------------------------------------------------------- -------- ----------------------------------------------------------------------------
+ DEPARTMENT_ID                                                                                                              NUMBER(4)
+ DEPARTMENT_NAME                                                                                                   NOT NULL VARCHAR2(30)
+ MANAGER_ID                                                                                                                 NUMBER(6)
+ LOCATION_ID                                                                                                                NUMBER(4)
+
+SQL> INSERT INTO D1 (DEPARTMENT_ID , DEPARTMENT_NAME) VALUES (99,'IT');
+
+1 row created.
+
+SQL> SELECT * FROM D1;
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                                     
+------------- ------------------------------ ---------- -----------                                                                                                                                     
+           20 Marketing                             201        1800                                                                                                                                     
+           10 Administration                        200        1700                                                                                                                                     
+          110 Accounting                            205        1700                                                                                                                                     
+           10 Administration                        200        1700                                                                                                                                     
+           20 Marketing                             201        1800                                                                                                                                     
+           50 Shiping                               124        1500                                                                                                                                     
+           60 IT                                    103        1400                                                                                                                                     
+           80 Sales                                 149        2500                                                                                                                                     
+           90 Executive                             100        1700                                                                                                                                     
+          110 Accounting                            205        1700                                                                                                                                     
+          190 Contracting                                      1700                                                                                                                                     
+           99 IT                                                                                                                                                                                        
+
+12 rows selected.
+
+SQL> INSERT INTO D1 VALUES (99,'IT', NULL , '');
+
+1 row created.
+
+SQL> INSERT INTO D1 VALUES (99,'IT', NULL , DEFAULT);
+
+1 row created.
+
+SQL> SELECT * FROM D1;
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                                     
+------------- ------------------------------ ---------- -----------                                                                                                                                     
+           20 Marketing                             201        1800                                                                                                                                     
+           10 Administration                        200        1700                                                                                                                                     
+          110 Accounting                            205        1700                                                                                                                                     
+           10 Administration                        200        1700                                                                                                                                     
+           20 Marketing                             201        1800                                                                                                                                     
+           50 Shiping                               124        1500                                                                                                                                     
+           60 IT                                    103        1400                                                                                                                                     
+           80 Sales                                 149        2500                                                                                                                                     
+           90 Executive                             100        1700                                                                                                                                     
+          110 Accounting                            205        1700                                                                                                                                     
+          190 Contracting                                      1700                                                                                                                                     
+           99 IT                                                                                                                                                                                        
+           99 IT                                                                                                                                                                                        
+           99 IT                                                                                                                                                                                        
+
+14 rows selected.
+
+SQL> INSERT INTO D1 (DEPARTMENT_NAME , MANAGER_ID) SELECT DEPARTMENT_NAME , MANAGER_ID FROM DEPARTMENTS WHERE DEPARTMENT_ID > 100;
+
+2 rows created.
+
+SQL> SELECT * FROM D1;
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                                     
+------------- ------------------------------ ---------- -----------                                                                                                                                     
+           20 Marketing                             201        1800                                                                                                                                     
+           10 Administration                        200        1700                                                                                                                                     
+          110 Accounting                            205        1700                                                                                                                                     
+           10 Administration                        200        1700                                                                                                                                     
+           20 Marketing                             201        1800                                                                                                                                     
+           50 Shiping                               124        1500                                                                                                                                     
+           60 IT                                    103        1400                                                                                                                                     
+           80 Sales                                 149        2500                                                                                                                                     
+           90 Executive                             100        1700                                                                                                                                     
+          110 Accounting                            205        1700                                                                                                                                     
+          190 Contracting                                      1700                                                                                                                                     
+           99 IT                                                                                                                                                                                        
+           99 IT                                                                                                                                                                                        
+           99 IT                                                                                                                                                                                        
+              Accounting                            205                                                                                                                                                 
+              Contracting                                                                                                                                                                               
+
+16 rows selected.
+
+SQL> DROP TABLE D1;
+
+Table dropped.
+
+SQL> CREATE TABLE D1 AS SELECT * FROM DEPARTMENTS WHERE 1 <> 1;
+
+Table created.
+
+SQL> DESC D1
+ Name                                                                                                              Null?    Type
+ ----------------------------------------------------------------------------------------------------------------- -------- ----------------------------------------------------------------------------
+ DEPARTMENT_ID                                                                                                              NUMBER(4)
+ DEPARTMENT_NAME                                                                                                   NOT NULL VARCHAR2(30)
+ MANAGER_ID                                                                                                                 NUMBER(6)
+ LOCATION_ID                                                                                                                NUMBER(4)
+
+SQL> SELECT * FROM D1;
+
+no rows selected
+
+SQL> REM 1 INSERT ROW WHICH HAS 50 DEPARTMENT_ID FROM DEPARTMENTS TABLE
+SQL> 
+SQL> REM 2 INSERT ROW WHICH HAS 100 MANAGER_ID FROM DEPARTMENTS TABLE
+SQL> 
+SQL> REM 3 INSERT ALL ROWS OF DEPARTMENTS TABLE
+SQL> 
+SQL> REM 4 INSERT ALL ROWS EXCEPT WHOSE DEPARTMENT_NAME SPELLING HAS 'i' ALPHABET
+SQL> 
+SQL> REM 5 INSERT ROW OF THE DEPARTMENT FOR WHICH NO MANAGER_ID IS STILL NOT FIXED
+SQL> 
+SQL> 
+SQL> INSERT INTO D1 SELECT * FROM DEPARTMENTS WHERE DEPARTMENT_ID = 50;
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO D1 SELECT * FROM DEPARTMENTS WHERE MANAGER_ID = 100;
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO D1 SELECT * FROM DEPARTMENTS;
+
+8 rows created.
+
+SQL> 
+SQL> INSERT INTO D1 SELECT * FROM DEPARTMENTS WHERE DEPARTMENT_NAME NOT LIKE('%i%');
+
+2 rows created.
+
+SQL> 
+SQL> INSERT INTO D1 SELECT * FROM DEPARTMENTS WHERE MANAGER_ID IS NULL;
+
+1 row created.
+
+SQL> REM DELETE : TO REMOVE EXISTING ROWS FROM TABLE
+SQL> 
+SQL> SPOOL OFF

@@ -1,0 +1,773 @@
+SQL> 
+SQL> REM 1 BRACKETS () LEFT TO RIGHT , INNER TO OUTER
+SQL> 
+SQL> REM 2 POWER
+SQL> 
+SQL> REM 3 / * (LEFT TO RIGHT IN FORMULA)
+SQL> 
+SQL> REM 4 + - || (LEFT TO RIGHT IN FORMULA)
+SQL> 
+SQL> 
+SQL> SELECT 36 / 4 + 1 * 2 FROM DUAL;
+
+  36/4+1*2                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+        11                                                                                                                                                                                              
+
+SQL> SELECT (36 / 4 + 1) * 2 FROM DUAL;
+
+(36/4+1)*2                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+        20                                                                                                                                                                                              
+
+SQL> SELECT FIRST_NAME , SALARY , COMMISSION_PCT FROM FROM EMPLOYEES;
+SELECT FIRST_NAME , SALARY , COMMISSION_PCT FROM FROM EMPLOYEES
+                                                 *
+ERROR at line 1:
+ORA-00903: invalid table name 
+
+
+SQL> SELECT FIRST_NAME , SALARY , COMMISSION_PCT FROM EMPLOYEES;
+
+FIRST_NAME     SALARY COMMISSION_PCT                                                                                                                                                                    
+---------- ---------- --------------                                                                                                                                                                    
+Steven          24000                                                                                                                                                                                   
+Neena           17000                                                                                                                                                                                   
+Lex             17000                                                                                                                                                                                   
+Alexander        9000                                                                                                                                                                                   
+Bruce            6000                                                                                                                                                                                   
+Diana            4200                                                                                                                                                                                   
+Kevin            5800                                                                                                                                                                                   
+Trenna           3500                                                                                                                                                                                   
+Curtis           3100                                                                                                                                                                                   
+Randall          2600                                                                                                                                                                                   
+Peter            2500                                                                                                                                                                                   
+Eleni           10500             .2                                                                                                                                                                    
+Ellen           11000             .3                                                                                                                                                                    
+Jonathon         8600             .3                                                                                                                                                                    
+Kimerely         7000            .15                                                                                                                                                                    
+Jennifer         4400                                                                                                                                                                                   
+Michael         13000                                                                                                                                                                                   
+Pat              6000                                                                                                                                                                                   
+Shelley         12000                                                                                                                                                                                   
+William          8300                                                                                                                                                                                   
+
+20 rows selected.
+
+SQL> REM COMM_AMOUNT = SALARY * COMMISSION_PCT
+SQL> 
+SQL> SELECT FIRST_NAME , SALARY , COMMISSION_PCT , SALARY * COMMISSION_PCT COMM_AMOUNT FROM EMPLOYEES;
+
+FIRST_NAME     SALARY COMMISSION_PCT COMM_AMOUNT                                                                                                                                                        
+---------- ---------- -------------- -----------                                                                                                                                                        
+Steven          24000                                                                                                                                                                                   
+Neena           17000                                                                                                                                                                                   
+Lex             17000                                                                                                                                                                                   
+Alexander        9000                                                                                                                                                                                   
+Bruce            6000                                                                                                                                                                                   
+Diana            4200                                                                                                                                                                                   
+Kevin            5800                                                                                                                                                                                   
+Trenna           3500                                                                                                                                                                                   
+Curtis           3100                                                                                                                                                                                   
+Randall          2600                                                                                                                                                                                   
+Peter            2500                                                                                                                                                                                   
+Eleni           10500             .2        2100                                                                                                                                                        
+Ellen           11000             .3        3300                                                                                                                                                        
+Jonathon         8600             .3        2580                                                                                                                                                        
+Kimerely         7000            .15        1050                                                                                                                                                        
+Jennifer         4400                                                                                                                                                                                   
+Michael         13000                                                                                                                                                                                   
+Pat              6000                                                                                                                                                                                   
+Shelley         12000                                                                                                                                                                                   
+William          8300                                                                                                                                                                                   
+
+20 rows selected.
+
+SQL> REM TOTAL PAYMENT : SALARY + COMM_AMOUNT
+SQL> 
+SQL> SELECT FIRST_NAME , SALARY , COMMISSION_PCT , SALARY * COMMISSION_PCT COMM_AMOUNT , SALARY + COMM_AMOUNT "TOTAL PAYMENT"   FROM EMPLOYEES;
+SELECT FIRST_NAME , SALARY , COMMISSION_PCT , SALARY * COMMISSION_PCT COMM_AMOUNT , SALARY + COMM_AMOUNT "TOTAL PAYMENT"   FROM EMPLOYEES
+                                                                                             *
+ERROR at line 1:
+ORA-00904: "COMM_AMOUNT": invalid identifier 
+
+
+SQL> SELECT FIRST_NAME , SALARY , COMMISSION_PCT , SALARY * COMMISSION_PCT COMM_AMOUNT , SALARY + SALARY * COMMISSION_PCT "TOTAL PAYMENT"   FROM EMPLOYEES;
+
+FIRST_NAME     SALARY COMMISSION_PCT COMM_AMOUNT TOTAL PAYMENT                                                                                                                                          
+---------- ---------- -------------- ----------- -------------                                                                                                                                          
+Steven          24000                                                                                                                                                                                   
+Neena           17000                                                                                                                                                                                   
+Lex             17000                                                                                                                                                                                   
+Alexander        9000                                                                                                                                                                                   
+Bruce            6000                                                                                                                                                                                   
+Diana            4200                                                                                                                                                                                   
+Kevin            5800                                                                                                                                                                                   
+Trenna           3500                                                                                                                                                                                   
+Curtis           3100                                                                                                                                                                                   
+Randall          2600                                                                                                                                                                                   
+Peter            2500                                                                                                                                                                                   
+Eleni           10500             .2        2100         12600                                                                                                                                          
+Ellen           11000             .3        3300         14300                                                                                                                                          
+Jonathon         8600             .3        2580         11180                                                                                                                                          
+Kimerely         7000            .15        1050          8050                                                                                                                                          
+Jennifer         4400                                                                                                                                                                                   
+Michael         13000                                                                                                                                                                                   
+Pat              6000                                                                                                                                                                                   
+Shelley         12000                                                                                                                                                                                   
+William          8300                                                                                                                                                                                   
+
+20 rows selected.
+
+SQL> REM ANY ARITHMATIC CALCULATION WITH NULL RESULTS INTO NULL.
+SQL> 
+SQL> SELECT FIRST_NAME , SALARY , COMMISSION_PCT , SALARY * COMMISSION_PCT COMM_AMOUNT , SALARY + SALARY * NVL(COMMISSION_PCT,0) "TOTAL PAYMENT"   FROM EMPLOYEES;
+
+FIRST_NAME     SALARY COMMISSION_PCT COMM_AMOUNT TOTAL PAYMENT                                                                                                                                          
+---------- ---------- -------------- ----------- -------------                                                                                                                                          
+Steven          24000                                    24000                                                                                                                                          
+Neena           17000                                    17000                                                                                                                                          
+Lex             17000                                    17000                                                                                                                                          
+Alexander        9000                                     9000                                                                                                                                          
+Bruce            6000                                     6000                                                                                                                                          
+Diana            4200                                     4200                                                                                                                                          
+Kevin            5800                                     5800                                                                                                                                          
+Trenna           3500                                     3500                                                                                                                                          
+Curtis           3100                                     3100                                                                                                                                          
+Randall          2600                                     2600                                                                                                                                          
+Peter            2500                                     2500                                                                                                                                          
+Eleni           10500             .2        2100         12600                                                                                                                                          
+Ellen           11000             .3        3300         14300                                                                                                                                          
+Jonathon         8600             .3        2580         11180                                                                                                                                          
+Kimerely         7000            .15        1050          8050                                                                                                                                          
+Jennifer         4400                                     4400                                                                                                                                          
+Michael         13000                                    13000                                                                                                                                          
+Pat              6000                                     6000                                                                                                                                          
+Shelley         12000                                    12000                                                                                                                                          
+William          8300                                     8300                                                                                                                                          
+
+20 rows selected.
+
+SQL> REM INCREMENT : +500
+SQL> 
+SQL> SELECT FIRST_NAME , SALARY , SALARY + 500 NEW_MONTHLY_SALARY , SALARY * 12 YEARLY_SALARY , SALARY + 500 * 12 NEW_YEARLY_SALARY FROM EMPLOYEES;
+
+FIRST_NAME     SALARY NEW_MONTHLY_SALARY YEARLY_SALARY NEW_YEARLY_SALARY                                                                                                                                
+---------- ---------- ------------------ ------------- -----------------                                                                                                                                
+Steven          24000              24500        288000             30000                                                                                                                                
+Neena           17000              17500        204000             23000                                                                                                                                
+Lex             17000              17500        204000             23000                                                                                                                                
+Alexander        9000               9500        108000             15000                                                                                                                                
+Bruce            6000               6500         72000             12000                                                                                                                                
+Diana            4200               4700         50400             10200                                                                                                                                
+Kevin            5800               6300         69600             11800                                                                                                                                
+Trenna           3500               4000         42000              9500                                                                                                                                
+Curtis           3100               3600         37200              9100                                                                                                                                
+Randall          2600               3100         31200              8600                                                                                                                                
+Peter            2500               3000         30000              8500                                                                                                                                
+Eleni           10500              11000        126000             16500                                                                                                                                
+Ellen           11000              11500        132000             17000                                                                                                                                
+Jonathon         8600               9100        103200             14600                                                                                                                                
+Kimerely         7000               7500         84000             13000                                                                                                                                
+Jennifer         4400               4900         52800             10400                                                                                                                                
+Michael         13000              13500        156000             19000                                                                                                                                
+Pat              6000               6500         72000             12000                                                                                                                                
+Shelley         12000              12500        144000             18000                                                                                                                                
+William          8300               8800         99600             14300                                                                                                                                
+
+20 rows selected.
+
+SQL> SELECT FIRST_NAME , SALARY , SALARY + 500 NEW_MONTHLY_SALARY , SALARY * 12 YEARLY_SALARY , (SALARY + 500) * 12 NEW_YEARLY_SALARY FROM EMPLOYEES;
+
+FIRST_NAME     SALARY NEW_MONTHLY_SALARY YEARLY_SALARY NEW_YEARLY_SALARY                                                                                                                                
+---------- ---------- ------------------ ------------- -----------------                                                                                                                                
+Steven          24000              24500        288000            294000                                                                                                                                
+Neena           17000              17500        204000            210000                                                                                                                                
+Lex             17000              17500        204000            210000                                                                                                                                
+Alexander        9000               9500        108000            114000                                                                                                                                
+Bruce            6000               6500         72000             78000                                                                                                                                
+Diana            4200               4700         50400             56400                                                                                                                                
+Kevin            5800               6300         69600             75600                                                                                                                                
+Trenna           3500               4000         42000             48000                                                                                                                                
+Curtis           3100               3600         37200             43200                                                                                                                                
+Randall          2600               3100         31200             37200                                                                                                                                
+Peter            2500               3000         30000             36000                                                                                                                                
+Eleni           10500              11000        126000            132000                                                                                                                                
+Ellen           11000              11500        132000            138000                                                                                                                                
+Jonathon         8600               9100        103200            109200                                                                                                                                
+Kimerely         7000               7500         84000             90000                                                                                                                                
+Jennifer         4400               4900         52800             58800                                                                                                                                
+Michael         13000              13500        156000            162000                                                                                                                                
+Pat              6000               6500         72000             78000                                                                                                                                
+Shelley         12000              12500        144000            150000                                                                                                                                
+William          8300               8800         99600            105600                                                                                                                                
+
+20 rows selected.
+
+SQL> REM DISTINCT/UNIQUE : IT WILL REMOVE ALL DUPLICATES FROM RESULT SET
+SQL> 
+SQL> SELECT DEPARTMENT_ID FROM EMPLOYEES;
+
+DEPARTMENT_ID                                                                                                                                                                                           
+-------------                                                                                                                                                                                           
+           90                                                                                                                                                                                           
+           90                                                                                                                                                                                           
+           90                                                                                                                                                                                           
+           60                                                                                                                                                                                           
+           60                                                                                                                                                                                           
+           60                                                                                                                                                                                           
+           50                                                                                                                                                                                           
+           50                                                                                                                                                                                           
+           50                                                                                                                                                                                           
+           50                                                                                                                                                                                           
+           50                                                                                                                                                                                           
+           80                                                                                                                                                                                           
+           80                                                                                                                                                                                           
+           80                                                                                                                                                                                           
+                                                                                                                                                                                                        
+           10                                                                                                                                                                                           
+           20                                                                                                                                                                                           
+           20                                                                                                                                                                                           
+          110                                                                                                                                                                                           
+          110                                                                                                                                                                                           
+
+20 rows selected.
+
+SQL> SELECT DISTINCT DEPARTMENT_ID FROM EMPLOYEES;
+
+DEPARTMENT_ID                                                                                                                                                                                           
+-------------                                                                                                                                                                                           
+                                                                                                                                                                                                        
+           90                                                                                                                                                                                           
+           20                                                                                                                                                                                           
+          110                                                                                                                                                                                           
+           50                                                                                                                                                                                           
+           80                                                                                                                                                                                           
+           60                                                                                                                                                                                           
+           10                                                                                                                                                                                           
+
+8 rows selected.
+
+SQL> SELECT ALL DEPARTMENT_ID FROM EMPLOYEES;
+
+DEPARTMENT_ID                                                                                                                                                                                           
+-------------                                                                                                                                                                                           
+           90                                                                                                                                                                                           
+           90                                                                                                                                                                                           
+           90                                                                                                                                                                                           
+           60                                                                                                                                                                                           
+           60                                                                                                                                                                                           
+           60                                                                                                                                                                                           
+           50                                                                                                                                                                                           
+           50                                                                                                                                                                                           
+           50                                                                                                                                                                                           
+           50                                                                                                                                                                                           
+           50                                                                                                                                                                                           
+           80                                                                                                                                                                                           
+           80                                                                                                                                                                                           
+           80                                                                                                                                                                                           
+                                                                                                                                                                                                        
+           10                                                                                                                                                                                           
+           20                                                                                                                                                                                           
+           20                                                                                                                                                                                           
+          110                                                                                                                                                                                           
+          110                                                                                                                                                                                           
+
+20 rows selected.
+
+SQL> REM ALL IS DEFAULT, WHICH MEANS INCLUDING DUPLICATE VALUES.
+SQL> 
+SQL> REM UNIQUE/DISTINCT, EXCLUDING DUPLICATES
+SQL> 
+SQL> 
+SQL> REM DISTINCT/UNIQUE IS PLACED JUST AFTER SELECT KEY WORD.
+SQL> 
+SQL> REM DISTINCT/UNIQUE CAN BE USED SINGLE TIME IN SINGLE COMMAND.
+SQL> 
+SQL> 
+SQL> 
+SQL> SELECT JOB_ID FROM EMPLOYEES;
+
+JOB_ID                                                                                                                                                                                                  
+----------                                                                                                                                                                                              
+AC_ACCOUNT                                                                                                                                                                                              
+AC_MGR                                                                                                                                                                                                  
+AD_ASST                                                                                                                                                                                                 
+AD_PRES                                                                                                                                                                                                 
+AD_VP                                                                                                                                                                                                   
+AD_VP                                                                                                                                                                                                   
+IT_PROG                                                                                                                                                                                                 
+IT_PROG                                                                                                                                                                                                 
+IT_PROG                                                                                                                                                                                                 
+MK_MAN                                                                                                                                                                                                  
+MK_REP                                                                                                                                                                                                  
+SA_MAN                                                                                                                                                                                                  
+SA_REP                                                                                                                                                                                                  
+SA_REP                                                                                                                                                                                                  
+SA_REP                                                                                                                                                                                                  
+ST_CLERK                                                                                                                                                                                                
+ST_CLERK                                                                                                                                                                                                
+ST_CLERK                                                                                                                                                                                                
+ST_CLERK                                                                                                                                                                                                
+ST_MAN                                                                                                                                                                                                  
+
+20 rows selected.
+
+SQL> SELECT UNIQUE JOB_ID FROM EMPLOYEES;
+
+JOB_ID                                                                                                                                                                                                  
+----------                                                                                                                                                                                              
+AC_ACCOUNT                                                                                                                                                                                              
+AC_MGR                                                                                                                                                                                                  
+IT_PROG                                                                                                                                                                                                 
+ST_MAN                                                                                                                                                                                                  
+AD_ASST                                                                                                                                                                                                 
+AD_VP                                                                                                                                                                                                   
+MK_MAN                                                                                                                                                                                                  
+SA_MAN                                                                                                                                                                                                  
+AD_PRES                                                                                                                                                                                                 
+MK_REP                                                                                                                                                                                                  
+SA_REP                                                                                                                                                                                                  
+ST_CLERK                                                                                                                                                                                                
+
+12 rows selected.
+
+SQL> SELECT MANAGER_ID FROM EMPLOYEES;
+
+MANAGER_ID                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+                                                                                                                                                                                                        
+       100                                                                                                                                                                                              
+       100                                                                                                                                                                                              
+       102                                                                                                                                                                                              
+       103                                                                                                                                                                                              
+       103                                                                                                                                                                                              
+       100                                                                                                                                                                                              
+       124                                                                                                                                                                                              
+       124                                                                                                                                                                                              
+       124                                                                                                                                                                                              
+       124                                                                                                                                                                                              
+       100                                                                                                                                                                                              
+       149                                                                                                                                                                                              
+       149                                                                                                                                                                                              
+       149                                                                                                                                                                                              
+       101                                                                                                                                                                                              
+       100                                                                                                                                                                                              
+       201                                                                                                                                                                                              
+       101                                                                                                                                                                                              
+       205                                                                                                                                                                                              
+
+20 rows selected.
+
+SQL> SELECT DISTINCT MANAGER_ID FROM EMPLOYEES;
+
+MANAGER_ID                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+                                                                                                                                                                                                        
+       100                                                                                                                                                                                              
+       149                                                                                                                                                                                              
+       205                                                                                                                                                                                              
+       102                                                                                                                                                                                              
+       201                                                                                                                                                                                              
+       101                                                                                                                                                                                              
+       124                                                                                                                                                                                              
+       103                                                                                                                                                                                              
+
+9 rows selected.
+
+SQL> SELECT DISTINCT DEPARTMENT_ID FROM EMPLOYEES;
+
+DEPARTMENT_ID                                                                                                                                                                                           
+-------------                                                                                                                                                                                           
+                                                                                                                                                                                                        
+           90                                                                                                                                                                                           
+           20                                                                                                                                                                                           
+          110                                                                                                                                                                                           
+           50                                                                                                                                                                                           
+           80                                                                                                                                                                                           
+           60                                                                                                                                                                                           
+           10                                                                                                                                                                                           
+
+8 rows selected.
+
+SQL> SELECT DEPARTMENT_ID , MANAGER_ID FROM EMPLOYEES ORDER BY 1,2;
+
+DEPARTMENT_ID MANAGER_ID                                                                                                                                                                                
+------------- ----------                                                                                                                                                                                
+           10        101                                                                                                                                                                                
+           20        100                                                                                                                                                                                
+           20        201                                                                                                                                                                                
+           50        100                                                                                                                                                                                
+           50        124                                                                                                                                                                                
+           50        124                                                                                                                                                                                
+           50        124                                                                                                                                                                                
+           50        124                                                                                                                                                                                
+           60        102                                                                                                                                                                                
+           60        103                                                                                                                                                                                
+           60        103                                                                                                                                                                                
+           80        100                                                                                                                                                                                
+           80        149                                                                                                                                                                                
+           80        149                                                                                                                                                                                
+           90        100                                                                                                                                                                                
+           90        100                                                                                                                                                                                
+           90                                                                                                                                                                                           
+          110        101                                                                                                                                                                                
+          110        205                                                                                                                                                                                
+                     149                                                                                                                                                                                
+
+20 rows selected.
+
+SQL> SELECT DISTINCT DEPARTMENT_ID , MANAGER_ID FROM EMPLOYEES ORDER BY 1,2;
+
+DEPARTMENT_ID MANAGER_ID                                                                                                                                                                                
+------------- ----------                                                                                                                                                                                
+           10        101                                                                                                                                                                                
+           20        100                                                                                                                                                                                
+           20        201                                                                                                                                                                                
+           50        100                                                                                                                                                                                
+           50        124                                                                                                                                                                                
+           60        102                                                                                                                                                                                
+           60        103                                                                                                                                                                                
+           80        100                                                                                                                                                                                
+           80        149                                                                                                                                                                                
+           90        100                                                                                                                                                                                
+           90                                                                                                                                                                                           
+          110        101                                                                                                                                                                                
+          110        205                                                                                                                                                                                
+                     149                                                                                                                                                                                
+
+14 rows selected.
+
+SQL> SELECT JOB_ID , DEPARTMENT_ID FROM EMPLOYEES ORDER BY 1,2;
+
+JOB_ID     DEPARTMENT_ID                                                                                                                                                                                
+---------- -------------                                                                                                                                                                                
+AC_ACCOUNT           110                                                                                                                                                                                
+AC_MGR               110                                                                                                                                                                                
+AD_ASST               10                                                                                                                                                                                
+AD_PRES               90                                                                                                                                                                                
+AD_VP                 90                                                                                                                                                                                
+AD_VP                 90                                                                                                                                                                                
+IT_PROG               60                                                                                                                                                                                
+IT_PROG               60                                                                                                                                                                                
+IT_PROG               60                                                                                                                                                                                
+MK_MAN                20                                                                                                                                                                                
+MK_REP                20                                                                                                                                                                                
+SA_MAN                80                                                                                                                                                                                
+SA_REP                80                                                                                                                                                                                
+SA_REP                80                                                                                                                                                                                
+SA_REP                                                                                                                                                                                                  
+ST_CLERK              50                                                                                                                                                                                
+ST_CLERK              50                                                                                                                                                                                
+ST_CLERK              50                                                                                                                                                                                
+ST_CLERK              50                                                                                                                                                                                
+ST_MAN                50                                                                                                                                                                                
+
+20 rows selected.
+
+SQL> SELECT UNIQUE JOB_ID , DEPARTMENT_ID FROM EMPLOYEES ORDER BY 1,2;
+
+JOB_ID     DEPARTMENT_ID                                                                                                                                                                                
+---------- -------------                                                                                                                                                                                
+AC_ACCOUNT           110                                                                                                                                                                                
+AC_MGR               110                                                                                                                                                                                
+AD_ASST               10                                                                                                                                                                                
+AD_PRES               90                                                                                                                                                                                
+AD_VP                 90                                                                                                                                                                                
+IT_PROG               60                                                                                                                                                                                
+MK_MAN                20                                                                                                                                                                                
+MK_REP                20                                                                                                                                                                                
+SA_MAN                80                                                                                                                                                                                
+SA_REP                80                                                                                                                                                                                
+SA_REP                                                                                                                                                                                                  
+ST_CLERK              50                                                                                                                                                                                
+ST_MAN                50                                                                                                                                                                                
+
+13 rows selected.
+
+SQL> SELECT MANAGER_ID , DEPARTMENT_ID FROM EMPLOYEES ORDER BY 1,2,3;
+SELECT MANAGER_ID , DEPARTMENT_ID FROM EMPLOYEES ORDER BY 1,2,3
+                                                              *
+ERROR at line 1:
+ORA-01785: ORDER BY item must be the number of a SELECT-list expression 
+
+
+SQL> SELECT MANAGER_ID , JOB_ID , DEPARTMENT_ID FROM EMPLOYEES ORDER BY 1,2,3;
+
+MANAGER_ID JOB_ID     DEPARTMENT_ID                                                                                                                                                                     
+---------- ---------- -------------                                                                                                                                                                     
+       100 AD_VP                 90                                                                                                                                                                     
+       100 AD_VP                 90                                                                                                                                                                     
+       100 MK_MAN                20                                                                                                                                                                     
+       100 SA_MAN                80                                                                                                                                                                     
+       100 ST_MAN                50                                                                                                                                                                     
+       101 AC_MGR               110                                                                                                                                                                     
+       101 AD_ASST               10                                                                                                                                                                     
+       102 IT_PROG               60                                                                                                                                                                     
+       103 IT_PROG               60                                                                                                                                                                     
+       103 IT_PROG               60                                                                                                                                                                     
+       124 ST_CLERK              50                                                                                                                                                                     
+       124 ST_CLERK              50                                                                                                                                                                     
+       124 ST_CLERK              50                                                                                                                                                                     
+       124 ST_CLERK              50                                                                                                                                                                     
+       149 SA_REP                80                                                                                                                                                                     
+       149 SA_REP                80                                                                                                                                                                     
+       149 SA_REP                                                                                                                                                                                       
+       201 MK_REP                20                                                                                                                                                                     
+       205 AC_ACCOUNT           110                                                                                                                                                                     
+           AD_PRES               90                                                                                                                                                                     
+
+20 rows selected.
+
+SQL> SELECT MANAGER_ID , JOB_ID , DEPARTMENT_ID FROM EMPLOYEES;
+
+MANAGER_ID JOB_ID     DEPARTMENT_ID                                                                                                                                                                     
+---------- ---------- -------------                                                                                                                                                                     
+           AD_PRES               90                                                                                                                                                                     
+       100 AD_VP                 90                                                                                                                                                                     
+       100 AD_VP                 90                                                                                                                                                                     
+       102 IT_PROG               60                                                                                                                                                                     
+       103 IT_PROG               60                                                                                                                                                                     
+       103 IT_PROG               60                                                                                                                                                                     
+       100 ST_MAN                50                                                                                                                                                                     
+       124 ST_CLERK              50                                                                                                                                                                     
+       124 ST_CLERK              50                                                                                                                                                                     
+       124 ST_CLERK              50                                                                                                                                                                     
+       124 ST_CLERK              50                                                                                                                                                                     
+       100 SA_MAN                80                                                                                                                                                                     
+       149 SA_REP                80                                                                                                                                                                     
+       149 SA_REP                80                                                                                                                                                                     
+       149 SA_REP                                                                                                                                                                                       
+       101 AD_ASST               10                                                                                                                                                                     
+       100 MK_MAN                20                                                                                                                                                                     
+       201 MK_REP                20                                                                                                                                                                     
+       101 AC_MGR               110                                                                                                                                                                     
+       205 AC_ACCOUNT           110                                                                                                                                                                     
+
+20 rows selected.
+
+SQL> SELECT MANAGER_ID , JOB_ID , DEPARTMENT_ID FROM EMPLOYEES ORDER BY 1,2,3;
+
+MANAGER_ID JOB_ID     DEPARTMENT_ID                                                                                                                                                                     
+---------- ---------- -------------                                                                                                                                                                     
+       100 AD_VP                 90                                                                                                                                                                     
+       100 AD_VP                 90                                                                                                                                                                     
+       100 MK_MAN                20                                                                                                                                                                     
+       100 SA_MAN                80                                                                                                                                                                     
+       100 ST_MAN                50                                                                                                                                                                     
+       101 AC_MGR               110                                                                                                                                                                     
+       101 AD_ASST               10                                                                                                                                                                     
+       102 IT_PROG               60                                                                                                                                                                     
+       103 IT_PROG               60                                                                                                                                                                     
+       103 IT_PROG               60                                                                                                                                                                     
+       124 ST_CLERK              50                                                                                                                                                                     
+       124 ST_CLERK              50                                                                                                                                                                     
+       124 ST_CLERK              50                                                                                                                                                                     
+       124 ST_CLERK              50                                                                                                                                                                     
+       149 SA_REP                80                                                                                                                                                                     
+       149 SA_REP                80                                                                                                                                                                     
+       149 SA_REP                                                                                                                                                                                       
+       201 MK_REP                20                                                                                                                                                                     
+       205 AC_ACCOUNT           110                                                                                                                                                                     
+           AD_PRES               90                                                                                                                                                                     
+
+20 rows selected.
+
+SQL> SELECT DISTINCT MANAGER_ID , JOB_ID , DEPARTMENT_ID FROM EMPLOYEES ORDER BY 1,2,3;
+
+MANAGER_ID JOB_ID     DEPARTMENT_ID                                                                                                                                                                     
+---------- ---------- -------------                                                                                                                                                                     
+       100 AD_VP                 90                                                                                                                                                                     
+       100 MK_MAN                20                                                                                                                                                                     
+       100 SA_MAN                80                                                                                                                                                                     
+       100 ST_MAN                50                                                                                                                                                                     
+       101 AC_MGR               110                                                                                                                                                                     
+       101 AD_ASST               10                                                                                                                                                                     
+       102 IT_PROG               60                                                                                                                                                                     
+       103 IT_PROG               60                                                                                                                                                                     
+       124 ST_CLERK              50                                                                                                                                                                     
+       149 SA_REP                80                                                                                                                                                                     
+       149 SA_REP                                                                                                                                                                                       
+       201 MK_REP                20                                                                                                                                                                     
+       205 AC_ACCOUNT           110                                                                                                                                                                     
+           AD_PRES               90                                                                                                                                                                     
+
+14 rows selected.
+
+SQL> SELECT DEPARTMENT_ID , MANAGER_ID FROM EMPLOYEES ORDER BY 1,2;
+
+DEPARTMENT_ID MANAGER_ID                                                                                                                                                                                
+------------- ----------                                                                                                                                                                                
+           10        101                                                                                                                                                                                
+           20        100                                                                                                                                                                                
+           20        201                                                                                                                                                                                
+           50        100                                                                                                                                                                                
+           50        124                                                                                                                                                                                
+           50        124                                                                                                                                                                                
+           50        124                                                                                                                                                                                
+           50        124                                                                                                                                                                                
+           60        102                                                                                                                                                                                
+           60        103                                                                                                                                                                                
+           60        103                                                                                                                                                                                
+           80        100                                                                                                                                                                                
+           80        149                                                                                                                                                                                
+           80        149                                                                                                                                                                                
+           90        100                                                                                                                                                                                
+           90        100                                                                                                                                                                                
+           90                                                                                                                                                                                           
+          110        101                                                                                                                                                                                
+          110        205                                                                                                                                                                                
+                     149                                                                                                                                                                                
+
+20 rows selected.
+
+SQL> SELECT DISTINCT DEPARTMENT_ID + MANAGER_ID FROM EMPLOYEES ORDER BY 1;
+
+DEPARTMENT_ID+MANAGER_ID                                                                                                                                                                                
+------------------------                                                                                                                                                                                
+                     111                                                                                                                                                                                
+                     120                                                                                                                                                                                
+                     150                                                                                                                                                                                
+                     162                                                                                                                                                                                
+                     163                                                                                                                                                                                
+                     174                                                                                                                                                                                
+                     180                                                                                                                                                                                
+                     190                                                                                                                                                                                
+                     211                                                                                                                                                                                
+                     221                                                                                                                                                                                
+                     229                                                                                                                                                                                
+                     315                                                                                                                                                                                
+                                                                                                                                                                                                        
+
+13 rows selected.
+
+SQL> SELECT DEPARTMENT_ID , MANAGER_ID FROM EMPLOYEES ORDER BY 1,2;
+
+DEPARTMENT_ID MANAGER_ID                                                                                                                                                                                
+------------- ----------                                                                                                                                                                                
+           10        101                                                                                                                                                                                
+           20        100                                                                                                                                                                                
+           20        201                                                                                                                                                                                
+           50        100                                                                                                                                                                                
+           50        124                                                                                                                                                                                
+           50        124                                                                                                                                                                                
+           50        124                                                                                                                                                                                
+           50        124                                                                                                                                                                                
+           60        102                                                                                                                                                                                
+           60        103                                                                                                                                                                                
+           60        103                                                                                                                                                                                
+           80        100                                                                                                                                                                                
+           80        149                                                                                                                                                                                
+           80        149                                                                                                                                                                                
+           90        100                                                                                                                                                                                
+           90        100                                                                                                                                                                                
+           90                                                                                                                                                                                           
+          110        101                                                                                                                                                                                
+          110        205                                                                                                                                                                                
+                     149                                                                                                                                                                                
+
+20 rows selected.
+
+SQL> SELECT DISTINCT DEPARTMENT_ID || MANAGER_ID FROM EMPLOYEES ORDER BY 1;
+
+DEPARTMENT_ID||MANAGER_ID                                                                                                                                                                               
+--------------------------------------------------------------------------------                                                                                                                        
+10101                                                                                                                                                                                                   
+110101                                                                                                                                                                                                  
+110205                                                                                                                                                                                                  
+149                                                                                                                                                                                                     
+20100                                                                                                                                                                                                   
+20201                                                                                                                                                                                                   
+50100                                                                                                                                                                                                   
+50124                                                                                                                                                                                                   
+60102                                                                                                                                                                                                   
+60103                                                                                                                                                                                                   
+80100                                                                                                                                                                                                   
+80149                                                                                                                                                                                                   
+90                                                                                                                                                                                                      
+90100                                                                                                                                                                                                   
+
+14 rows selected.
+
+SQL> 
+SQL> REM ROWNUM , ROWID : PSEUDOCOLUMNS
+SQL> 
+SQL> REM PSEUDOCOLUMNS : VARIABLES DECLARED,INITIALIZED,USED AND DISCARDED BY ORACLE AS AND WHEN REQUIRED.
+SQL> 
+SQL> REM ROWNUM : GENERATES SERIAL NUMBERS FOR EACH ROW OF RESULT SET
+SQL> 
+SQL> SELECT ROWNUM , * FROM DEPARTMENTS;
+SELECT ROWNUM , * FROM DEPARTMENTS
+                *
+ERROR at line 1:
+ORA-00936: missing expression 
+
+
+SQL> SELECT ROWNUM , DEPARTMENTS.* FROM DEPARTMENTS;
+
+    ROWNUM DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                          
+---------- ------------- ------------------------------ ---------- -----------                                                                                                                          
+         1            10 Administration                        200        1700                                                                                                                          
+         2            20 Marketing                             201        1800                                                                                                                          
+         3            50 Shiping                               124        1500                                                                                                                          
+         4            60 IT                                    103        1400                                                                                                                          
+         5            80 Sales                                 149        2500                                                                                                                          
+         6            90 Executive                             100        1700                                                                                                                          
+         7           110 Accounting                            205        1700                                                                                                                          
+         8           190 Contracting                                      1700                                                                                                                          
+
+8 rows selected.
+
+SQL> SELECT ROWNUM , D.* FROM DEPARTMENTS D;
+
+    ROWNUM DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                          
+---------- ------------- ------------------------------ ---------- -----------                                                                                                                          
+         1            10 Administration                        200        1700                                                                                                                          
+         2            20 Marketing                             201        1800                                                                                                                          
+         3            50 Shiping                               124        1500                                                                                                                          
+         4            60 IT                                    103        1400                                                                                                                          
+         5            80 Sales                                 149        2500                                                                                                                          
+         6            90 Executive                             100        1700                                                                                                                          
+         7           110 Accounting                            205        1700                                                                                                                          
+         8           190 Contracting                                      1700                                                                                                                          
+
+8 rows selected.
+
+SQL> SELECT ROWNUM , DEPARTMENTS.* FROM DEPARTMENTS D;
+SELECT ROWNUM , DEPARTMENTS.* FROM DEPARTMENTS D
+                            *
+ERROR at line 1:
+ORA-00904: "DEPARTMENTS": invalid identifier 
+
+
+SQL> REM ROWID : IS UNIQUE ADDRESS OF EACH ROW OF TABLE
+SQL> 
+SQL> REM ROWID GETS GENERATED AUTOMATICALLY WHEN WE INSERT ROW
+SQL> 
+SQL> SELECT ROWID , DEPARTMENTS.* FROM DEPARTMENTS D;
+SELECT ROWID , DEPARTMENTS.* FROM DEPARTMENTS D
+                           *
+ERROR at line 1:
+ORA-00904: "DEPARTMENTS": invalid identifier 
+
+
+SQL> SELECT ROWID , DEPARTMENTS.* FROM DEPARTMENTS;
+
+ROWID              DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                  
+------------------ ------------- ------------------------------ ---------- -----------                                                                                                                  
+AAAVNvAAHAAAAEkAAA            10 Administration                        200        1700                                                                                                                  
+AAAVNvAAHAAAAEkAAB            20 Marketing                             201        1800                                                                                                                  
+AAAVNvAAHAAAAEkAAC            50 Shiping                               124        1500                                                                                                                  
+AAAVNvAAHAAAAEkAAD            60 IT                                    103        1400                                                                                                                  
+AAAVNvAAHAAAAEkAAE            80 Sales                                 149        2500                                                                                                                  
+AAAVNvAAHAAAAEkAAF            90 Executive                             100        1700                                                                                                                  
+AAAVNvAAHAAAAEkAAG           110 Accounting                            205        1700                                                                                                                  
+AAAVNvAAHAAAAEkAAH           190 Contracting                                      1700                                                                                                                  
+
+8 rows selected.
+
+SQL> REM BY DEFAULT ALL ROWS ARE GETTING DISPLAYED IN ASCENDING ORDER OF ROWID.
+SQL> 
+SQL> REM Q OPERATOR
+SQL> 
+SQL> SPOOL OFF

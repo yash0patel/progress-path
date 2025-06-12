@@ -1,0 +1,889 @@
+SQL> REM THE TABLE WHICH TAKES REFERENCE IS CALLED CHILD TABLE.
+SQL> 
+SQL> REM THE TABLE WHICH HAS REFERRED PRIMARY KEY/UNIQUE IS CALLED PARENT TABLE.
+SQL> 
+SQL> 
+SQL> REM ORACLE SUPPORTS 3 TYPES OF RELATIONSHIPS BETWEEN PARENT AND CHILD TABLES.
+SQL> 
+SQL> 
+SQL> 
+SQL> REM RELATIONSHIP TYPE MATTERS WHEN WE TRY TO PERFORM DELETE OPERATION ON PARENT TABLE.
+SQL> 
+SQL> 
+SQL> 
+SQL> REM ORACLE SUPPORTS 3 TYPES OF RELATIONSHIPS BETWEEN PARENT AND CHILD TABLES.
+SQL> 
+SQL> REM 1 DEFAULT/NO ACTION
+SQL> 
+SQL> REM 2 ON DELETE CASCADE
+SQL> 
+SQL> REM 3 ON DELETE SET NULL
+SQL> 
+SQL> 
+SQL> 
+SQL> REM PARENT TABLE HAS VALUES IN REFERRED PRIMARY KEY COLUMNS : 1 2 3
+SQL> 
+SQL> REM CHILD TABLE HAS VALUES IN REFERENCE COLUMN : 1 2 2
+SQL> 
+SQL> 
+SQL> 
+SQL> REM 1 DEFAULT/NO ACTION : IT WILL FIRST CHECK WHETHER CHILD TABLE HAS CORRESPONDING CHILD ROWS OR NOT? IF CORRESPONDING CHILD ROWS EXIST, IT WILL NOT ALLOW TO PERFORM DELETE OPERATION.
+SQL> 
+SQL> REM 2 ON DELETE CASCADE : IT WILL FIRST CHECK WHETHER CORRESPONDING CHILD ROWS EXISTS OR NOT? IF EXIST WILL FIRST DELETE ALL CORRESPONDING CHILD ROWS AND THEN WILL DELETE PARENT ROW.
+SQL> 
+SQL> REM 3 ON DELETE SET NULL : IT WILL FIRST CHECK WHETHER CORRESPONDING CHILD ROWS EXISTS OR NOT? IF EXIST WILL FIRST UPDATE CORRESPONDING CHILD ROWS REFERENCE COLUMNS WITH NULL AND THEN WILL DELETE PARENT ROW.
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> DROP TABLE C1;
+
+Table dropped.
+
+SQL> DROP TABLE C2;
+
+Table dropped.
+
+SQL> DROP TABLE C3;
+
+Table dropped.
+
+SQL> DROP TABLE P1;
+
+Table dropped.
+
+SQL> DROP TABLE P2;
+
+Table dropped.
+
+SQL> DROP TABLE P3;
+
+Table dropped.
+
+SQL> 
+SQL> 
+SQL> CREATE TABLE P1(NO NUMBER(2) PRIMARY KEY,NM VARCHAR2(10));
+
+Table created.
+
+SQL> CREATE TABLE P2(NO NUMBER(2) PRIMARY KEY,NM VARCHAR2(10));
+
+Table created.
+
+SQL> CREATE TABLE P3(NO NUMBER(2) PRIMARY KEY,NM VARCHAR2(10));
+
+Table created.
+
+SQL> CREATE TABLE C1(NO NUMBER(2) REFERENCES P1 ,AMT NUMBER);
+
+Table created.
+
+SQL> CREATE TABLE C2(NO NUMBER(2) REFERENCES P2 ON DELETE CASCADE ,AMT NUMBER);
+
+Table created.
+
+SQL> CREATE TABLE C3(NO NUMBER(2) REFERENCES P3 ON DELETE SET NULL ,AMT NUMBER);
+
+Table created.
+
+SQL> 
+SQL> 
+SQL> INSERT INTO P1 VALUES (1,'GANESH');
+
+1 row created.
+
+SQL> INSERT INTO P1 VALUES (2,'RIDDHI');
+
+1 row created.
+
+SQL> INSERT INTO P1 VALUES (3,'SIDDHI');
+
+1 row created.
+
+SQL> INSERT INTO P2 SELECT * FROM P1;
+
+3 rows created.
+
+SQL> INSERT INTO P3 SELECT * FROM P1;
+
+3 rows created.
+
+SQL> INSERT INTO C1 VALUES (1,10000);
+
+1 row created.
+
+SQL> INSERT INTO C1 VALUES (2,20000);
+
+1 row created.
+
+SQL> INSERT INTO C1 VALUES (2,30000);
+
+1 row created.
+
+SQL> INSERT INTO C2 SELECT * FROM C1;
+
+3 rows created.
+
+SQL> INSERT INTO C3 SELECT * FROM C1;
+
+3 rows created.
+
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> DESC USER_CONSTRAINTS
+ Name                                                                                                              Null?    Type
+ ----------------------------------------------------------------------------------------------------------------- -------- ----------------------------------------------------------------------------
+ OWNER                                                                                                                      VARCHAR2(128)
+ CONSTRAINT_NAME                                                                                                            VARCHAR2(128)
+ CONSTRAINT_TYPE                                                                                                            VARCHAR2(1)
+ TABLE_NAME                                                                                                                 VARCHAR2(128)
+ SEARCH_CONDITION                                                                                                           LONG
+ SEARCH_CONDITION_VC                                                                                                        VARCHAR2(4000)
+ R_OWNER                                                                                                                    VARCHAR2(128)
+ R_CONSTRAINT_NAME                                                                                                          VARCHAR2(128)
+ DELETE_RULE                                                                                                                VARCHAR2(9)
+ STATUS                                                                                                                     VARCHAR2(8)
+ DEFERRABLE                                                                                                                 VARCHAR2(14)
+ DEFERRED                                                                                                                   VARCHAR2(9)
+ VALIDATED                                                                                                                  VARCHAR2(13)
+ GENERATED                                                                                                                  VARCHAR2(14)
+ BAD                                                                                                                        VARCHAR2(3)
+ RELY                                                                                                                       VARCHAR2(4)
+ LAST_CHANGE                                                                                                                DATE
+ INDEX_OWNER                                                                                                                VARCHAR2(128)
+ INDEX_NAME                                                                                                                 VARCHAR2(128)
+ INVALID                                                                                                                    VARCHAR2(7)
+ VIEW_RELATED                                                                                                               VARCHAR2(14)
+ ORIGIN_CON_ID                                                                                                              NUMBER
+
+SQL> DESC USER_CONS_COLUMNS
+ Name                                                                                                              Null?    Type
+ ----------------------------------------------------------------------------------------------------------------- -------- ----------------------------------------------------------------------------
+ OWNER                                                                                                             NOT NULL VARCHAR2(128)
+ CONSTRAINT_NAME                                                                                                   NOT NULL VARCHAR2(128)
+ TABLE_NAME                                                                                                        NOT NULL VARCHAR2(128)
+ COLUMN_NAME                                                                                                                VARCHAR2(4000)
+ POSITION                                                                                                                   NUMBER
+
+SQL> COL TABLE_NAME FORMAT A15
+SQL> COL COLUMN_NAME FORMAT A15
+SQL> COL CONSTRAINT_NAME FORMAT A15
+SQL> COL R_CONSTRAINT_NAME FORMAT A15
+SQL> COL DELETE_RULE FORMAT A15
+SQL> 
+SQL> 
+SQL> REM 1 DEFAULT/NO ACTION : IT WILL FIRST CHECK WHETHER CHILD TABLE HAS CORRESPONDING CHILD ROWS OR NOT? IF CORRESPONDING CHILD ROWS EXIST, IT WILL NOT ALLOW TO PERFORM DELETE OPERATION.
+SQL> 
+SQL> SELECT TABLE_NAME , COLUMN_NAME , CONSTRAINT_TYPE , CONSTRAINT_NAME , R_CONSTRAINT_NAME , DELETE FROM USER_CONSTRAINTS NATURAL JOIN USER_CONS_COLUMNS WHERE TABLE_NAME IN ('P1','C1');
+SELECT TABLE_NAME , COLUMN_NAME , CONSTRAINT_TYPE , CONSTRAINT_NAME , R_CONSTRAINT_NAME , DELETE FROM USER_CONSTRAINTS NATURAL JOIN USER_CONS_COLUMNS WHERE TABLE_NAME IN ('P1','C1')
+                                                                                          *
+ERROR at line 1:
+ORA-00936: missing expression 
+
+
+SQL> SELECT TABLE_NAME , COLUMN_NAME , CONSTRAINT_TYPE , CONSTRAINT_NAME , R_CONSTRAINT_NAME , DELETE_RULE FROM USER_CONSTRAINTS NATURAL JOIN USER_CONS_COLUMNS WHERE TABLE_NAME IN ('P1','C1');
+
+TABLE_NAME      COLUMN_NAME     C CONSTRAINT_NAME R_CONSTRAINT_NA DELETE_RULE                                                                                                                           
+--------------- --------------- - --------------- --------------- ---------------                                                                                                                       
+P1              NO              P SYS_C0031942                                                                                                                                                          
+C1              NO              R SYS_C0031945    SYS_C0031942    NO ACTION                                                                                                                             
+
+SQL> SELECT * FROM P1;
+
+        NO NM                                                                                                                                                                                           
+---------- ----------                                                                                                                                                                                   
+         1 GANESH                                                                                                                                                                                       
+         2 RIDDHI                                                                                                                                                                                       
+         3 SIDDHI                                                                                                                                                                                       
+
+SQL> SELECT * FROM C1;
+
+        NO        AMT                                                                                                                                                                                   
+---------- ----------                                                                                                                                                                                   
+         1      10000                                                                                                                                                                                   
+         2      20000                                                                                                                                                                                   
+         2      30000                                                                                                                                                                                   
+
+SQL> DELETE P1 WHERE NO = 2;
+DELETE P1 WHERE NO = 2
+*
+ERROR at line 1:
+ORA-02292: integrity constraint (SCOTT.SYS_C0031945) violated - child record found 
+
+
+SQL> DELETE P1 WHERE NO = 3;
+
+1 row deleted.
+
+SQL> DELETE C1 WHERE NO = 2;
+
+2 rows deleted.
+
+SQL> SELECT * FROM C1;
+
+        NO        AMT                                                                                                                                                                                   
+---------- ----------                                                                                                                                                                                   
+         1      10000                                                                                                                                                                                   
+
+SQL> SELECT * FROM P1;
+
+        NO NM                                                                                                                                                                                           
+---------- ----------                                                                                                                                                                                   
+         1 GANESH                                                                                                                                                                                       
+         2 RIDDHI                                                                                                                                                                                       
+
+SQL> DELETE P1 WHERE NO = 2;
+
+1 row deleted.
+
+SQL> SELECT * FROM P1;
+
+        NO NM                                                                                                                                                                                           
+---------- ----------                                                                                                                                                                                   
+         1 GANESH                                                                                                                                                                                       
+
+SQL> SELECT * FROM C1;
+
+        NO        AMT                                                                                                                                                                                   
+---------- ----------                                                                                                                                                                                   
+         1      10000                                                                                                                                                                                   
+
+SQL> REM 2 ON DELETE CASCADE : IT WILL FIRST CHECK WHETHER CORRESPONDING CHILD ROWS EXISTS OR NOT? IF EXIST WILL FIRST DELETE ALL CORRESPONDING CHILD ROWS AND THEN WILL DELETE PARENT ROW.
+SQL> 
+SQL> SELECT TABLE_NAME , COLUMN_NAME , CONSTRAINT_TYPE , CONSTRAINT_NAME , R_CONSTRAINT_NAME , DELETE_RULE FROM USER_CONSTRAINTS NATURAL JOIN USER_CONS_COLUMNS WHERE TABLE_NAME IN ('P2','C2');
+
+TABLE_NAME      COLUMN_NAME     C CONSTRAINT_NAME R_CONSTRAINT_NA DELETE_RULE                                                                                                                           
+--------------- --------------- - --------------- --------------- ---------------                                                                                                                       
+P2              NO              P SYS_C0031943                                                                                                                                                          
+C2              NO              R SYS_C0031946    SYS_C0031943    CASCADE                                                                                                                               
+
+SQL> SELECT * FROM P2;
+
+        NO NM                                                                                                                                                                                           
+---------- ----------                                                                                                                                                                                   
+         1 GANESH                                                                                                                                                                                       
+         2 RIDDHI                                                                                                                                                                                       
+         3 SIDDHI                                                                                                                                                                                       
+
+SQL> SELECT * FROM C2;
+
+        NO        AMT                                                                                                                                                                                   
+---------- ----------                                                                                                                                                                                   
+         1      10000                                                                                                                                                                                   
+         2      20000                                                                                                                                                                                   
+         2      30000                                                                                                                                                                                   
+
+SQL> DELETE P2 WHERE NO = 2;
+
+1 row deleted.
+
+SQL> SELECT * FROM P2;
+
+        NO NM                                                                                                                                                                                           
+---------- ----------                                                                                                                                                                                   
+         1 GANESH                                                                                                                                                                                       
+         3 SIDDHI                                                                                                                                                                                       
+
+SQL> SELECT * FROM C2;
+
+        NO        AMT                                                                                                                                                                                   
+---------- ----------                                                                                                                                                                                   
+         1      10000                                                                                                                                                                                   
+
+SQL> DELETE P2 WHERE NO = 3;
+
+1 row deleted.
+
+SQL> SELECT * FROM P3;
+
+        NO NM                                                                                                                                                                                           
+---------- ----------                                                                                                                                                                                   
+         1 GANESH                                                                                                                                                                                       
+         2 RIDDHI                                                                                                                                                                                       
+         3 SIDDHI                                                                                                                                                                                       
+
+SQL> SELECT * FROM P1;
+
+        NO NM                                                                                                                                                                                           
+---------- ----------                                                                                                                                                                                   
+         1 GANESH                                                                                                                                                                                       
+
+SQL> SELECT * FROM C1;
+
+        NO        AMT                                                                                                                                                                                   
+---------- ----------                                                                                                                                                                                   
+         1      10000                                                                                                                                                                                   
+
+SQL> REM 3 ON DELETE SET NULL : IT WILL FIRST CHECK WHETHER CORRESPONDING CHILD ROWS EXISTS OR NOT? IF EXIST WILL FIRST UPDATE CORRESPONDING CHILD ROWS REFERENCE COLUMNS WITH NULL AND THEN WILL DELETE PARENT ROW.
+SQL> 
+SQL> SELECT TABLE_NAME , COLUMN_NAME , CONSTRAINT_TYPE , CONSTRAINT_NAME , R_CONSTRAINT_NAME , DELETE_RULE FROM USER_CONSTRAINTS NATURAL JOIN USER_CONS_COLUMNS WHERE TABLE_NAME IN ('P3','C3');
+
+TABLE_NAME      COLUMN_NAME     C CONSTRAINT_NAME R_CONSTRAINT_NA DELETE_RULE                                                                                                                           
+--------------- --------------- - --------------- --------------- ---------------                                                                                                                       
+P3              NO              P SYS_C0031944                                                                                                                                                          
+C3              NO              R SYS_C0031947    SYS_C0031944    SET NULL                                                                                                                              
+
+SQL> SELECT * FROM P3;
+
+        NO NM                                                                                                                                                                                           
+---------- ----------                                                                                                                                                                                   
+         1 GANESH                                                                                                                                                                                       
+         2 RIDDHI                                                                                                                                                                                       
+         3 SIDDHI                                                                                                                                                                                       
+
+SQL> SELECT * FROM C3;
+
+        NO        AMT                                                                                                                                                                                   
+---------- ----------                                                                                                                                                                                   
+         1      10000                                                                                                                                                                                   
+         2      20000                                                                                                                                                                                   
+         2      30000                                                                                                                                                                                   
+
+SQL> DELETE P3 WHERE NO = 2;
+
+1 row deleted.
+
+SQL> SELECT * FROM P3;
+
+        NO NM                                                                                                                                                                                           
+---------- ----------                                                                                                                                                                                   
+         1 GANESH                                                                                                                                                                                       
+         3 SIDDHI                                                                                                                                                                                       
+
+SQL> SELECT * FROM C3;
+
+        NO        AMT                                                                                                                                                                                   
+---------- ----------                                                                                                                                                                                   
+         1      10000                                                                                                                                                                                   
+                20000                                                                                                                                                                                   
+                30000                                                                                                                                                                                   
+
+SQL> REM USER_CONSTRAINTS , USER_CONS_COLUMNS
+SQL> 
+SQL> REM RELATIONSHIP TYPES : 1 DEFAULT/NO ACTION   2 ON DELETE CASCADE   3 ON DELETE SET NULL
+SQL> 
+SQL> SELECT TABLE_NAME FROM USER_TABLES ORDER BY 1;
+
+TABLE_NAME                                                                                                                                                                                              
+---------------                                                                                                                                                                                         
+$%^&                                                                                                                                                                                                    
+$%^.                                                                                                                                                                                                    
+$%^T                                                                                                                                                                                                    
+(IN)                                                                                                                                                                                                    
+123ONE                                                                                                                                                                                                  
+123ONE#^*                                                                                                                                                                                               
+123ONe                                                                                                                                                                                                  
+ABC                                                                                                                                                                                                     
+ABC#1                                                                                                                                                                                                   
+ALAKH                                                                                                                                                                                                   
+ATM                                                                                                                                                                                                     
+Abc                                                                                                                                                                                                     
+B1                                                                                                                                                                                                      
+B2                                                                                                                                                                                                      
+B3                                                                                                                                                                                                      
+BA                                                                                                                                                                                                      
+BANK_ACC                                                                                                                                                                                                
+BATCH_MASTER                                                                                                                                                                                            
+BB                                                                                                                                                                                                      
+BC                                                                                                                                                                                                      
+BILL                                                                                                                                                                                                    
+
+TABLE_NAME                                                                                                                                                                                              
+---------------                                                                                                                                                                                         
+BOOK_LIBRARY                                                                                                                                                                                            
+C1                                                                                                                                                                                                      
+C2                                                                                                                                                                                                      
+C3                                                                                                                                                                                                      
+CASUAL_CONTRACT                                                                                                                                                                                         
+CCC                                                                                                                                                                                                     
+CN                                                                                                                                                                                                      
+CONTACTNO                                                                                                                                                                                               
+CONTRACT                                                                                                                                                                                                
+COUNTRIES                                                                                                                                                                                               
+COUNTRY                                                                                                                                                                                                 
+COURSE                                                                                                                                                                                                  
+D1                                                                                                                                                                                                      
+D2                                                                                                                                                                                                      
+DDD                                                                                                                                                                                                     
+DEPARTMENTS                                                                                                                                                                                             
+DEPT                                                                                                                                                                                                    
+DISCOVERY_SERIA                                                                                                                                                                                         
+LS                                                                                                                                                                                                      
+                                                                                                                                                                                                        
+E1                                                                                                                                                                                                      
+
+TABLE_NAME                                                                                                                                                                                              
+---------------                                                                                                                                                                                         
+E10                                                                                                                                                                                                     
+E11                                                                                                                                                                                                     
+E111                                                                                                                                                                                                    
+E12                                                                                                                                                                                                     
+E13                                                                                                                                                                                                     
+E14                                                                                                                                                                                                     
+E15                                                                                                                                                                                                     
+E16                                                                                                                                                                                                     
+E17                                                                                                                                                                                                     
+E2                                                                                                                                                                                                      
+E3                                                                                                                                                                                                      
+E4                                                                                                                                                                                                      
+E5                                                                                                                                                                                                      
+E6                                                                                                                                                                                                      
+E7                                                                                                                                                                                                      
+E8                                                                                                                                                                                                      
+E9                                                                                                                                                                                                      
+EMP                                                                                                                                                                                                     
+EMP1                                                                                                                                                                                                    
+EMPL6                                                                                                                                                                                                   
+EMPLOYEES                                                                                                                                                                                               
+
+TABLE_NAME                                                                                                                                                                                              
+---------------                                                                                                                                                                                         
+ERT                                                                                                                                                                                                     
+EUROPE_TOUR                                                                                                                                                                                             
+EXAM                                                                                                                                                                                                    
+FIXED_DEPOSIT                                                                                                                                                                                           
+FOOD_COMPANY                                                                                                                                                                                            
+FT_CONTRACT                                                                                                                                                                                             
+GANESH                                                                                                                                                                                                  
+GHI                                                                                                                                                                                                     
+GTT1                                                                                                                                                                                                    
+GTT2                                                                                                                                                                                                    
+GTT3                                                                                                                                                                                                    
+GTT4                                                                                                                                                                                                    
+GTT5                                                                                                                                                                                                    
+HI bye                                                                                                                                                                                                  
+Hari Om                                                                                                                                                                                                 
+Hi Hello                                                                                                                                                                                                
+INCOME                                                                                                                                                                                                  
+INV                                                                                                                                                                                                     
+INVOICE                                                                                                                                                                                                 
+JOBS                                                                                                                                                                                                    
+JOB_GRADES                                                                                                                                                                                              
+
+TABLE_NAME                                                                                                                                                                                              
+---------------                                                                                                                                                                                         
+JOB_HISTORY                                                                                                                                                                                             
+L1                                                                                                                                                                                                      
+LOCATION                                                                                                                                                                                                
+LOCATIONS                                                                                                                                                                                               
+MANAGER                                                                                                                                                                                                 
+MASTER                                                                                                                                                                                                  
+MEET1                                                                                                                                                                                                   
+MNC                                                                                                                                                                                                     
+MPSCANTEACH                                                                                                                                                                                             
+MPSCMST                                                                                                                                                                                                 
+MPSDEPT                                                                                                                                                                                                 
+MPSDTROUTRU                                                                                                                                                                                             
+MPSEMP                                                                                                                                                                                                  
+MPSINCR                                                                                                                                                                                                 
+MPSITMST                                                                                                                                                                                                
+MPSITTRN                                                                                                                                                                                                
+MPSJOBINCR                                                                                                                                                                                              
+MPSLIKETBL                                                                                                                                                                                              
+MPSMIXDATA                                                                                                                                                                                              
+MPSNAMES                                                                                                                                                                                                
+MPSPNNO                                                                                                                                                                                                 
+
+TABLE_NAME                                                                                                                                                                                              
+---------------                                                                                                                                                                                         
+MPSROMANNO                                                                                                                                                                                              
+MPSSALGRADE                                                                                                                                                                                             
+MPSSALLIMIT                                                                                                                                                                                             
+MPSSCNO                                                                                                                                                                                                 
+MPSSFEES                                                                                                                                                                                                
+MPSSMST                                                                                                                                                                                                 
+MPSSPNO                                                                                                                                                                                                 
+MPSSTAFF                                                                                                                                                                                                
+MPSSUBJECT                                                                                                                                                                                              
+MPSTRANS                                                                                                                                                                                                
+NA                                                                                                                                                                                                      
+NEMP                                                                                                                                                                                                    
+NEWALAKH                                                                                                                                                                                                
+NEWDEPT                                                                                                                                                                                                 
+NEWEMP                                                                                                                                                                                                  
+NEWMPSEMP                                                                                                                                                                                               
+NEWSALES                                                                                                                                                                                                
+NEWTAB                                                                                                                                                                                                  
+NEW_SALES_DATA                                                                                                                                                                                          
+NTR                                                                                                                                                                                                     
+OLDMPSEMP                                                                                                                                                                                               
+
+TABLE_NAME                                                                                                                                                                                              
+---------------                                                                                                                                                                                         
+OLDSALES                                                                                                                                                                                                
+OLDTAB                                                                                                                                                                                                  
+OLD_SALES_DATA                                                                                                                                                                                          
+OUTSTANDING                                                                                                                                                                                             
+P1                                                                                                                                                                                                      
+P2                                                                                                                                                                                                      
+P3                                                                                                                                                                                                      
+P4                                                                                                                                                                                                      
+PARAM                                                                                                                                                                                                   
+PERSINFO                                                                                                                                                                                                
+PERSONAL_INFO                                                                                                                                                                                           
+PLAYERS                                                                                                                                                                                                 
+POSNEGNO                                                                                                                                                                                                
+PQR                                                                                                                                                                                                     
+PRODMST                                                                                                                                                                                                 
+PRODTRN                                                                                                                                                                                                 
+PT_CONTRACT                                                                                                                                                                                             
+Q1                                                                                                                                                                                                      
+QWERT                                                                                                                                                                                                   
+R1                                                                                                                                                                                                      
+R11                                                                                                                                                                                                     
+
+TABLE_NAME                                                                                                                                                                                              
+---------------                                                                                                                                                                                         
+R12                                                                                                                                                                                                     
+R13                                                                                                                                                                                                     
+R14                                                                                                                                                                                                     
+R2                                                                                                                                                                                                      
+R6                                                                                                                                                                                                      
+REGION                                                                                                                                                                                                  
+REGIONS                                                                                                                                                                                                 
+REMARK                                                                                                                                                                                                  
+RST                                                                                                                                                                                                     
+SCHOOL                                                                                                                                                                                                  
+STAFF                                                                                                                                                                                                   
+STD5A                                                                                                                                                                                                   
+STDA5                                                                                                                                                                                                   
+STOCK_MKT_TRANS                                                                                                                                                                                         
+ACTION                                                                                                                                                                                                  
+                                                                                                                                                                                                        
+STORE                                                                                                                                                                                                   
+STU                                                                                                                                                                                                     
+STUDENT                                                                                                                                                                                                 
+SUB                                                                                                                                                                                                     
+SUBJECTS                                                                                                                                                                                                
+
+TABLE_NAME                                                                                                                                                                                              
+---------------                                                                                                                                                                                         
+SYS_TEMP_FBT                                                                                                                                                                                            
+Select                                                                                                                                                                                                  
+Select From                                                                                                                                                                                             
+Sita Ram                                                                                                                                                                                                
+T1                                                                                                                                                                                                      
+T10                                                                                                                                                                                                     
+T11                                                                                                                                                                                                     
+T12                                                                                                                                                                                                     
+T1234                                                                                                                                                                                                   
+T13                                                                                                                                                                                                     
+T14                                                                                                                                                                                                     
+T15                                                                                                                                                                                                     
+T16                                                                                                                                                                                                     
+T17                                                                                                                                                                                                     
+T2                                                                                                                                                                                                      
+T20                                                                                                                                                                                                     
+T3                                                                                                                                                                                                      
+T321                                                                                                                                                                                                    
+T4                                                                                                                                                                                                      
+T41                                                                                                                                                                                                     
+T42                                                                                                                                                                                                     
+
+TABLE_NAME                                                                                                                                                                                              
+---------------                                                                                                                                                                                         
+T420                                                                                                                                                                                                    
+T5                                                                                                                                                                                                      
+T567                                                                                                                                                                                                    
+T6                                                                                                                                                                                                      
+T7                                                                                                                                                                                                      
+T8                                                                                                                                                                                                      
+T9                                                                                                                                                                                                      
+TAB1                                                                                                                                                                                                    
+TARAK                                                                                                                                                                                                   
+TEAM1                                                                                                                                                                                                   
+TEAM2                                                                                                                                                                                                   
+TI                                                                                                                                                                                                      
+TR                                                                                                                                                                                                      
+TRANSACTIONS                                                                                                                                                                                            
+TRIANGLE                                                                                                                                                                                                
+TTRR                                                                                                                                                                                                    
+TTT                                                                                                                                                                                                     
+Then                                                                                                                                                                                                    
+WER                                                                                                                                                                                                     
+WORKER                                                                                                                                                                                                  
+XYZ                                                                                                                                                                                                     
+
+TABLE_NAME                                                                                                                                                                                              
+---------------                                                                                                                                                                                         
+You                                                                                                                                                                                                     
+insert                                                                                                                                                                                                  
+pQR                                                                                                                                                                                                     
+pQr                                                                                                                                                                                                     
+pqr                                                                                                                                                                                                     
+select                                                                                                                                                                                                  
+you                                                                                                                                                                                                     
+
+213 rows selected.
+
+SQL> DROP TABLE YOU;
+DROP TABLE YOU
+           *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> DROP TABLE "you";
+
+Table dropped.
+
+SQL> SELECT TABLE_NAME FROM USER_TABLES ORDER BY 1;
+
+TABLE_NAME                                                                                                                                                                                              
+---------------                                                                                                                                                                                         
+$%^&                                                                                                                                                                                                    
+$%^.                                                                                                                                                                                                    
+$%^T                                                                                                                                                                                                    
+(IN)                                                                                                                                                                                                    
+123ONE                                                                                                                                                                                                  
+123ONE#^*                                                                                                                                                                                               
+123ONe                                                                                                                                                                                                  
+ABC                                                                                                                                                                                                     
+ABC#1                                                                                                                                                                                                   
+ALAKH                                                                                                                                                                                                   
+ATM                                                                                                                                                                                                     
+Abc                                                                                                                                                                                                     
+B1                                                                                                                                                                                                      
+B2                                                                                                                                                                                                      
+B3                                                                                                                                                                                                      
+BA                                                                                                                                                                                                      
+BANK_ACC                                                                                                                                                                                                
+BATCH_MASTER                                                                                                                                                                                            
+BB                                                                                                                                                                                                      
+BC                                                                                                                                                                                                      
+BILL                                                                                                                                                                                                    
+
+TABLE_NAME                                                                                                                                                                                              
+---------------                                                                                                                                                                                         
+BOOK_LIBRARY                                                                                                                                                                                            
+C1                                                                                                                                                                                                      
+C2                                                                                                                                                                                                      
+C3                                                                                                                                                                                                      
+CASUAL_CONTRACT                                                                                                                                                                                         
+CCC                                                                                                                                                                                                     
+CN                                                                                                                                                                                                      
+CONTACTNO                                                                                                                                                                                               
+CONTRACT                                                                                                                                                                                                
+COUNTRIES                                                                                                                                                                                               
+COUNTRY                                                                                                                                                                                                 
+COURSE                                                                                                                                                                                                  
+D1                                                                                                                                                                                                      
+D2                                                                                                                                                                                                      
+DDD                                                                                                                                                                                                     
+DEPARTMENTS                                                                                                                                                                                             
+DEPT                                                                                                                                                                                                    
+DISCOVERY_SERIA                                                                                                                                                                                         
+LS                                                                                                                                                                                                      
+                                                                                                                                                                                                        
+E1                                                                                                                                                                                                      
+
+TABLE_NAME                                                                                                                                                                                              
+---------------                                                                                                                                                                                         
+E10                                                                                                                                                                                                     
+E11                                                                                                                                                                                                     
+E111                                                                                                                                                                                                    
+E12                                                                                                                                                                                                     
+E13                                                                                                                                                                                                     
+E14                                                                                                                                                                                                     
+E15                                                                                                                                                                                                     
+E16                                                                                                                                                                                                     
+E17                                                                                                                                                                                                     
+E2                                                                                                                                                                                                      
+E3                                                                                                                                                                                                      
+E4                                                                                                                                                                                                      
+E5                                                                                                                                                                                                      
+E6                                                                                                                                                                                                      
+E7                                                                                                                                                                                                      
+E8                                                                                                                                                                                                      
+E9                                                                                                                                                                                                      
+EMP                                                                                                                                                                                                     
+EMP1                                                                                                                                                                                                    
+EMPL6                                                                                                                                                                                                   
+EMPLOYEES                                                                                                                                                                                               
+
+TABLE_NAME                                                                                                                                                                                              
+---------------                                                                                                                                                                                         
+ERT                                                                                                                                                                                                     
+EUROPE_TOUR                                                                                                                                                                                             
+EXAM                                                                                                                                                                                                    
+FIXED_DEPOSIT                                                                                                                                                                                           
+FOOD_COMPANY                                                                                                                                                                                            
+FT_CONTRACT                                                                                                                                                                                             
+GANESH                                                                                                                                                                                                  
+GHI                                                                                                                                                                                                     
+GTT1                                                                                                                                                                                                    
+GTT2                                                                                                                                                                                                    
+GTT3                                                                                                                                                                                                    
+GTT4                                                                                                                                                                                                    
+GTT5                                                                                                                                                                                                    
+HI bye                                                                                                                                                                                                  
+Hari Om                                                                                                                                                                                                 
+Hi Hello                                                                                                                                                                                                
+INCOME                                                                                                                                                                                                  
+INV                                                                                                                                                                                                     
+INVOICE                                                                                                                                                                                                 
+JOBS                                                                                                                                                                                                    
+JOB_GRADES                                                                                                                                                                                              
+
+TABLE_NAME                                                                                                                                                                                              
+---------------                                                                                                                                                                                         
+JOB_HISTORY                                                                                                                                                                                             
+L1                                                                                                                                                                                                      
+LOCATION                                                                                                                                                                                                
+LOCATIONS                                                                                                                                                                                               
+MANAGER                                                                                                                                                                                                 
+MASTER                                                                                                                                                                                                  
+MEET1                                                                                                                                                                                                   
+MNC                                                                                                                                                                                                     
+MPSCANTEACH                                                                                                                                                                                             
+MPSCMST                                                                                                                                                                                                 
+MPSDEPT                                                                                                                                                                                                 
+MPSDTROUTRU                                                                                                                                                                                             
+MPSEMP                                                                                                                                                                                                  
+MPSINCR                                                                                                                                                                                                 
+MPSITMST                                                                                                                                                                                                
+MPSITTRN                                                                                                                                                                                                
+MPSJOBINCR                                                                                                                                                                                              
+MPSLIKETBL                                                                                                                                                                                              
+MPSMIXDATA                                                                                                                                                                                              
+MPSNAMES                                                                                                                                                                                                
+MPSPNNO                                                                                                                                                                                                 
+
+TABLE_NAME                                                                                                                                                                                              
+---------------                                                                                                                                                                                         
+MPSROMANNO                                                                                                                                                                                              
+MPSSALGRADE                                                                                                                                                                                             
+MPSSALLIMIT                                                                                                                                                                                             
+MPSSCNO                                                                                                                                                                                                 
+MPSSFEES                                                                                                                                                                                                
+MPSSMST                                                                                                                                                                                                 
+MPSSPNO                                                                                                                                                                                                 
+MPSSTAFF                                                                                                                                                                                                
+MPSSUBJECT                                                                                                                                                                                              
+MPSTRANS                                                                                                                                                                                                
+NA                                                                                                                                                                                                      
+NEMP                                                                                                                                                                                                    
+NEWALAKH                                                                                                                                                                                                
+NEWDEPT                                                                                                                                                                                                 
+NEWEMP                                                                                                                                                                                                  
+NEWMPSEMP                                                                                                                                                                                               
+NEWSALES                                                                                                                                                                                                
+NEWTAB                                                                                                                                                                                                  
+NEW_SALES_DATA                                                                                                                                                                                          
+NTR                                                                                                                                                                                                     
+OLDMPSEMP                                                                                                                                                                                               
+
+TABLE_NAME                                                                                                                                                                                              
+---------------                                                                                                                                                                                         
+OLDSALES                                                                                                                                                                                                
+OLDTAB                                                                                                                                                                                                  
+OLD_SALES_DATA                                                                                                                                                                                          
+OUTSTANDING                                                                                                                                                                                             
+P1                                                                                                                                                                                                      
+P2                                                                                                                                                                                                      
+P3                                                                                                                                                                                                      
+P4                                                                                                                                                                                                      
+PARAM                                                                                                                                                                                                   
+PERSINFO                                                                                                                                                                                                
+PERSONAL_INFO                                                                                                                                                                                           
+PLAYERS                                                                                                                                                                                                 
+POSNEGNO                                                                                                                                                                                                
+PQR                                                                                                                                                                                                     
+PRODMST                                                                                                                                                                                                 
+PRODTRN                                                                                                                                                                                                 
+PT_CONTRACT                                                                                                                                                                                             
+Q1                                                                                                                                                                                                      
+QWERT                                                                                                                                                                                                   
+R1                                                                                                                                                                                                      
+R11                                                                                                                                                                                                     
+
+TABLE_NAME                                                                                                                                                                                              
+---------------                                                                                                                                                                                         
+R12                                                                                                                                                                                                     
+R13                                                                                                                                                                                                     
+R14                                                                                                                                                                                                     
+R2                                                                                                                                                                                                      
+R6                                                                                                                                                                                                      
+REGION                                                                                                                                                                                                  
+REGIONS                                                                                                                                                                                                 
+REMARK                                                                                                                                                                                                  
+RST                                                                                                                                                                                                     
+SCHOOL                                                                                                                                                                                                  
+STAFF                                                                                                                                                                                                   
+STD5A                                                                                                                                                                                                   
+STDA5                                                                                                                                                                                                   
+STOCK_MKT_TRANS                                                                                                                                                                                         
+ACTION                                                                                                                                                                                                  
+                                                                                                                                                                                                        
+STORE                                                                                                                                                                                                   
+STU                                                                                                                                                                                                     
+STUDENT                                                                                                                                                                                                 
+SUB                                                                                                                                                                                                     
+SUBJECTS                                                                                                                                                                                                
+
+TABLE_NAME                                                                                                                                                                                              
+---------------                                                                                                                                                                                         
+SYS_TEMP_FBT                                                                                                                                                                                            
+Select                                                                                                                                                                                                  
+Select From                                                                                                                                                                                             
+Sita Ram                                                                                                                                                                                                
+T1                                                                                                                                                                                                      
+T10                                                                                                                                                                                                     
+T11                                                                                                                                                                                                     
+T12                                                                                                                                                                                                     
+T1234                                                                                                                                                                                                   
+T13                                                                                                                                                                                                     
+T14                                                                                                                                                                                                     
+T15                                                                                                                                                                                                     
+T16                                                                                                                                                                                                     
+T17                                                                                                                                                                                                     
+T2                                                                                                                                                                                                      
+T20                                                                                                                                                                                                     
+T3                                                                                                                                                                                                      
+T321                                                                                                                                                                                                    
+T4                                                                                                                                                                                                      
+T41                                                                                                                                                                                                     
+T42                                                                                                                                                                                                     
+
+TABLE_NAME                                                                                                                                                                                              
+---------------                                                                                                                                                                                         
+T420                                                                                                                                                                                                    
+T5                                                                                                                                                                                                      
+T567                                                                                                                                                                                                    
+T6                                                                                                                                                                                                      
+T7                                                                                                                                                                                                      
+T8                                                                                                                                                                                                      
+T9                                                                                                                                                                                                      
+TAB1                                                                                                                                                                                                    
+TARAK                                                                                                                                                                                                   
+TEAM1                                                                                                                                                                                                   
+TEAM2                                                                                                                                                                                                   
+TI                                                                                                                                                                                                      
+TR                                                                                                                                                                                                      
+TRANSACTIONS                                                                                                                                                                                            
+TRIANGLE                                                                                                                                                                                                
+TTRR                                                                                                                                                                                                    
+TTT                                                                                                                                                                                                     
+Then                                                                                                                                                                                                    
+WER                                                                                                                                                                                                     
+WORKER                                                                                                                                                                                                  
+XYZ                                                                                                                                                                                                     
+
+TABLE_NAME                                                                                                                                                                                              
+---------------                                                                                                                                                                                         
+You                                                                                                                                                                                                     
+insert                                                                                                                                                                                                  
+pQR                                                                                                                                                                                                     
+pQr                                                                                                                                                                                                     
+pqr                                                                                                                                                                                                     
+select                                                                                                                                                                                                  
+
+212 rows selected.
+
+SQL> REM USER_CONSTRAINTS , USER_CONS_COLUMNS
+SQL> 
+SQL> REM RELATIONSHIP TYPES : 1 DEFAULT/NO ACTION   2 ON DELETE CASCADE   3 ON DELETE SET NULL
+SQL> 
+SQL> SPOOL OFF

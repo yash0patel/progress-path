@@ -1,0 +1,74 @@
+1 DISPLAY THOSE WHO WORKS IN DEPARTMENT 60
+ans--> select * from employees where department_id = 60;
+
+2 DISPLAY THOSE WHO WORKS AS IT_PROG
+ans--> select * from employees where job_id = 'IT_PROG';
+
+3 DISPLAY THOSE WHO WERE HIRED AFTER 95
+ans--> select * from employees where HIRE_DATE > '1-jan-95';
+
+4 DISPLAY THOSE WHO GETS LOWER SALARY THAN 9000
+ans--> select * from employees where salary < 9000;
+
+5 DISPLAY THOSE WHO GETS SALARY 11000 OR MORE
+ans--> select * from employees where salary >= 11000;
+
+6 DISPLAY FIRST_NAME AND HIRE_DATE WHO WERE HIRED BEFORE 1993.
+ans--> select * from employees where HIRE_DATE	> '30/dec/1993';
+
+7 DISPLAY LAST_NAME , JOB_ID FOR EMPLOYEES WHO DOESN'T WORK AS ST_CLERK.
+ans--> select last_name, job_id from employees where job_id <> 'ST_CLERK' ;
+
+8 DISPLAY EMPLOYEE_ID , MANAGER_ID FOR EMPLOYEES WHO REPORTS TO 149.
+ans--> select  EMPLOYEE_ID , MANAGER_ID  from employees where manager_id=149 ;
+
+9 DISPLAY ALL OTHER THAN THOSE WHO WORKS IN DEPARTMENT 50.
+ans--> select * from employees where department_id != 50 ;
+
+10 DISPLAY ALL FIRST NAME WHICH COMES BEFORE ALPHABET 'J'.
+ans--> select first_name from employees where first_name< 'j';
+
+11 DISPLAY ALL LAST_NAME WHICH COMES AFTER 'M'.
+ans--> select last_name from employees where last_name > 'm'
+
+12 DISPLAY FIRST_NAME , SALARY FOR THOSE WHO GETS HIGHER SALARY THAN 6000. SORT RESULT ON SALARY IN DESCENDING ORDER.
+ans--> select first_name , salary from employees  where salary > 6000 order by 2 desc;
+
+13 DISPLAY LAST_NAME , HIRE_DATE FOR THOSE WHO WERE HIRED AFTER 95. SORT RESULT ON HIRE_DATE COLUMN. DISPLAY ONLY FIRST 5 ROWS.
+ans--> select LAST_NAME , HIRE_DATE from employees where hire_date < '1/jan/95' order by 2 fetch first 5 rows only;
+
+14 DISPLAY EMPLOYEE_ID , MANAGER_ID FOR THOSE WHO DOESN'T REPORT TO 100. SORT RESULT ON MANAGER_ID DESCENDING. DISPLAY ONLY FIRST 7 OR MORE ROWS.
+ans--> select employee_id,manager_id from employees where manager_id != 100 order by 2 desc fetch first 7 rows with ties;
+
+15 DISPLAY FIRST_NAME , SALARY WHO GETS SALARY UPTO 10000. DISPLAY ROWS STARTING WITH 6 UPTO 10.
+ans--> select first_name,salary from employees where salary < 10000 offset 6 row fetch next 5 row only;
+
+16 DISPLAY FIRST_NAME , SALARY , ANNUAL SALARY. DISPLAY ONLY THOSE WHOSE ANNUAL SALARY IS HIGHER THAN 150000.
+ans--> select first_name,salary,salary*12 anual_salary from employees where salary*12 > 150000;
+
+17 DISPLAY LAST_NAME , SALARY , COMMISSION_PCT , COMMISSION_AMOUNT. DISPLAY THOSE WHOSE COMMISSION_AMOUNT IS LOWER THAN 1000.
+ans--> select last_name , salary , commission_pct , salary*commission_pct commission_amount from employees where salary*commission_pct<1000;
+
+18 DISPLAY FIRST_NAME , HIRE_DATE FOR THOSE WHO WERE HIRED IN OR BEFORE 96. SORT ON HIRE_DATE COLUMN. DISPLAY ROWS STARTING WITH 3, UPTO 7.
+ans--> select first_name,hire_date from employees where hire_date <= '31-DEC-96' offset 3-1 row fetch next 5 row only;
+
+19 DISPLAY ROWID AND ALL COLUMNS OF EMPLOYEES TABLE. DISPLAY ONLY THOSE WHO GETS SALARY HIGHER THAN 9000. SORT ROWS IN ROWID DESCENDING ORDER. DISPLAY ROWS STARTING WITH 4 UPTO 7. (DON'T USE TABLE ALIAS)
+ans--> select rowid , employees.* from employees where  salary > 9000 order by rowid desc offset 4 row fetch next 4 row only;
+
+20 DISPLAY ROWID , ALL COLUMNS , ANNUAL SALARY FROM EMPLOYEES TABLE. DISPLAY ONLY THOSE WHOSE ANNUAL SALARY IS UPTO 150000. SORT ON ANNUAL SALARY DESCENDING ORDER.
+ans--> select rowid , e.* ,salary*12 annual_salary from employees e where  salary*12 > 150000 order by annual_salary desc;
+
+21 DISPLAY FIRST_NAME AND SALARY FOR THOSE WHO GETS SALARY IN FOUR FIGURES.
+ans--> select first_name , salary from employees where salary like '____' ;
+
+22 DISPLAY LAST_NAME AND COMMISSION_PCT FOR THOSE WHO GETS COMMISSION.
+ans--> select last_name,commission_pct from employees where commission_pct > 0;
+
+23 DISPLAY ONLY THOSE FIRST_NAME WHOSE FIRST ALPHABET IS IN THE RANGE OF 'S' TO 'Z'
+ans-->  SELECT FIRST_NAME FROM EMPLOYEES WHERE FIRST_NAME BETWEEN 'S' AND 'Z';
+
+24 DISPLAY FIRST_NAME , COMMISSION_PCT WHO GETS 30% COMMISSION.
+ans-->SELECT FIRST_NAME , COMMISSION_PCT FROM EMPLOYEES WHERE COMMISSION_PCT = .3 
+ 
+25 DISPLAY LAST_NAME , MANAGER_ID WHO REPORTS TO SOMEBODY.
+ans--> select last_name,manager_id from employees where manager_id <> 0;

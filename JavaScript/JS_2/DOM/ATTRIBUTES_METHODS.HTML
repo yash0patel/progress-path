@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="first" class="hey" data-game="mario" data-player="****">
+        first container
+    </div>.
+
+</body>
+<script>
+    let first = document.getElementById("first");
+    console.log(first.getAttribute("class"));
+    console.log(first.hasAttribute("class"));
+    console.log(first.hasAttribute("style"));
+    // first.setAttribute("hidden","true") //use fo rgive class id
+    first.setAttribute("class","container xyz")
+    
+    first.removeAttribute("id") // use to remove class id style
+    console.log(first.dataset);
+    console.log(first.dataset.game);
+    console.log(first.dataset.player);
+
+</script>
+</html>

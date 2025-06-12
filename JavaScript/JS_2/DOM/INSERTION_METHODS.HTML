@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <div id="first">first element</div>
+    </div>
+</body>
+<script>
+    let a = document.getElementsByTagName('div')[0]
+    a.innerHTML = a.innerHTML + '<h1>Hello World!</h1>';
+
+    let div = document.createElement('div');
+    div.className = 'second'; 
+    div.innerHTML = '<p>Hello</p>'
+    // a.appendChild(div)
+    a.append(div)
+    
+    div.innerHTML = '<p>prepend</p>'
+    a.prepend(div)
+    
+    div.innerHTML = '<p>before</p>'
+    a.before(div)
+
+    div.innerHTML = '<p>after.....</p>'
+    a.after(div)
+
+    // a.replaceWith(div) //replase a to div
+
+    a.insertAdjacentHTML('beforebegin','<div class = "xyz">beforebegin</div>')
+    a.insertAdjacentHTML('beforeend','<div class = "xyz">beforeend</div>')
+    a.insertAdjacentHTML('afterbegin','<div class = "xyz">afterbegin</div>')
+    a.insertAdjacentHTML('afterend','<div class = "xyz">afterend</div>')
+
+    a.remove() //remove element
+</script>
+</html>

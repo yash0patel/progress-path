@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+    }
+
+    img {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+    }
+
+    .container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+    }
+    .box1{
+        border: solid white 2px;
+        border-radius: 5px;
+        padding: 5px 20px;
+        background-color: black;
+        color: white;
+        font-size: x-large;
+    }
+    .box2{
+        border: solid 0px;
+        border-radius: 10px;
+        background-color: white;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        padding: 2rem 3rem;
+    }
+    .btn{
+        /* border: solid 0px; */
+        border-radius: 3px;
+        background-color: black;
+        color: white;
+        width: fit-content;
+        /* margin: auto; */
+        padding: 5px 10px;
+        cursor: pointer;
+    }
+    .name{
+        letter-spacing: 5px;
+        font-size:x-large;
+        color: red;
+    }
+    .quote{
+        color: gray;
+    }
+</style>
+
+<body>
+    <img src="../PR1-QuoteGenerator/img/books-2596809_1280.jpg" alt="">
+    <div class="container">
+        <div class="box1">Javascript Qoute Generator</div>
+        <div class="box2">
+            <p class="quote">"Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis pariatur assumenda sit praesentium
+                ducimus doloremque!"</p>
+            <p class="name">AUTHOR NAME<p>
+            <button class="btn">New Qoute</button>
+        </div>
+    </div>
+</body>
+<script>
+    // array of 10 quotes,
+    let index;
+    // index = Math.floor(Math.random() * 10);      // generates random fraction in the interval [0, 1)
+    // generate random fractions from 0 to 10
+    // console.log(a);
+
+    let arr = [
+        {
+            "quote" : "Coding like poetry should be short and concise.",
+            "author": "Santosh Kalwar"
+        },
+        {
+            "quote" : "It's not a bug; it's an undocumented feature.",
+            "author": "Anonymous"
+        },
+        {
+            "quote" : "First, solve the problem. Then, write the code.",
+            "author": "John Johnson"
+        },
+        {
+            "quote" : "Code is like humor. When you have to explain it, it's bad.",
+            "author": "Cory House"
+        },
+        {
+            "quote" : "Make it work, make it right, make it fast.",
+            "author": "Kent Beck"
+        },
+        {
+            "quote" : "Clean code always looks like it was written by someone who cares.",
+            "author": "Robert C. Martin"
+        },
+        {
+            "quote" : "Of course, bad code can be cleaned up. But it's very expensive.",
+            "author": "Robert C. Martin"
+        }
+    ];
+
+    let btn = document.querySelector('.btn');
+    let quote = document.querySelector('.quote');
+    let author = document.querySelector('.name');
+
+    btn.addEventListener('click', () => {
+        index = Math.floor(Math.random() * 7);
+        quote.innerText = arr[index]["quote"];
+        author.innerText = arr[index]["author"];
+        author.style.textTransform = "uppercase";
+    })
+</script>
+</html>

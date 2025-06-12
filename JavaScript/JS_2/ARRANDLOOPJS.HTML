@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    // let arr = [1,2,3,4,5]
+    // // foreach loop
+    // arr.forEach((num) => console.log(num*num))
+    // // Array.from(document.getElementsByClassName())//convert into array
+    // console.log("forof");
+    // for (let i of arr) {
+    //     console.log(i);
+    // }
+    // console.log("forin give key in array key is index");
+    // for (let i in arr) {
+    //     console.log(arr[i]);
+    // }
+
+    let num = Math.round(Math.random()*100);
+    console.log(num);
+    let chance = 0;
+    let temp = prompt('Enter number between 1 to 100');
+    while(num!=temp){
+        chance++;
+        if(num > temp)
+            temp = prompt('number is greater than ' +temp + '\ntry again\nEnter number between 1 to 100');
+        if(num < temp)
+            temp = prompt('Number is lower than '+temp+'\ntry again\nEnter number between 1 to 100');
+        if(num == null)
+            break;
+    }
+    let score = 100-chance;
+    console.log('Number is '+num+'\nScore : ',score);
+    alert('Number is '+num+'\nScore : '+score);
+</script>
+</html>

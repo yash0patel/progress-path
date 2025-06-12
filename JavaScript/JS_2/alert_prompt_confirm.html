@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    alert('Enter the Value of a');
+    let a = prompt('Enter a here ',10)//10 is default value
+    a = Number.parseInt(a)
+    
+    let write = confirm('Do you want to write it to page')
+    if(write){
+        document.write(a)
+    }
+    else{
+        document.write('null')
+    }
+    alert("Entered a of type "+(typeof(a)));
+    
+</script>
+</html>

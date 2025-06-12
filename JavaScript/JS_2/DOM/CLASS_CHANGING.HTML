@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .red{
+        color: red;
+    }
+    .dark{
+        border: solid 5px;
+        background-color: rgb(8, 39, 39);
+    }
+    .yellow{
+        background-color: yellow;
+    }
+</style>
+<body>
+   <div id="first" class="red dark"><span>
+    hello ....
+   </span></div> 
+</body>
+<script>
+    first.className = "red yellow"  //change class name remove existing class
+    first.classList.remove("red","yellow") //remove specific class
+    first.classList.add("dark") // add new class
+    first.classList.toggle("yellow") // if class is exist then remove else add
+    console.log(first.classList.contains("dark")); //check class name is exit or not if exit than give true else false (on log);
+</script>
+</html>

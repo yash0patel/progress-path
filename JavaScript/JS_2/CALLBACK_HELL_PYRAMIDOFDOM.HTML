@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Callback Example</title>
+</head>
+<body>
+    <h1>Simple Callback Example</h1>
+    <button id="start">Start</button>
+    <div id="output"></div>
+
+    <script>
+        // Event listener for the button click
+        document.getElementById('start').addEventListener('click', () => {
+            // Start the process
+            displayMessage("Step 1 completed.", () => {
+                displayMessage("Step 2 completed.", () => {
+                    displayMessage("Step 3 completed.", () => {
+                        displayMessage("Step 4 completed. All steps completed!");
+                    });
+         S       });
+            });
+        });
+
+        // Definition: A callback is a function passed as an argument to another function
+        // to be executed after the first function has completed its operation.
+
+        function displayMessage(message, callback) {
+            setTimeout(() => {
+                // Display the message
+                document.getElementById('output').innerText += message + "\n";
+                // If there's a callback, call it
+                if (callback) callback();
+            }, 1000); // 1 second delay
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Management</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <h1>Product Management Application</h1>
+    </header>
+
+    <!-- Navigation Bar -->
+    <nav>
+        <button class="navbtn" id="view-all-products">View All Products</button>
+        <button class="navbtn" id="add-product">Add Product</button>
+        <button class="navbtn" id="sort-product">Sort Products</button>
+        <button class="navbtn" id="filter">Filter</button>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Product Table -->
+        <section id="productTable">
+            <h2>Product List</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product ID</th>
+                        <th>Product Name</th>
+                        <th>Location</th>
+                        <th>Type</th>
+                        <th>Value</th>
+                        <th>Manufacturing Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Add/Update/edit Form -->
+                    <form action="" method="POST">
+                        <tr class="addProductForm">
+                            <td><input type="number" id="productID" name="productID" required
+                                    placeholder="Enter Product ID"></td>
+                            <td><input type="text" id="productName" name="productName" required
+                                    placeholder="Enter Product Name"></td>
+                            <td><input type="text" id="location" name="location" required placeholder="Enter Location">
+                            </td>
+                            <td><input type="text" id="type" name="type" required placeholder="Enter Type"></td>
+                            <td><input type="number" id="value" name="value" required placeholder="Enter Value"
+                                    step="0.01" min="0"></td>
+                            <td><input type="date" id="mDate" name="mDate" required></td>
+                            <td class="td-btn">
+                                <button type="submit">Save</button>
+                                <button type="reset">Cancel</button>
+                            </td>
+                        </tr>
+                    </form>
+                    <!-- Row -->
+                    <!-- <tr>
+                        <td>1</td>
+                        <td>Product A</td>
+                        <td>Warehouse 1</td>
+                        <td>Electronics</td>
+                        <td>100</td>
+                        <td>5-12-2024</td>
+                        <td class="td-btn">
+                            <button onclick="editProduct(1)">Edit</button>
+                            <button onclick="deleteProduct(1)">Delete</button>
+                        </td>
+                    </tr> -->
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Filter Form -->
+        <div class="filter-container">
+            <form action="" method="POST">
+                <h2>Filter</h2>
+                <label for="columnName">Select Column : </label>
+                <select id="columnName" name="columnName">
+                    <option value="productID">Product ID</option>
+                    <option value="productName">Product Name</option>
+                    <option value="location">Location</option>
+                    <option value="type">Type</option>
+                    <option value="value">Value</option>
+                    <option value="mDate">Manufacturing Date</option>
+                </select>
+                <br>
+                <label for="filterValue">Value:</label>
+                <input type="text" id="filterValue" name="filterValue" required>
+                <br>
+                <button class="filter-btn" type="submit">Filter</button>
+                <button class="filter-btn-cancel" type="button" onclick="hideAllSectionsExcept()">x</button>
+            </form>
+        </div>
+
+        <!-- Sort Form -->
+        <div class="sorting-container">
+            <form action="" method="post">
+                <h2>Sort Product</h2>
+                <label for="columnName">Select Column : </label>
+                <select id="columnName" name="columnName">
+                    <option value="productID">Product ID</option>
+                    <option value="productName">Product Name</option>
+                    <option value="location">Location</option>
+                    <option value="type">Type</option>
+                    <option value="value">Value</option>
+                    <option value="mDate">Manufacturing Date</option>
+                </select>
+                <label for="sortOrder">Sort by:</label>
+                <select id="sortOrder">
+                    <option value="asc">Ascending</option>
+                    <option value="desc">Descending</option>
+                </select>
+                <button class="sorting-btn" type="submit">sort</button>
+                <button class="sorting-btn-cancel" type="button" onclick="hideAllSectionsExcept()">x</button>
+            </form>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2024 Product Management Application</p>
+    </footer>
+
+    <script>
+        let navbuttons, addProductForm, sortingContainer, filterContainer;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            navbuttons = document.querySelectorAll('.navbtn');
+            addProductForm = document.querySelector('.addProductForm');
+            sortingContainer = document.querySelector('.sorting-container');
+            filterContainer = document.querySelector('.filter-container');
+            hideAllSectionsExcept();
+            toggleHide();
+        });
+
+        const hideAllSectionsExcept = (section = null) => {
+            [addProductForm, sortingContainer, filterContainer].forEach((container) => {
+                if (container !== section) {
+                    container.style.display = "none";
+                }
+            });
+        };
+
+        function toggleHide() {
+            navbuttons.forEach(button => {
+                button.addEventListener('click', (event) => {
+                    const id = event.target.id;
+                    switch (id) {
+                        case 'view-all-products':
+                            hideAllSectionsExcept();
+                            break;
+                        case 'add-product':
+                            hideAllSectionsExcept(addProductForm);
+                            addProductForm.style.display = (addProductForm.style.display === 'none') ? 'table-row' : 'none';
+                            break;
+                        case 'sort-product':
+                            hideAllSectionsExcept(sortingContainer);
+                            sortingContainer.style.display = (sortingContainer.style.display === 'none') ? 'block' : 'none';
+                            break;
+                        case 'filter':
+                            hideAllSectionsExcept(filterContainer);
+                            filterContainer.style.display = (filterContainer.style.display === 'none') ? 'block' : 'none';
+                            break;
+                    }
+                });
+            });
+        }
+    </script>
+
+</body>
+
+</html>

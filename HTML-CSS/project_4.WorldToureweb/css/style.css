@@ -1,0 +1,404 @@
+@import url('../css/fonts.css');
+
+/* --------------------------- CSS Reset --------------------------- */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* --------------------------- Variables --------------------------- */
+:root {
+    --font-grey: #3f4954;
+    --font-light: rgba(104, 102, 102, 0.855);
+    --black: #0F0F0F;
+    --dark-color1: #104F55;
+    --gradient: linear-gradient(120deg, #a1c4fd, #c2e9fb);
+    --white: white;
+
+    /* 
+        livvic: buttons
+        abel: primary fonts
+        lexend: secondary fonts
+        anton: headline fonts
+    */
+    --primary-fonts: "Abel";
+    --secondary-fonts: "Lexend";
+    --btn-fonts: "Livvic";
+    --headline-fonts: "Anton";
+}
+
+/* --------------------------- Global Classes and tags --------------------------- */
+body {
+    background-color: var(--white);
+    font-family: var(--primary-fonts);
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+a {
+    text-decoration: none;
+}
+
+ul {
+    list-style-type: none;
+}
+
+.btn {
+    background: var(--gradient);
+    padding: 0.8rem 2.4rem;
+    border: none;
+    font-size: 1.1rem;
+    font-family: var(--btn-fonts);
+    cursor: pointer;
+}
+
+.rounded-btn {
+    border-radius: 2em;
+}
+
+.banner-btn:hover {
+    background: transparent;
+    color: var(--white);
+    border: solid 1px;
+}
+
+.popular-tag-btn {
+    padding: 0.2rem 0.8rem;
+    font-family: var(--primary-fonts);
+}
+
+/* --------------------------- Navbar --------------------------- */
+.navbar {
+    height: 5rem;
+    padding: 0 1.5rem;
+    font-size: 1.5rem;
+    overflow: hidden;
+    transition: 0.3s;
+}
+
+.navbar a {
+    color: var(--font-grey);
+}
+
+.nav-mobile {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 5rem;
+}
+
+.show-nav {
+    height: 32rem;
+}
+
+.brand-logo {
+    font-family: var(--secondary-fonts);
+    color: var(--font-grey);
+}
+
+.nav-menu {
+    padding-left: 4rem;
+    font-size: 1.1rem;
+}
+
+.nav-menu li {
+    margin: 2.5rem 0;
+}
+
+.nav-menu li:hover {
+    background-color: var(--dark-color1);
+}
+
+.nav-menu li:hover .nav-links {
+    color: var(--white);
+}
+
+.social {
+    font-size: 1.1rem;
+    display: flex;
+    gap: 1rem;
+}
+
+.social-icon:hover {
+    color: var(--font-light);
+}
+
+/* --------------------------- Banner --------------------------- */
+.banner {
+    height: 600px;
+    text-align: center;
+    position: relative;
+    padding-top: 13rem;
+    color: var(--white);
+    overflow: hidden;
+}
+
+.banner::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 600px;
+    width: 100vw;
+    background: url('../assets/Background_img-1.jpg') no-repeat;
+    background-position: top left;
+    background-size: 1000px 600px;
+    z-index: -1;
+}
+
+.banner-text {
+    font-family: var(--secondary-fonts);
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin: 0.5rem 0 1.5rem;
+}
+
+.wave-box {
+    height: 400px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+.svg-wave {
+    width: 1500px;
+}
+
+/* --------------------------- Carousel --------------------------- */
+.carousel {
+    margin: 5rem 0;
+    background: url('../assets/Abract01.png') no-repeat;
+    background-size: 100%;
+    background-position-y: 80%;
+    overflow: hidden;
+}
+
+.item {
+    width: 80%;
+    margin: 5rem auto;
+    text-align: center;
+    box-shadow: 0px 0px 15px 15px rgba(0, 0, 0, 0.1);
+}
+
+.carousel-title {
+    font-size: 1.5rem;
+    margin: 1.5rem 0;
+}
+
+.item p {
+    font-size: 1.2rem;
+    margin: 2rem 0;
+}
+
+.owl-nav-left {
+    position: absolute;
+    top: 0;
+    left: 49%;
+    transform: translateX(-50%);
+    font-size: 1.5rem;
+}
+.owl-nav-right {
+    position: absolute;
+    top: 0;
+    left: 51%;
+    transform: translateX(-50%);
+    font-size: 1.5rem;
+}
+
+.owl-theme .owl-nav [class*=owl-]:hover {
+    background-color: transparent;
+    color: var(--font-light);
+}
+
+/* --------------------------- Main --------------------------- */
+main {
+    display: grid;
+}
+
+.blog-post-container {
+    width: 80%;
+    margin: auto;
+}
+
+.blog-img-container {
+    overflow: hidden;
+    position: relative;
+}
+
+.blog-img {
+    width: 100%;
+    transition: 0.4s;
+}
+
+.blog-img:hover {
+    scale: 1.2;
+}
+
+.sticker {
+    /* display: none; */
+    background: var(--gradient);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 0.5rem 1.5rem;
+}
+
+.blog-headline {
+    font-family: var(--headline-fonts);
+    font-size: 1.4rem;
+    color: var(--font-grey);
+    margin: 1.5rem 0 1rem;
+}
+
+.blog-text {
+    font-family: var(--secondary-fonts);
+    color: var(--font-light);
+    font-weight: 500;
+    margin-bottom: 2rem;
+}
+
+.seperator {
+    margin: 1.5rem auto;
+    width: 90%;
+    color: var(--font-light);
+    background-color: var(--font-light);
+}
+
+/* --------------------------- Sidebar --------------------------- */
+section {
+    margin-bottom: 10rem;
+}
+
+.sidebar {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.sidebar-title {
+    font-family: var(--secondary-fonts);
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.sidebar-content {
+    margin: 2rem auto 5rem;
+    width: 80%;
+}
+
+.category-name {
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.sidebar-img-container {
+    position: relative;
+}
+
+.popular-post-img {
+    width: 100%;
+}
+
+.popular-post-title {
+    font-family: var(--headline-fonts);
+    color: var(--font-grey);
+    margin: 1rem 0;
+}
+
+.newsletter-input,
+.newsletter-submit {
+    width: 100%;
+    height: 3rem;
+}
+
+.newsletter-input {
+    margin-bottom: 1.5rem;
+    padding-left: 20px;
+    font-family: var(--secondary-fonts);
+    font-size: 1.1rem;
+}
+
+.popular-tags {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+/* --------------------------- Media Queries --------------------------- */
+/* @media screen and (min-width: 750px) { */
+/* @media all and (min-width: 750px) { */
+@media (min-width: 750px) {
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .bar-icon {
+        display: none;
+    }
+
+    .nav-menu {
+        padding-left: 0;
+        display: flex;
+    }
+
+    .nav-menu li {
+        height: 5rem;
+        padding: 1.8rem 1rem 0;
+    }
+
+    .carousel {
+        background-size: 65%;
+        background-position: top right;
+    }
+
+    main {
+        grid-template-columns: 70% 30%;
+    }
+}
+
+@media (min-width: 1000px) {
+    .banner {
+        height: 900px;
+    }
+
+    .banner::before {
+        height: 900px;
+        background-size: 1500px 900px;
+    }
+
+    .svg-wave {
+        width: 1500px;
+    }
+
+}
+
+@media (min-width: 1500px) {
+    .banner {
+        height: 60.1vw;
+    }
+
+    .banner::before {
+        height: 60vw;
+        background-size: 100vw 60vw;
+    }
+
+    .wave-box {
+        height: 550px;
+        z-index: 5;
+        transform: translateY(50px);
+    }
+
+    .svg-wave {
+        width: 100vw;
+    }
+
+    .carousel {
+        background-size: 50%;
+        background-position: top right;
+    }
+}

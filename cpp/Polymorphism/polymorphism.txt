@@ -1,0 +1,28 @@
+Polymorphism:- Ability to take more than one form(method).
+-------------
+
+Type of polymorphism
+
+	1) CompileTime	--> Static Binding
+			--> Early Binding
+			ex:-
+			-->Method overloadding
+
+
+	2) RunTime	--> Dynamic Binding
+			--> Late Binding
+			ex:-
+			-->Method overridding
+
+----------------------------------------------------------------
+			Vehicle(Void getSpec()--General Specification)
+				|
+-----------------------------------------------------------------
+|				|				| 	
+TwVehicale			LmvVehicale			HmvVehicale
+|				|				|
+void getSpec()			void getSpec()			void getSpec()
+{				{				{
+	TmVehicle			LmvVehicle			HmvVehicle
+}				}				}
+

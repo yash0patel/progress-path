@@ -1,0 +1,16 @@
+Abstraction:-
+
+Abstraction class---------------"Abstraction Method"
+					|
+					|
+				"pure virtual method"
+					|
+				--------------------
+					|
+			Vehicle(virtual void getSpec()=0;)
+				|
+-----------------------------------------------------------------
+|				|				| 	
+TwVehicale			LmvVehicale			HmvVehicale
+|				|				|
+void getSpec()			void getSpec()			void getSpec()

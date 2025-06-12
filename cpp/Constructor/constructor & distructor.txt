@@ -1,0 +1,30 @@
+
+1> Constructor :- Constructor is a special type of member function 
+				that is used to initialize the data members for an
+				object of a class automatically,when an object of 
+				the same class is created. A constructor has the 
+				same name as the class of structure, and does not 
+				have a return type.A constructor is invoke at the
+				time of object creation, and provides data for the 
+				object.
+				
+	There are different types of constructor, such as:
+	
+	*->Default constructor: 
+			A constructor that does not take any parameters, and provides default values for the data members. 
+						
+	*->Parameterized constructor:
+			A constructor that takes one or	more parameters, and initializes the data members with the given values.
+		
+	->Overloaded constructor: 
+			A constructor that has more than one definition, with different numbers or types of parameters.
+			The compiler chooses the appropriate constructor based on the arguments passed to it.
+
+	->Constructor with default value: 
+			A constructor that assigns default values to some or all of its parameters, if they are not specified by the user.
+			
+	*->Copy constructor: 
+			A constructor that creates a new object as a copy of an existing object, by copying its data members.
+			
+	->Inline constructor: 
+			A constructor that is defined inside the class declaration, rather than outside it.

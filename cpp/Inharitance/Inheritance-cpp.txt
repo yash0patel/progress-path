@@ -1,0 +1,48 @@
+Inheritance:- code resuibility / [to reduce code/logic duplication]
+------------
+
+class Properties = [ 1> Dm's   2>Mf's ]
+
+									addfun
+									   A--[Parent/super/base]
+									   |
+							-------------------------
+							 |			|			|
+							 B			C			D<--[child/derived/sub]
+						   otherc	  otherc	  otherc
+
+----------------------------------------------------------------------------------------
+
+											type of Relation
+											----------------
+													|
+						---------------------------------------------------------
+						 1) IS-A Relation							2)HAS-A Relation
+						 ----------------							----------------
+								  |										Employee HAS-A Address---
+								  |Employee IS-A[yes]					class Employee
+								  |										{
+						----------------------------						Address address;
+						Type of Inheritance[HH:MM:S]					}
+						----------------------------
+									|
+	---------------------------------------------------------------------------------------------------------								
+	  |						|						|						|							|
+	1) single			2)multilevel			3)Hierarchical			4)Multiple					5) Hybrid
+	---------			------------			--------------			----------					---------
+		A(no1)				 A(no1)					  A(no1)			A(no1)  B(no2)					A(no1)
+		|					 |						  |					|		|					  	   |	
+		B(no2)				 B(no2)				 --------------			---------					  -----------
+							 |					 B(no2)	  c(no3)		  c(no3)					  |			|
+	A obj;// no1			 c(no3)																	  b(no2)	c(no3)				
+	B obj;// no1,no2	A obj;// no1			A obj;// no1			A obj;// no1				  -----------
+						B obj;// no1,no2		B obj;// no1,no2		B obj;// no2					   |
+						C obj;// no1,no2,no3	C obj;// no1,no3		C obj;// no1,no2,no3			   D(no4)
+																									
+																									A obj;// no1			
+																									B obj;// no1,no2
+																									C obj;// no1,no3
+																									D obj;// no1,no2,no3,no4
+
+
+																									

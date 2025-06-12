@@ -1,0 +1,320 @@
+SQL> 
+SQL> CL SCR
+
+SQL> REM DATE FUNCTIONS + DATE ARITHMETIC
+SQL> 
+SQL> REM LIST OF DATE FUNCTIONS : SYSDATE CURRENT_DATE   ADD_MONTHS MONTHS_BETWEEN    LAST_DAY NEXT_DAY    TRUNC ROUND
+SQL> 
+SQL> REM SYSDATE : IT WILL RETURN SERVER MACHINE'S DATE AND TIME INFO.
+SQL> 
+SQL> REM CURRENT_DATE : IT WILL RETURN CURRENT/CLIENT/LOCAL MACHINE'S DATE AND TIME INFO.
+SQL> 
+SQL> 
+SQL> 
+SQL> SELECT SYSDATE , CURRENT_dATE FROM DUAL;
+
+SYSDATE   CURRENT_D                                                                                                                                                                                     
+--------- ---------                                                                                                                                                                                     
+07-NOV-22 07-NOV-22                                                                                                                                                                                     
+
+SQL> REM DEFAULT DATE FORMAT : DD-MON-RR
+SQL> 
+SQL> COL PARAMETER FORMAT A30
+SQL> COL VALUE FORMAT A30
+SQL> 
+SQL> SELECT * FROM NLS_SESSION_PARAMETERS;
+
+PARAMETER                      VALUE                                                                                                                                                                    
+------------------------------ ------------------------------                                                                                                                                           
+NLS_LANGUAGE                   AMERICAN                                                                                                                                                                 
+NLS_TERRITORY                  AMERICA                                                                                                                                                                  
+NLS_CURRENCY                   $                                                                                                                                                                        
+NLS_ISO_CURRENCY               AMERICA                                                                                                                                                                  
+NLS_NUMERIC_CHARACTERS         .,                                                                                                                                                                       
+NLS_CALENDAR                   GREGORIAN                                                                                                                                                                
+NLS_DATE_FORMAT                DD-MON-RR                                                                                                                                                                
+NLS_DATE_LANGUAGE              AMERICAN                                                                                                                                                                 
+NLS_SORT                       BINARY                                                                                                                                                                   
+NLS_TIME_FORMAT                HH.MI.SSXFF AM                                                                                                                                                           
+NLS_TIMESTAMP_FORMAT           DD-MON-RR HH.MI.SSXFF AM                                                                                                                                                 
+NLS_TIME_TZ_FORMAT             HH.MI.SSXFF AM TZR                                                                                                                                                       
+NLS_TIMESTAMP_TZ_FORMAT        DD-MON-RR HH.MI.SSXFF AM TZR                                                                                                                                             
+NLS_DUAL_CURRENCY              $                                                                                                                                                                        
+NLS_COMP                       BINARY                                                                                                                                                                   
+NLS_LENGTH_SEMANTICS           BYTE                                                                                                                                                                     
+NLS_NCHAR_CONV_EXCP            FALSE                                                                                                                                                                    
+
+17 rows selected.
+
+SQL> REM NLS : NATIONAL LANGUAGE SUPPORT
+SQL> 
+SQL> ALTER SESSION SET NLS_DATE_FORMAT = 'DD-MON-RRRR';
+
+Session altered.
+
+SQL> SELECT * FROM NLS_SESSION_PARAMETERS;
+
+PARAMETER                      VALUE                                                                                                                                                                    
+------------------------------ ------------------------------                                                                                                                                           
+NLS_LANGUAGE                   AMERICAN                                                                                                                                                                 
+NLS_TERRITORY                  AMERICA                                                                                                                                                                  
+NLS_CURRENCY                   $                                                                                                                                                                        
+NLS_ISO_CURRENCY               AMERICA                                                                                                                                                                  
+NLS_NUMERIC_CHARACTERS         .,                                                                                                                                                                       
+NLS_CALENDAR                   GREGORIAN                                                                                                                                                                
+NLS_DATE_FORMAT                DD-MON-RRRR                                                                                                                                                              
+NLS_DATE_LANGUAGE              AMERICAN                                                                                                                                                                 
+NLS_SORT                       BINARY                                                                                                                                                                   
+NLS_TIME_FORMAT                HH.MI.SSXFF AM                                                                                                                                                           
+NLS_TIMESTAMP_FORMAT           DD-MON-RR HH.MI.SSXFF AM                                                                                                                                                 
+NLS_TIME_TZ_FORMAT             HH.MI.SSXFF AM TZR                                                                                                                                                       
+NLS_TIMESTAMP_TZ_FORMAT        DD-MON-RR HH.MI.SSXFF AM TZR                                                                                                                                             
+NLS_DUAL_CURRENCY              $                                                                                                                                                                        
+NLS_COMP                       BINARY                                                                                                                                                                   
+NLS_LENGTH_SEMANTICS           BYTE                                                                                                                                                                     
+NLS_NCHAR_CONV_EXCP            FALSE                                                                                                                                                                    
+
+17 rows selected.
+
+SQL> REM SESSION : TIME PERIOD BETWEEN LOGIN AND LOGOUT
+SQL> 
+SQL> SELECT SYSDATE , CURRENT_dATE FROM DUAL;
+
+SYSDATE     CURRENT_DAT                                                                                                                                                                                 
+----------- -----------                                                                                                                                                                                 
+07-NOV-2022 07-NOV-2022                                                                                                                                                                                 
+
+SQL> ALTER SESSION SET NLS_DATE_FORMAT = 'DD-MON-RRRR HH:MI.SS AM';
+
+Session altered.
+
+SQL> SELECT SYSDATE , CURRENT_dATE FROM DUAL;
+
+SYSDATE                 CURRENT_DATE                                                                                                                                                                    
+----------------------- -----------------------                                                                                                                                                         
+07-NOV-2022 04:28.43 PM 07-NOV-2022 04:28.43 PM                                                                                                                                                         
+
+SQL> REM DATE IS STORED IN 7 PARTS/COMPONENTS/INTERVALS : CENTURY YEAR MONTH DATE/DAY HOUR(24) MINUTE SECOND
+SQL> 
+SQL> REM DATE IS STORED IN 7 VALUES                     : 20      22   11    7        16       28     43
+SQL> 
+SQL> 
+SQL> REM DATE ARITHMATIC : 1 DATE +/- 7 INTERVALS 2 DATE - DATE
+SQL> 
+SQL> REM DATE - DATE : WILL RETURN NUMBER OF DAYS BETWEEN TWO DATES. IF FIRST DATE IS LATEST, RESULT WILL BE POSITIVE.
+SQL> 
+SQL> SELECT FIRST_NAME , SYSDATE , HIRE_DATE , SYSDATE - HIRE_DATE "DAYS WORKED" FROM EMPLOYEES;
+
+FIRST_NAME SYSDATE                 HIRE_DATE               DAYS WORKED                                                                                                                                  
+---------- ----------------------- ----------------------- -----------                                                                                                                                  
+Steven     07-NOV-2022 04:37.21 PM 17-JUL-1987 12:00.00 AM  12897.6926                                                                                                                                  
+Neena      07-NOV-2022 04:37.21 PM 21-SEP-1989 12:00.00 AM  12100.6926                                                                                                                                  
+Lex        07-NOV-2022 04:37.21 PM 13-JAN-1993 12:00.00 AM  10890.6926                                                                                                                                  
+Alexander  07-NOV-2022 04:37.21 PM 03-JAN-1990 12:00.00 AM  11996.6926                                                                                                                                  
+Bruce      07-NOV-2022 04:37.21 PM 21-MAY-1991 12:00.00 AM  11493.6926                                                                                                                                  
+Diana      07-NOV-2022 04:37.21 PM 07-FEB-1999 12:00.00 AM   8674.6926                                                                                                                                  
+Kevin      07-NOV-2022 04:37.21 PM 16-NOV-1999 12:00.00 AM   8392.6926                                                                                                                                  
+Trenna     07-NOV-2022 04:37.21 PM 17-OCT-1995 12:00.00 AM   9883.6926                                                                                                                                  
+Curtis     07-NOV-2022 04:37.21 PM 29-JAN-1997 12:00.00 AM   9413.6926                                                                                                                                  
+Randall    07-NOV-2022 04:37.21 PM 15-MAR-1998 12:00.00 AM   9003.6926                                                                                                                                  
+Peter      07-NOV-2022 04:37.21 PM 09-JUL-1998 12:00.00 AM   8887.6926                                                                                                                                  
+Eleni      07-NOV-2022 04:37.21 PM 29-JAN-2000 12:00.00 AM   8318.6926                                                                                                                                  
+Ellen      07-NOV-2022 04:37.21 PM 11-MAY-1996 12:00.00 AM   9676.6926                                                                                                                                  
+Jonathon   07-NOV-2022 04:37.21 PM 24-MAR-1998 12:00.00 AM   8994.6926                                                                                                                                  
+Kimerely   07-NOV-2022 04:37.21 PM 24-MAY-1999 12:00.00 AM   8568.6926                                                                                                                                  
+Jennifer   07-NOV-2022 04:37.21 PM 17-SEP-1987 12:00.00 AM  12835.6926                                                                                                                                  
+Michael    07-NOV-2022 04:37.21 PM 17-FEB-1996 12:00.00 AM   9760.6926                                                                                                                                  
+Pat        07-NOV-2022 04:37.21 PM 17-AUG-1997 12:00.00 AM   9213.6926                                                                                                                                  
+Shelley    07-NOV-2022 04:37.21 PM 07-JUN-1994 12:00.00 AM  10380.6926                                                                                                                                  
+William    07-NOV-2022 04:37.21 PM 07-JUN-1994 12:00.00 AM  10380.6926                                                                                                                                  
+
+20 rows selected.
+
+SQL> SELECT FIRST_NAME , SYSDATE , HIRE_DATE , TRUNC(SYSDATE - HIRE_DATE) "COMPLETED DAYS WORKED" FROM EMPLOYEES;
+
+FIRST_NAME SYSDATE                 HIRE_DATE               COMPLETED DAYS WORKED                                                                                                                        
+---------- ----------------------- ----------------------- ---------------------                                                                                                                        
+Steven     07-NOV-2022 04:38.59 PM 17-JUL-1987 12:00.00 AM                 12897                                                                                                                        
+Neena      07-NOV-2022 04:38.59 PM 21-SEP-1989 12:00.00 AM                 12100                                                                                                                        
+Lex        07-NOV-2022 04:38.59 PM 13-JAN-1993 12:00.00 AM                 10890                                                                                                                        
+Alexander  07-NOV-2022 04:38.59 PM 03-JAN-1990 12:00.00 AM                 11996                                                                                                                        
+Bruce      07-NOV-2022 04:38.59 PM 21-MAY-1991 12:00.00 AM                 11493                                                                                                                        
+Diana      07-NOV-2022 04:38.59 PM 07-FEB-1999 12:00.00 AM                  8674                                                                                                                        
+Kevin      07-NOV-2022 04:38.59 PM 16-NOV-1999 12:00.00 AM                  8392                                                                                                                        
+Trenna     07-NOV-2022 04:38.59 PM 17-OCT-1995 12:00.00 AM                  9883                                                                                                                        
+Curtis     07-NOV-2022 04:38.59 PM 29-JAN-1997 12:00.00 AM                  9413                                                                                                                        
+Randall    07-NOV-2022 04:38.59 PM 15-MAR-1998 12:00.00 AM                  9003                                                                                                                        
+Peter      07-NOV-2022 04:38.59 PM 09-JUL-1998 12:00.00 AM                  8887                                                                                                                        
+Eleni      07-NOV-2022 04:38.59 PM 29-JAN-2000 12:00.00 AM                  8318                                                                                                                        
+Ellen      07-NOV-2022 04:38.59 PM 11-MAY-1996 12:00.00 AM                  9676                                                                                                                        
+Jonathon   07-NOV-2022 04:38.59 PM 24-MAR-1998 12:00.00 AM                  8994                                                                                                                        
+Kimerely   07-NOV-2022 04:38.59 PM 24-MAY-1999 12:00.00 AM                  8568                                                                                                                        
+Jennifer   07-NOV-2022 04:38.59 PM 17-SEP-1987 12:00.00 AM                 12835                                                                                                                        
+Michael    07-NOV-2022 04:38.59 PM 17-FEB-1996 12:00.00 AM                  9760                                                                                                                        
+Pat        07-NOV-2022 04:38.59 PM 17-AUG-1997 12:00.00 AM                  9213                                                                                                                        
+Shelley    07-NOV-2022 04:38.59 PM 07-JUN-1994 12:00.00 AM                 10380                                                                                                                        
+William    07-NOV-2022 04:38.59 PM 07-JUN-1994 12:00.00 AM                 10380                                                                                                                        
+
+20 rows selected.
+
+SQL> SELECT '13-MAR-73' - '15-JAN-71' FROM DUAL;
+SELECT '13-MAR-73' - '15-JAN-71' FROM DUAL
+       *
+ERROR at line 1:
+ORA-01722: invalid number 
+
+
+SQL> SELECT TO_DATE('13-MAR-73') - TO_DATE('15-JAN-71') FROM DUAL;
+
+TO_DATE('13-MAR-73')-TO_DATE('15-JAN-71')                                                                                                                                                               
+-----------------------------------------                                                                                                                                                               
+                                      788                                                                                                                                                               
+
+SQL> SELECT TO_DATE('13-MAR-73') - TO_DATE('15-JAN-71') "DAYS DIFFERENCE" FROM DUAL;
+
+DAYS DIFFERENCE                                                                                                                                                                                         
+---------------                                                                                                                                                                                         
+            788                                                                                                                                                                                         
+
+SQL> REM DATE +/- INTERVALS
+SQL> 
+SQL> REM INTERVALS : CENTURY YEAR MONTH DATE/DAY HOUR(24) MINUTE SECOND
+SQL> 
+SQL> SELECT SYSDATE , SYSDATE + 3 , SYSDATE - 2 FROM DUAL;
+
+SYSDATE                 SYSDATE+3               SYSDATE-2                                                                                                                                               
+----------------------- ----------------------- -----------------------                                                                                                                                 
+07-NOV-2022 04:45.02 PM 10-NOV-2022 04:45.02 PM 05-NOV-2022 04:45.02 PM                                                                                                                                 
+
+SQL> REM 1 DAY = 24 HOURS
+SQL> 
+SQL> SELECT SYSDATE , SYSDATE + (3/24) , SYSDATE - (2/24) FROM DUAL;
+
+SYSDATE                 SYSDATE+(3/24)          SYSDATE-(2/24)                                                                                                                                          
+----------------------- ----------------------- -----------------------                                                                                                                                 
+07-NOV-2022 04:46.33 PM 07-NOV-2022 07:46.33 PM 07-NOV-2022 02:46.33 PM                                                                                                                                 
+
+SQL> REM 1 DAY = 24 * 60 = 1440 MINUTES
+SQL> 
+SQL> SELECT SYSDATE , SYSDATE + (3/(24*60)) , SYSDATE - (2/1440) FROM DUAL;
+
+SYSDATE                 SYSDATE+(3/(24*60))     SYSDATE-(2/1440)                                                                                                                                        
+----------------------- ----------------------- -----------------------                                                                                                                                 
+07-NOV-2022 04:47.30 PM 07-NOV-2022 04:50.30 PM 07-NOV-2022 04:45.30 PM                                                                                                                                 
+
+SQL> REM 1 DAY = 24 * 60 * 60 = 86400 SECONDS
+SQL> 
+SQL> SELECT SYSDATE , SYSDATE + (3/(24*60*60)) , SYSDATE - (2/86400) FROM DUAL;
+
+SYSDATE                 SYSDATE+(3/(24*60*60))  SYSDATE-(2/86400)                                                                                                                                       
+----------------------- ----------------------- -----------------------                                                                                                                                 
+07-NOV-2022 04:48.33 PM 07-NOV-2022 04:48.36 PM 07-NOV-2022 04:48.31 PM                                                                                                                                 
+
+SQL> REM 1 DAY =  24 HOURS = 1440 MINTUES = 86400 SECONDS
+SQL> 
+SQL> REM DISPLAY CURRENT_DATE , ADD 5 DAYS , SUBTRACT 3 MINUTES
+SQL> 
+SQL> SELECT CURRENT_DATE , CURRENT_DATE + 5 , CURRENT_DATE - (3/1440) FROM DUAL;
+
+CURRENT_DATE            CURRENT_DATE+5          CURRENT_DATE-(3/1440)                                                                                                                                   
+----------------------- ----------------------- -----------------------                                                                                                                                 
+07-NOV-2022 04:55.34 PM 12-NOV-2022 04:55.34 PM 07-NOV-2022 04:52.34 PM                                                                                                                                 
+
+SQL> ALTER SESSION SET NLS_DATE_FORMAT = 'DD-MON-RRRR HH:MI.SS AM';
+
+Session altered.
+
+SQL> 
+SQL> REM SYSDATE , SUBTRACT 10 HOURS , ADD 15 SECONDS
+SQL> 
+SQL> SELECT SYSDATE , SYSDATE-(10/24) , SYSDATE+(15/86400) FROM DUAL;
+
+SYSDATE                 SYSDATE-(10/24)         SYSDATE+(15/86400)                                                                                                                                      
+----------------------- ----------------------- -----------------------                                                                                                                                 
+07-NOV-2022 05:01.43 PM 07-NOV-2022 07:01.43 AM 07-NOV-2022 05:01.58 PM                                                                                                                                 
+
+SQL> REM SYSDATE , SYSDATE ADD 3 DAYS AND SUBSTRACT 10 MINUTES
+SQL> SELECT SYSDATE, SYSDATE + 3 - (10/1440) FROM DUAL;
+
+SYSDATE                 SYSDATE+3-(10/1440)                                                                                                                                                             
+----------------------- -----------------------                                                                                                                                                         
+07-NOV-2022 05:08.03 PM 10-NOV-2022 04:58.03 PM                                                                                                                                                         
+
+SQL> REM CURRENT_DATE , ADD 5 HOURS AND SUBTRACT 20 MINUTES
+SQL> 
+SQL> select current_date , (current_date + (5/24)) - (20/(24*60)) from dual;
+
+CURRENT_DATE            (CURRENT_DATE+(5/24))-(                                                                                                                                                         
+----------------------- -----------------------                                                                                                                                                         
+07-NOV-2022 05:11.33 PM 07-NOV-2022 09:51.33 PM                                                                                                                                                         
+
+SQL> REM SYSDATE , ADD 2 DAYS , SUBTRACT 5 HOURS , ADD 10 MINUTES , SUBTRACT 20 SECONDS
+SQL> 
+SQL> select sysdate , sysdate + 2 , sysdate - (5/24) , sysdate + (10/1440)  , sysdate - (20/(1440*60)) from dual;
+
+SYSDATE                 SYSDATE+2               SYSDATE-(5/24)          SYSDATE+(10/1440)       SYSDATE-(20/(1440*60))                                                                                  
+----------------------- ----------------------- ----------------------- ----------------------- -----------------------                                                                                 
+07-NOV-2022 05:17.11 PM 09-NOV-2022 05:17.11 PM 07-NOV-2022 12:17.11 PM 07-NOV-2022 05:27.11 PM 07-NOV-2022 05:16.51 PM                                                                                 
+
+SQL> SELECT SYSDATE , SYSDATE+2-(5/24)-(10/24*60)-(20/86400) FROM DUAL;
+
+SYSDATE                 SYSDATE+2-(5/24)-(10/24                                                                                                                                                         
+----------------------- -----------------------                                                                                                                                                         
+07-NOV-2022 05:17.37 PM 15-OCT-2022 12:17.17 PM                                                                                                                                                         
+
+SQL> REM CENTURY YEAR MONTH DAY HOUR MINUTE SECOND
+SQL> 
+SQL> REM 1 MONTH = ?? DAYS (28/29/30/31)
+SQL> 
+SQL> REM ADD_MONTHS(SYSDATE,NO. OF MONTHS)
+SQL> 
+SQL> SELECT SYSDATE , ADD_MONTHS(SYSDATE, 2) , ADD_MONTHS(SYSDATE, -3) FROM DUAL;
+
+SYSDATE                 ADD_MONTHS(SYSDATE,2)   ADD_MONTHS(SYSDATE,-3)                                                                                                                                  
+----------------------- ----------------------- -----------------------                                                                                                                                 
+07-NOV-2022 05:19.23 PM 07-JAN-2023 05:19.23 PM 07-AUG-2022 05:19.23 PM                                                                                                                                 
+
+SQL> REM 1 YEAR = 12 MONTHS
+SQL> 
+SQL> SELECT SYSDATE , ADD_MONTHS(SYSDATE, 12) , ADD_MONTHS(SYSDATE, -12) FROM DUAL;
+
+SYSDATE                 ADD_MONTHS(SYSDATE,12)  ADD_MONTHS(SYSDATE,-12)                                                                                                                                 
+----------------------- ----------------------- -----------------------                                                                                                                                 
+07-NOV-2022 05:19.55 PM 07-NOV-2023 05:19.55 PM 07-NOV-2021 05:19.55 PM                                                                                                                                 
+
+SQL> SELECT SYSDATE , ADD_MONTHS(SYSDATE, 12*3) , ADD_MONTHS(SYSDATE, -12*5) FROM DUAL;
+
+SYSDATE                 ADD_MONTHS(SYSDATE,12*3 ADD_MONTHS(SYSDATE,-12*                                                                                                                                 
+----------------------- ----------------------- -----------------------                                                                                                                                 
+07-NOV-2022 05:20.19 PM 07-NOV-2025 05:20.19 PM 07-NOV-2017 05:20.19 PM                                                                                                                                 
+
+SQL> REM 1 CENTURY = 100 YEARS = 12 * 100 = 1200 MONTHS
+SQL> 
+SQL> SELECT SYSDATE , ADD_MONTHS(SYSDATE, 12*100) , ADD_MONTHS(SYSDATE, -12*100) FROM DUAL;
+
+SYSDATE                 ADD_MONTHS(SYSDATE,12*1 ADD_MONTHS(SYSDATE,-12*                                                                                                                                 
+----------------------- ----------------------- -----------------------                                                                                                                                 
+07-NOV-2022 05:21.02 PM 07-NOV-2122 05:21.02 PM 07-NOV-1922 05:21.02 PM                                                                                                                                 
+
+SQL> SELECT SYSDATE , ADD_MONTHS(SYSDATE, 12*100*3) , ADD_MONTHS(SYSDATE, -12*100*4) FROM DUAL;
+
+SYSDATE                 ADD_MONTHS(SYSDATE,12*1 ADD_MONTHS(SYSDATE,-12*                                                                                                                                 
+----------------------- ----------------------- -----------------------                                                                                                                                 
+07-NOV-2022 05:21.18 PM 07-NOV-2322 05:21.18 PM 07-NOV-1622 05:21.18 PM                                                                                                                                 
+
+SQL> REM SYSDATE , ADD 5 YEARS , SUBTRACT 10 DAYS , ADD 20 SECONDS
+SQL> 
+SQL> SELECT SYSDATE , ADD_MONTHS(SYSDATE+ 12*5)-(10)+(20/86400) FROM DUAL;
+SELECT SYSDATE , ADD_MONTHS(SYSDATE+ 12*5)-(10)+(20/86400) FROM DUAL
+                 *
+ERROR at line 1:
+ORA-00909: invalid number of arguments 
+
+
+SQL> SELECT SYSDATE , ADD_MONTHS(SYSDATE, 12*5)-(10)+(20/86400) FROM DUAL;
+
+SYSDATE                 ADD_MONTHS(SYSDATE,12*5                                                                                                                                                         
+----------------------- -----------------------                                                                                                                                                         
+07-NOV-2022 05:23.58 PM 28-OCT-2027 05:24.18 PM                                                                                                                                                         
+
+SQL> SPOOL OFF

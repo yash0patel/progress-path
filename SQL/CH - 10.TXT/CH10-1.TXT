@@ -1,0 +1,182 @@
+SQL> 
+SQL> REM CHAPTER 10 TOPIC : TABLE CREATION
+SQL> 
+SQL> REM TABLE : IS NOT FILE, IT IS TYPE OF OBJECT.
+SQL> 
+SQL> REM OPERATING SYSTEM : 1 FILE 2 FOLDER
+SQL> 
+SQL> REM FILE : CONTAINS ACTUAL CONTENTS
+SQL> 
+SQL> REM FOLDER : TO MANAGE/ADMINISTER FILES EASILY
+SQL> 
+SQL> REM FILE AND FOLDER BOTH HAS PHYSICAL EXISTENCE IN OPERATING SYSTEM.
+SQL> 
+SQL> REM THISPC / MYCOMPUTER / DIR : YOU CAN GET INFO. ABOUT FILES AND FOLDERS
+SQL> 
+SQL> 
+SQL> 
+SQL> REM FILE AND FOLDER HAS PHYSICAL EXISTENCE
+SQL> 
+SQL> REM OBJECT IS LOGICAL, IT DOESN'T HAVE PHYSICAL EXISTENCE
+SQL> 
+SQL> 
+SQL> 
+SQL> REM SERVER RESOURCES : 1 STORAGE 2 MEMORY 3 PROCESSES
+SQL> 
+SQL> REM CREATING TABLE IN TWO STYLES : 1 CREATING TABLE FROM SCRATCH 2 CREATING TABLE USING EXISTING TABLE/SUB QUERY
+SQL> 
+SQL> REM CREATING TABLE FROM SCRATCH :
+SQL> 
+SQL> REM CREATING TABLE FROM SCRATCH SYNTAX : CREATE TABLE table_name ( columnname dataype (size) DEFAULT defaultvalue columnlevel_constraints,...,tablelevel_constraints);
+SQL> 
+SQL> REM ORACLE SUPPORTS TWO TYPES OF NAMING : 1 CASE INSENSITIVE 2 CASE SENSITIVE
+SQL> 
+SQL> SELECT FIRST_NAME name , SALARY "Monthly Payment" FROM EMPLOYEES;
+
+NAME            Monthly Payment                                                                                                                                                                         
+--------------- ---------------                                                                                                                                                                         
+Steven                    24000                                                                                                                                                                         
+Neena                     17000                                                                                                                                                                         
+Lex                       17000                                                                                                                                                                         
+Alexander                  9000                                                                                                                                                                         
+Bruce                      6000                                                                                                                                                                         
+Diana                      4200                                                                                                                                                                         
+Kevin                      5800                                                                                                                                                                         
+Trenna                     3500                                                                                                                                                                         
+Curtis                     3100                                                                                                                                                                         
+Randall                    2600                                                                                                                                                                         
+Peter                      2500                                                                                                                                                                         
+Eleni                     10500                                                                                                                                                                         
+Ellen                     11000                                                                                                                                                                         
+Jonathon                   8600                                                                                                                                                                         
+Kimerely                   7000                                                                                                                                                                         
+Jennifer                   4400                                                                                                                                                                         
+Michael                   13000                                                                                                                                                                         
+Pat                        6000                                                                                                                                                                         
+Shelley                   12000                                                                                                                                                                         
+William                    8300                                                                                                                                                                         
+
+20 rows selected.
+
+SQL> REM RULES FOR CASE INSENSITIVE NAMING :
+SQL> 
+SQL> REM 1 MINIMUM 1 CHARACTER, MAXIMUM 128 CHARACTERS (UPTO 11G VERSION, MAXIMUM LENGTH IS 30)
+SQL> 
+SQL> REM 2 FIRST CHARACTER MUST BE ALPHABET
+SQL> 
+SQL> REM 3 REMAINING CHARACTERS MAY BE ALPHABETS , DIGITS OR ANY OF THE 3 SPECIAL CHARACTERS _ # $
+SQL> 
+SQL> REM 4 WE CAN'T USE ORACLE/SQL KEY/RESERVE WORD AS TABLE NAME, BUT IT MAY BE PART / COMBINATION OF TABLE NAME.
+SQL> 
+SQL> REM 5 WE CAN'T CREATE TABLE WITH EXISTING TABLE NAME UNDER SAME USER/SCHEMA.
+SQL> 
+SQL> 
+SQL> REM 1 ABC123    2 ABC!@#    3 ABC123_#$   4 123ABC    5 _#$123   6 REGION   7 SELECT_INSERT   8 DELETE   9 SAVE_POINT   10 COUNTRIES
+SQL> 
+SQL> REM 1 TRUE      2 FALSE     3 TRUE        4 FALSE     5 FALSE    6 TRUE     7 TRUE            8 FALSE    9 TRUE         10 FALSE
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> REM RULES FOR CASE SENSITIVE NAMING :
+SQL> 
+SQL> REM 1 MINIMUM 1 CHARACTER, MAXIMUM 128 CHARACTERS (UPTO 11G VERSION, MAXIMUM LENGTH IS 30)
+SQL> 
+SQL> REM 2 WE CAN START NAME WITH ANY CHARACTER
+SQL> 
+SQL> REM 3 WE CAN USE ANY CHARACTER
+SQL> 
+SQL> REM 4 WE CAN USE ORACLE/SQL KEY/RESERVE WORD AS TABLE NAME.
+SQL> 
+SQL> REM 5 WE CAN CREATE TABLE WITH EXISTING TABLE NAME UNDER SAME USER/SCHEMA USING DIFFERENCE CASE OR SPACING.
+SQL> 
+SQL> REM 6 WE SHOULD NOT USE ALL ALPHABETS IN UPPER/CAPITAL, OTHERWISE IT WILL CONSIDER IT AS CASE INSENSITIVE NAME.
+SQL> 
+SQL> REM 7 IT MUST BE DELIMITED WITH DOUBLE QUOTES.
+SQL> 
+SQL> REM 8 WHENEVER WE USE/REFER, IT MUST BE DELIMITED, USE SAME SPELLING, USE SAME CASE AND USE SAME SPACING.
+SQL> 
+SQL> 
+SQL> CREATE TABLE abc(no number);
+CREATE TABLE abc(no number)
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object 
+
+
+SQL> DROP TABLE ABC;
+
+Table dropped.
+
+SQL> CREATE TABLE abc(no number);
+
+Table created.
+
+SQL> INSERT INTO ABc VALUES (10);
+
+1 row created.
+
+SQL> SELECT * FROM Abc;
+
+        NO                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+        10                                                                                                                                                                                              
+
+SQL> CREATE TABLE "Abc"(d date);
+CREATE TABLE "Abc"(d date)
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object 
+
+
+SQL> drop table "Abc";
+
+Table dropped.
+
+SQL> CREATE TABLE "Abc"(d date);
+
+Table created.
+
+SQL> insert into Abc values(sysdate);
+insert into Abc values(sysdate)
+                       *
+ERROR at line 1:
+ORA-00932: inconsistent datatypes: expected NUMBER got DATE 
+
+
+SQL> insert into "Abc" values(sysdate);
+
+1 row created.
+
+SQL> select * from "Abc";
+
+D                                                                                                                                                                                                       
+---------------------------------------                                                                                                                                                                 
+05-DECEMBER -2023 TUESDAY   06:50.11 PM                                                                                                                                                                 
+
+SQL> REM RULES FOR CASE SENSITIVE NAMING :
+SQL> 
+SQL> REM 1 MINIMUM 1 CHARACTER, MAXIMUM 128 CHARACTERS (UPTO 11G VERSION, MAXIMUM LENGTH IS 30)
+SQL> 
+SQL> REM 2 WE CAN START NAME WITH ANY CHARACTER
+SQL> 
+SQL> REM 3 WE CAN USE ANY CHARACTER
+SQL> 
+SQL> REM 4 WE CAN USE ORACLE/SQL KEY/RESERVE WORD AS TABLE NAME.
+SQL> 
+SQL> REM 5 WE CAN CREATE TABLE WITH EXISTING TABLE NAME UNDER SAME USER/SCHEMA USING DIFFERENCE CASE OR SPACING.
+SQL> 
+SQL> REM 6 WE SHOULD NOT USE ALL ALPHABETS IN UPPER/CAPITAL, OTHERWISE IT WILL CONSIDER IT AS CASE INSENSITIVE NAME.
+SQL> 
+SQL> REM 7 IT MUST BE DELIMITED WITH DOUBLE QUOTES.
+SQL> 
+SQL> REM 8 WHENEVER WE USE/REFER, IT MUST BE DELIMITED, USE SAME SPELLING, USE SAME CASE AND USE SAME SPACING.
+SQL> 
+SQL> 
+SQL> REM 1 "AB12!@"   2 "@!43WQ"   3 "SHRI ganesh'    4 "Hi#helLo bye    5 "seLEct"   6 "Employees"   7 "REGIONS"   8 "RAM'SITA"
+SQL> 
+SQL> REM 1 TRUE       2 TRUE       3 FALSE            4 FALSE            5 TRUE       6 TRUE          7 FALSE       8 TRUE
+SQL> 
+SQL> 
+SQL> SPOOL OFF

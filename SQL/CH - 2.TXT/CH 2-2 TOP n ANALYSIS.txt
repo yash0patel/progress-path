@@ -1,0 +1,59 @@
+1 DISPLAY FIRST 7 ROWS (USING FIRST KEY WORD)
+ans = select * from employees fetch first 7 rows only;
+
+2 DISPLAY FIRST 3 ROWS (USING NEXT KEY WORD)
+ans = select * from employees fetch next 3 rows only;
+
+3 DISPLAY ALL ROWS STARTING WITH 15TH ROW
+ans = select * from employees offset 15 rows ;
+
+4 DISPLAY 10 ROWS STARTING WITH 15TH ROW
+ans = select * from employees offset 15 row fetch next 10 rows only;
+
+5 SORT ROWS ON DEPARTMENT_ID COLUMN. DISPLAY FIRST_NAME , DEPARTMENT_ID. DISPLAY FIRST 5 ROWS ONLY.
+ans = select first_name,department_id from employees order by department_id fetch first 5 rows only;
+
+6 SORT ROWS ON DEPARTMENT_ID COLUMN. DISPLAY FIRST_NAME , DEPARTMENT_ID. DISPLAY 5 OR MORE ROWS WITH DUPLICATE VALUES.
+ans = select FIRST_NAME , DEPARTMENT_ID from employees order by 2 fetch next 5 row with ties ;  
+
+7 SORT ROWS ON JOB_ID COLUMN IN DESCENDING ORDER. DISPLAY LAST_NAME , JOB_ID. DISPLAY FIRST 3 ROWS ONLY.
+ans = select first_name,job_id from employees  order by 2 desc fetch first 3 rows only;
+
+8 SORT ROWS ON JOB_ID COLUMN IN DESCENDING ORDER. DISPLAY LAST_NAME , JOB_ID. DISPLAY 3 OR MORE ROWS WITH DUPLICATE VALUES.
+ans = select LAST_NAME , JOB_ID from employees order by 2 fetch next 3 row with ties ;  
+
+9 SORT ROWS ON DEPARTMENT_ID COLUMN. DISPLAY FIRST_NAME , DEPARTMENT_ID. DISPLAY 4 ROWS ONLY STARTING WITH 7TH ROW.
+ans = select first_name,department_id from employees  order by 2 offset 7 row fetch first 4 rows only;
+
+10 SORT ROWS ON JOB_ID COLUMN IN DESCENDING ORDER. DISPLAY LAST_NAME , JOB_ID. DISPLAY 4 OR MORE ROWS WITH DUPLICATE VALUES STARTING WITH 4TH ROW.
+ans = select LAST_NAME , JOB_ID from employees order by 2 offset 4 row fetch next 4 row with ties ;  
+
+11 DISPLAY 8 ROWS FROM THE TOP OF THE TABLE.
+ans = select * from employees fetch next 8 row only ;
+
+12 DISPLAY 9 ROWS FROM THE BOTTOM OF THE TABLE.
+ans = select * from employees offset 11 row ;
+
+13 DISPLAY ROWS 6-15.
+ans = select * from employees offset 6-1 row fetch next 9 row only;
+
+14 DISPLAY ROWS BETWEEN 4 AND 9.
+ans = select * from employees offset 4-1 row fetch next 6 row only ;  
+
+15 DISPLAY ROWS STARTING WITH 8 AND UPTO 15.
+ans = select * from employees offset 8-1 row fetch next 8 row only ;  
+
+16 DISPLAY LAST_NAME , MANAGER_ID. SORT ON MANAGER_ID. START WITH 4TH ROW AND DISPLAY 8 ROWS WITH EXTRA ROWS.
+ans = select LAST_NAME , manager_ID from employees order by 2 offset 4-1 row fetch next 8 row with ties ;  
+
+17 DISPLAY FIRST_NAME , MANAGER_ID. SORT ON MANAGER_ID IN DESCENDING ORDER. START WITH 5TH ROW AND DISPLAY 4 OR MORE ROWS WITH DUPLICATES.
+ans = select LAST_NAME , manager_ID from employees order by 2 desc offset 5-1 row fetch next 4 row with ties ;  
+
+18 DISPLAY EMPLOYEE_ID , MANAGER_ID. SORT ON MANAGER_ID COLUMN. DISPLAY FIRST 3 OR MORE ROWS WITH DUPLICATES.
+ans = select EMPLOYEE_ID , MANAGER_ID from employees order by 2 fetch next 3 row with ties ;  
+
+19 DISPLAY FIRST_NAME , DEPARTMENT_ID. SORT ON DEPARTMENT_ID COLUMN. START WITH 5TH ROW AND DISPLAY 5 ROWS.
+ans = select FIRST_NAME , DEPARTMENT_ID from employees order by 2 offset 5-1 row fetch next 5 row only ;  
+
+20 DISPLAY FIRST_NAME , DEPARTMENT_ID. SORT ON DEPARTMENT_ID COLUMN. START WITH 5TH ROW AND DISPLAY 5 OR MORE ROWS WITH DIPLICATES.
+ans = select FIRST_NAME , DEPARTMENT_ID from employees order by 2 offset 5-1 row fetch next 5 row with ties ;  

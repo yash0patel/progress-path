@@ -4,3 +4,6 @@
 [submodule "spring"]
 	path = spring
 	url = https://github.com/yash0patel/spring.git
+[submodule "python"]
+	path = python
+	url = https://github.com/yash0patel/python.git

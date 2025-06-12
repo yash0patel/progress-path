@@ -1,0 +1,3 @@
+[submodule "SQL"]
+	path = SQL
+	url = https://github.com/yash0patel/sql.git

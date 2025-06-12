@@ -10,6 +10,3 @@
 [submodule "JavaScript"]
 	path = JavaScript
 	url = https://github.com/yash0patel/JavaScript.git
-[submodule "React.js"]
-	path = React.js
-	url = https://github.com/yash0patel/React.js.git

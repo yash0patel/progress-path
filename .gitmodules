@@ -1,3 +1,18 @@
 [submodule "spring"]
 	path = spring
 	url = https://github.com/yash0patel/spring.git
+[submodule "python"]
+	path = python
+	url = https://github.com/yash0patel/python.git
+[submodule "React.js"]
+	path = React.js
+	url = https://github.com/yash0patel/React.js.git
+[submodule "JavaScript"]
+	path = JavaScript
+	url = https://github.com/yash0patel/JavaScript.git
+[submodule "django"]
+	path = django
+	url = https://github.com/yash0patel/django.git
+[submodule "express-api"]
+	path = express-api
+	url = https://github.com/yash0patel/express-api.git

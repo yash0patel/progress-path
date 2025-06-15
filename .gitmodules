@@ -16,3 +16,6 @@
 [submodule "express-api"]
 	path = express-api
 	url = https://github.com/yash0patel/express-api.git
+[submodule "java"]
+	path = java
+	url = https://github.com/yash0patel/java.git
